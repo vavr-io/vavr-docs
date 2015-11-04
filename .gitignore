@@ -36,3 +36,6 @@ private
 .Trashes
 ehthumbs.db
 Thumbs.db
+
+# -- Java
+hs_err_pid*
