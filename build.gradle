@@ -1,30 +1,17 @@
 buildscript {
-
-    ext{
-        asciiDoctorGradlePluginVersion="1.5.2"
-        asciiDoctorJPdfVersion="1.5.0-alpha.10"
-        asciiDoctorJVersion="1.5.3.1"
-        gradleGitVersion="1.3.2"
-        gradleWatchPluginVersion="0.1.5"
-        livereloadGradlePluginVersion="0.2.1"
-    }
-
     repositories {
         jcenter()
         mavenCentral()
     }
     dependencies {
-        classpath "org.asciidoctor:asciidoctor-gradle-plugin:${asciiDoctorGradlePluginVersion}"
-        classpath "org.asciidoctor:asciidoctorj-pdf:${asciiDoctorJPdfVersion}"
-        classpath "org.asciidoctor:asciidoctorj:${asciiDoctorJVersion}"
-        classpath "org.ajoberstar:gradle-git:${gradleGitVersion}"
-        classpath "com.bluepapa32:gradle-watch-plugin:${gradleWatchPluginVersion}"
-        classpath "org.kordamp.gradle:livereload-gradle-plugin:${livereloadGradlePluginVersion}"
+        classpath "org.asciidoctor:asciidoctor-gradle-plugin:${project.asciiDoctorGradlePluginVersion}"
+        classpath "org.asciidoctor:asciidoctorj-pdf:${project.asciiDoctorJPdfVersion}"
+        classpath "org.asciidoctor:asciidoctorj:${project.asciiDoctorJVersion}"
+        classpath "org.ajoberstar:gradle-git:${project.gradleGitVersion}"
+        classpath "com.bluepapa32:gradle-watch-plugin:${project.gradleWatchPluginVersion}"
+        classpath "org.kordamp.gradle:livereload-gradle-plugin:${project.livereloadGradlePluginVersion}"
     }
 }
-description = 'Javaslang Documentation'
-version = '2.0.0-beta'
-group = 'com.javaslang'
 
 apply plugin: 'org.asciidoctor.convert'
 apply plugin: 'org.ajoberstar.github-pages'
