@@ -1,19 +1,41 @@
-# -- Maven
-/target
-/*.versionsBackup
 
-# -- Eclipse
-/.classpath
-/.project
-/.settings
-/bin
+build
+deploy
+.idea
+.gradle
+*.iml
 
-# -- IntelliJ IDEA
-/.idea
-/*.iml
+logs
+*.log
 
-# -- Mac OS
+# Eclipse Setting
+/.metadata
+/Servers
+.settings
+.project
+.classpath
+.buildpath
+
+# Maven
+target
+
+# Netbeans Ignore
+nbproject
+dist
+private
+
+#idea project
+*.iws
+*.ipr
+
+# OS generated files #
 .DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
 
 # -- Java
 hs_err_pid*
