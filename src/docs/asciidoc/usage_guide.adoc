@@ -1,0 +1,285 @@
+== Usage Guide
+
+=== Core
+
+Javaslang comes along with well designed representations of some of the most basic types which apparently are missing or rudimentary in Java, Tuple and λ.
+
+==== Tuples
+
+Java is missing a general notion of tuples. Tuple fills this gap.
+
+[source,java]
+----
+// (Java, 8)
+final Tuple2<String, Integer> java8 = Tuple.of("Java", 8);
+
+// (Javaslang, 2)
+final Tuple2<String, Integer> guessWhat = java8.map(
+    (s, i) -> Tuple.of(s + "slang", i / 4)
+);
+
+// and yes, java8 is still (Java, 8)
+
+----
+
+==== Functions
+
+Functional programming is all about values and transformation of values using functions. Some basic examples are:
+
+[source,java]
+----
+// sum.apply(1, 3) = 4
+final Function2 sum = (a, b) -> a + b;
+
+// add2.apply(1) = 3
+final Function1 add2 = sum.curried().apply(2);
+
+----
+
+In fact λ is a functional interface on steroids times 10.
+
+[source,java]
+----
+// computes the hash code of an object
+final Function1<Object, Integer> hash = Object::hashCode;
+
+// computes the hash once, then reads from cache
+final Function<Object, Integer> hashCache =
+        Function1.lift(Object::hashCode).memoized();
+
+// ciao type erasure, hi Integer.class!
+final Class<?> returnType = hash.getType().returnType();
+
+----
+
+Checked functions are indispensable when dealing with exceptions in a functional way.
+
+[source,java]
+----
+// may throw when called
+final Try.CheckedRunnable performIO = () -> { ... };
+
+// handling failure in a functional way
+Try.run(performIO).onFailure(...);
+
+----
+
+==== Values
+
+In a functional setting we see a value as a kind of https://en.wikipedia.org/wiki/Normal_form_(abstract_rewriting)[normal form], it cannot be further evaluated. In Java we express this by making the state of an object final and call it https://en.wikipedia.org/wiki/Immutable_object[immutable].
+
+Javaslang's functional Value abstracts over immutable objects. Efficient write operations are added by sharing immutable memory between instances. What we get is thread-safety for free!
+
+[source,java]
+----
+// future *value*, result of an async calculation
+final Future<T> future = Future.of(...);
+
+// lazy *value*, evaluated once
+final Lazy<T> lazy = Lazy.of(...);
+
+// optional *value*, no more nulls
+final Option<T> option = Option.of(...);
+
+// *value* of a possibly failing computation
+final Try<T> tryy = Try.of(...);
+
+// a list of *values*
+final List<T> list = List.of(...);
+
+// all of the above (here: value) obey:
+final String s = value.filter(...).ifDefined("yay", "noes");
+
+----
+
+In Javaslang, all is built upon these three basic building blocks: tuples, functions and values. The possibilities are (countably) infinite...
+
+image::http://javaslang.com/img/doc-overview.png[]
+
+=== Collections
+
+With Javaslang there has been put much effort into designing an all-new collection library for Java which meets the requirements of functional programming, namely immutability.
+
+Java's Stream lifts a computation to a different layer and links to a specific collection in another explicit step. Whith Javaslang we don't need all this additional boilerplate.
+
+The new collections are based on http://docs.oracle.com/javase/8/docs/api/java/lang/Iterable.html[java.lang.Iterable], so they leverage the sugared iteration style.
+
+[source,java]
+----
+// 1000 random numbers
+for (double random : Stream.gen(Math::random).take(1000)) {
+    ...
+}
+----
+
+`TraversableOnce` has a huge amount of useful functions to operate on the collection. Its API is similar to http://docs.oracle.com/javase/8/docs/api/java/util/stream/Stream.html[java.util.stream.Stream] but more mature.
+
+=== List
+
+Javaslang's `List` is an immutable linked list. Mutations create new instances. Most operations are performed in linear time. Consequent operations are executed one by one.
+
+==== Java 8
+
+[source,java]
+----
+Arrays.asList(1, 2, 3).stream().reduce((i, j) -> i + j);
+
+----
+
+[source,java]
+----
+IntStream.of(1, 2, 3).sum();
+
+----
+
+==== Javaslang
+
+[source,java]
+----
+// javaslang.collection.List
+List.of(1, 2, 3).sum();
+
+----
+
+=== Stream
+
+The `javaslang.collection.Stream` implementation is a lazy linked list. Values are computed only when needed. Because of its laziness, most operations are performed in constant time. Operations are intermediate in general and executed in a single pass.
+
+The stunning thing about streams is that we can use them to represent sequences that are (theoretically) infinitely long.
+
+[source,java]
+----
+// 2, 4, 6, ...
+Stream.gen(1).filter(i -> i % 2 == 0);
+
+----
+
+=== Pattern Matching
+
+Javaslang's pattern matching feature goes far beyond Java's switch.
+
+[source,java]
+----
+Stream.of(0, 1, 2, 3, 13, 14, null, -1)
+        .peek(n -> out.print(format("%d -> ", n)))
+        .map(Match.as(Object.class) // Match function (with apply(Object))
+                .when(Objects::isNull).then("!")
+                .whenIs(0).then("zero")
+                .whenIsIn(1, 13, 14).then(i -> "first digit 1: " + i)
+                .whenType(Double.class).then(d -> "Found a double: " + d)
+                .whenApplicable((Number num) -> "number: " + num).thenApply()
+                .otherwise(() -> "no match"))
+        .map(MatchingTest::toString)
+        .forEach(out::println);
+out.flush(); // Avoid mixing sout and serr
+
+// Match monad (with map(), flatMap(), get(), orElse(), orElseGet(), orElseThrow(), etc.)
+for (String s : Match.of(0)
+        .whenType(Number.class).then(Object::toString)
+        .otherwise("unknown")
+        .map(String::toUpperCase)) {
+    out.println(s);
+}
+
+----
+
+Javaslang allows to match more special objects by more general cases:
+
+[source,java]
+----
+// Match as Monad
+Match.of(new Some<>(1))
+     .whenApplicable((Option i) -> true).thenApply()
+     .get(); // = true
+
+Match.of(new Some<>(1))
+     .whenType(Option.class).then(true)
+     .get(); // = true
+
+// Match as Function
+Match.whenApplicable((Option i) -> true).thenApply()
+     .apply(new Some<>(1)); // = true
+
+Match.whenType(Option.class).then(true)
+     .apply(new Some<>(1)); // = true
+
+----
+
+The opposite is also possible, to match more general objects by more special cases:
+
+[source,java]
+----
+// Match as Monad
+Match.of(Option.of(1))
+     .whenIs(new Some<>(1)).then(true)
+     .get(); // = true
+
+// Match as Function
+Match.whenIs(new Some<>(1)).then(true)
+     .apply(Option.of(1)); // = true
+
+----
+
+=== Failure handling
+
+The `Try` monad aims to ease exception handling. It represents the result state of a computation which may be a `Success` or a `Failure`.
+
+==== Java 8
+
+[source,java]
+----
+// cannot be final
+A result = other;
+try {
+   result = bunchOfWork();
+} catch(Exception_1 e) {
+   ...
+} catch(Exception_2 e) {
+   ...
+} catch(Exception_n e) {
+   ...
+}
+----
+
+==== Javaslang
+
+[source,java]
+----
+// no need to handle exceptions
+Try.of(() -> bunchOfWork()).orElse(other);
+
+----
+
+[source,java]
+----
+final A result = Try.of(this::bunchOfWork)
+    .recover(x -> Match.of(x)
+        .whenType(Exception_1.class).then(...)
+        .whenType(Exception_2.class).then(...)
+        .whenType(Exception_n.class).then(...)
+        .get())
+    .orElse(other);
+
+----
+
+Similar to collections it has the functions map() and flatMap() to further process results.
+
+=== Property Checking
+
+Property checking (also known as http://en.wikipedia.org/wiki/Property_testing[property testing]) is a truly powerful way to test properties of our code in a functional way. It is based on __http://javaslang.com/#[arbitrarily]__ generated random data, which is passed to a user defined check function.
+
+[source,java]
+----
+final Arbitrary ints = Arbitrary.integer();
+
+// square(int) >= 0: OK, passed 1000 tests.
+final CheckResult result = new Property("square(int) >= 0")
+        .forAll(ints)
+        .suchThat(i -> (i * i) >= 0)
+        .check();
+        .assertIsSatisfied();
+
+----
+
+Generators of complex data structures are composed of simple generators.
+

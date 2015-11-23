@@ -6,7 +6,6 @@ buildscript {
     dependencies {
         classpath "org.asciidoctor:asciidoctor-gradle-plugin:${project.asciiDoctorGradlePluginVersion}"
         classpath "org.asciidoctor:asciidoctorj-pdf:${project.asciiDoctorJPdfVersion}"
-        classpath "org.asciidoctor:asciidoctorj:${project.asciiDoctorJVersion}"
         /*classpath "org.ajoberstar:gradle-git:${project.gradleGitVersion}"*/
         classpath "com.bluepapa32:gradle-watch-plugin:${project.gradleWatchPluginVersion}"
         classpath "org.kordamp.gradle:livereload-gradle-plugin:${project.livereloadGradlePluginVersion}"
@@ -27,7 +26,7 @@ asciidoctor {
     sources {
         include 'index.adoc'
     }
-    backends = ['html5','pdf']
+    backends = ['html5']
 }
 
 /*githubPages {
