@@ -41,6 +41,7 @@ githubPages {
 
     pages {
         from file(asciidoctor.outputDir.path + '/html5')
+        into project.version
     }
 }
 

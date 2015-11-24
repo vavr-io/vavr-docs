@@ -4,6 +4,8 @@
 
 Javaslang comes along with well designed representations of some of the most basic types which apparently are missing or rudimentary in Java, Tuple and λ.
 
+image::http://javaslang.com/img/doc-tuple-lambda-value.png[]
+
 ==== Tuples
 
 Java is missing a general notion of tuples. Tuple fills this gap.

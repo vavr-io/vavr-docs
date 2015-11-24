@@ -9,6 +9,7 @@ Daniel Dietrich <cafebab3@gmail.com>
 :revdate: {localdate}
 :icons: font
 :pagenums:
+:imagesdir: images
 
 include::introduction.adoc[]
 include::getting_started.adoc[]
