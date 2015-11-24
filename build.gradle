@@ -6,14 +6,14 @@ buildscript {
     dependencies {
         classpath "org.asciidoctor:asciidoctor-gradle-plugin:${project.asciiDoctorGradlePluginVersion}"
         classpath "org.asciidoctor:asciidoctorj-pdf:${project.asciiDoctorJPdfVersion}"
-        /*classpath "org.ajoberstar:gradle-git:${project.gradleGitVersion}"*/
+        classpath "org.ajoberstar:gradle-git:${project.gradleGitVersion}"
         classpath "com.bluepapa32:gradle-watch-plugin:${project.gradleWatchPluginVersion}"
         classpath "org.kordamp.gradle:livereload-gradle-plugin:${project.livereloadGradlePluginVersion}"
     }
 }
 
 apply plugin: 'org.asciidoctor.convert'
-/*apply plugin: 'org.ajoberstar.github-pages'*/
+apply plugin: 'org.ajoberstar.github-pages'
 apply plugin: 'com.bluepapa32.watch'
 apply plugin: 'org.kordamp.gradle.livereload'
 
@@ -29,7 +29,9 @@ asciidoctor {
     backends = ['html5']
 }
 
-/*githubPages {
+publishGhPages.dependsOn asciidoctor
+
+githubPages {
     repoUri = 'https://github.com/javaslang/javaslang-docs.git'
 
     credentials {
@@ -40,7 +42,7 @@ asciidoctor {
     pages {
         from file(asciidoctor.outputDir.path + '/html5')
     }
-}*/
+}
 
 watch {
     asciidoc {
@@ -52,8 +54,6 @@ watch {
 liveReload {
     docRoot asciidoctor.outputDir.canonicalPath
 }
-
-/*publishGhPages.dependsOn asciidoctor*/
 
 task wrapper(type: Wrapper) {
     gradleVersion = '2.7'
