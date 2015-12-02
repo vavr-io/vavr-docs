@@ -517,12 +517,43 @@ table.CodeRay td.code>pre{padding:0}
 <span id="author" class="author">Daniel Dietrich</span><br>
 <span id="email" class="email"><a href="mailto:cafebab3@gmail.com">cafebab3@gmail.com</a></span><br>
 <span id="revnumber">version 2.0.0-RC1,</span>
-<span id="revdate">2015-11-24</span>
+<span id="revdate">2015-12-02</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
 <ul class="sectlevel1">
-<li><a href="#_introduction">1. Introduction</a></li>
+<li><a href="#_introduction">1. Introduction</a>
+<ul class="sectlevel2">
+<li><a href="#_functional_data_structures_in_java_8_with_javaslang">1.1. Functional Data Structures in Java 8 with Javaslang</a></li>
+<li><a href="#_functional_programming">1.2. Functional Programming</a>
+<ul class="sectlevel3">
+<li><a href="#_side_effects">1.2.1. Side-Effects</a></li>
+<li><a href="#_referential_transparency">1.2.2. Referential Transparency</a></li>
+<li><a href="#_thinking_in_values">1.2.3. Thinking in Values</a></li>
+</ul>
+</li>
+<li><a href="#_data_structures_in_a_nutshell">1.3. Data Structures in a Nutshell</a>
+<ul class="sectlevel3">
+<li><a href="#_mutable_data_structures">1.3.1. Mutable Data Structures</a></li>
+<li><a href="#_immutable_data_structures">1.3.2. Immutable Data Structures</a></li>
+<li><a href="#_persistent_data_structures">1.3.3. Persistent Data Structures</a></li>
+</ul>
+</li>
+<li><a href="#_functional_data_structures">1.4. Functional Data Structures</a>
+<ul class="sectlevel3">
+<li><a href="#_linked_list">1.4.1. Linked List</a></li>
+<li><a href="#_queue">1.4.2. Queue</a></li>
+<li><a href="#_sorted_set">1.4.3. Sorted Set</a></li>
+</ul>
+</li>
+<li><a href="#_state_of_the_collections">1.5. State of the Collections</a>
+<ul class="sectlevel3">
+<li><a href="#_seq">1.5.1. Seq</a></li>
+<li><a href="#_set_and_map">1.5.2. Set and Map</a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li><a href="#_getting_started">2. Getting started</a>
 <ul class="sectlevel2">
 <li><a href="#_gradle">2.1. Gradle</a></li>
@@ -587,6 +618,507 @@ table.CodeRay td.code>pre{padding:0}
 <div class="sectionbody">
 <div class="paragraph">
 <p>Javaslang is a functional library for Java 8+ that provides persistent data types and functional control structures. Because Javaslang does not depend on any libraries (other than the JVM) you can easily add it as standalone .jar to your classpath.</p>
+</div>
+<div class="sect2">
+<h3 id="_functional_data_structures_in_java_8_with_javaslang">1.1. Functional Data Structures in Java 8 with Javaslang</h3>
+<div class="paragraph">
+<p>Java 8’s <a href="https://docs.oracle.com/javase/tutorial/java/javaOO/lambdaexpressions.html">lambdas (λ)</a> empower us to create wonderful API’s. They incredibly increase the expressiveness of the language.</p>
+</div>
+<div class="paragraph">
+<p><a href="http://javaslang.com/">Javaslang</a> leveraged lambdas to create various new features based on functional patterns. One of them is a functional collection library that is intended to be a replacement for Java’s standard collections.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/javaslang-collections.png?w=660" alt="Javaslang Collections">
+</div>
+</div>
+<div class="paragraph">
+<p><em>(This is just a bird’s view, you will find a human-readable version below.)</em></p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_functional_programming">1.2. Functional Programming</h3>
+<div class="paragraph">
+<p>Before we deep-dive into the details about the data structures I want to talk about some basics. This will make it clear why I created Javaslang and specifically new Java collections.</p>
+</div>
+<div class="sect3">
+<h4 id="_side_effects">1.2.1. Side-Effects</h4>
+<div class="paragraph">
+<p>Java applications are typically plentiful of <a href="https://en.wikipedia.org/wiki/Side_effect_(computer_science)">side-effects</a>. They mutate some sort of state, maybe the outer world. Common side effects are changing objects or variables <em>in place</em>, printing to the console, writing to a log file or to a database. Side-effects are considered <em>harmful</em> if they affect the semantics of our program in an undesirable way.</p>
+</div>
+<div class="paragraph">
+<p>For example, if a function throws an exception and this exception is<em>interpreted</em>, it is considered as side-effect that <em>affects our program</em>. Furthermore <a href="http://c2.com/cgi/wiki?DontUseExceptionsForFlowControl">exceptions are like non-local goto-statements</a>. They break the normal control-flow. However, real-world applications do perform side-effects.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="type">int</span> divide(<span class="type">int</span> dividend, <span class="type">int</span> divisor) {
+    <span class="comment">// throws if divisor is zero</span>
+    <span class="keyword">return</span> dividend / divisor;
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>In a functional setting we are in the favorable situation to encapsulate the side-effect in a Try:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="comment">// = Success(result) or Failure(exception)</span>
+Try divide(<span class="predefined-type">Integer</span> dividend, <span class="predefined-type">Integer</span> divisor) {
+    <span class="keyword">return</span> Try.of(() -&gt; dividend / divisor);
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This version of divide does not throw any more. We made the possible failure explicit by using the type Try.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_referential_transparency">1.2.2. Referential Transparency</h4>
+<div class="paragraph">
+<p>A function, or more general an expression, is called <a href="https://en.wikipedia.org/wiki/Referential_transparency">referential transparent</a> if a call can be replaced by its value without affecting the behavior of the program. Simply spoken, given the same input the output is always the same.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="comment">// not referential transparent</span>
+<span class="predefined-type">Math</span>.random();
+
+<span class="comment">// referential transparent</span>
+<span class="predefined-type">Math</span>.max(<span class="integer">1</span>, <span class="integer">2</span>);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>A function is called <a href="https://en.wikipedia.org/wiki/Pure_function">pure</a> if all expressions involved are referential transparent. An application composed of pure functions will most probably <em>just work</em> if it compiles. We are able to reason about it. Unit tests are easy to write and debugging becomes a relict of the past.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_thinking_in_values">1.2.3. Thinking in Values</h4>
+<div class="paragraph">
+<p>Rich Hickey, the creator of Clojure, gave a great talk about <a href="https://www.youtube.com/watch?v=-6BsiVyC1kM">The Value of Values</a>. The most interesting values are <a href="https://en.wikipedia.org/wiki/Immutable_object">immutable</a> values. The main reason is that immutable values</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>are inherently thread-safe and hence do not need to be synchronized</p>
+</li>
+<li>
+<p>are stable regarding <em>equals</em> and <em>hashCode</em> and thus are reliable hash keys</p>
+</li>
+<li>
+<p>do not need to be cloned</p>
+</li>
+<li>
+<p>behave type-safe when used in unchecked covariant casts (Java-specific)<br>
+The key to a better Java is to use <em>immutable values</em> paired with <em>referential transparent functions</em>.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Javaslang provides the necessary <a href="http://javaslang.com/javadoc/snapshot/javaslang/control/package-summary.html">controls</a> and <a href="http://javaslang.com/javadoc/snapshot/javaslang/collection/package-summary.html">collections</a> to accomplish this goal in every-day Java programming.</p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_data_structures_in_a_nutshell">1.3. Data Structures in a Nutshell</h3>
+<div class="paragraph">
+<p>Javaslang’s collection library comprises of a rich set of functional data structures built on top of lambdas. The only interface they share with Java’s original collections is Iterable. The main reason is that the mutator methods of Java’s collection interfaces do not return an object of the underlying collection type.</p>
+</div>
+<div class="paragraph">
+<p>We will see why this is so essential by taking a look at the different types of data structures.</p>
+</div>
+<div class="sect3">
+<h4 id="_mutable_data_structures">1.3.1. Mutable Data Structures</h4>
+<div class="paragraph">
+<p>Java is an object-oriented programming language. We encapsulate state in objects to achieve data hiding and provide mutator methods to control the state. The <a href="https://en.wikipedia.org/wiki/Java_collections_framework">Java collections framework (JCF)</a> is built upon this idea.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="type">interface</span> <span class="class">Collection</span>&lt;E&gt; {
+    <span class="comment">// removes all elements from this collection</span>
+    <span class="type">void</span> clear();
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Today I comprehend a <em>void</em> return type as a smell. It is evidence thathttps://en.wikipedia.org/wiki/Side_effect_(computer_science)[side-effects] take place, state is mutated. <em>Shared</em> mutable state is an important source of failure, not only in a concurrent setting.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_immutable_data_structures">1.3.2. Immutable Data Structures</h4>
+<div class="paragraph">
+<p><a href="https://en.wikipedia.org/wiki/Immutable_object">Immutable</a> data structures cannot be modified after their creation. In the context of Java they are widely used in the form of collection wrappers.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="predefined-type">List</span>&lt;<span class="predefined-type">String</span>&gt; list = <span class="predefined-type">Collections</span>.unmodifiableList(otherList);
+
+<span class="comment">// Boom!</span>
+list.add(<span class="string"><span class="delimiter">&quot;</span><span class="content">why not?</span><span class="delimiter">&quot;</span></span>);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>There are various libraries that provide us with similar utility methods. The result is always an unmodifiable view of the specific collection. Typically it will throw at runtime when we call a mutator method.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_persistent_data_structures">1.3.3. Persistent Data Structures</h4>
+<div class="paragraph">
+<p>A <a href="https://en.wikipedia.org/wiki/Persistent_data_structure">persistent data structure</a> does preserve the previous version of itself when being modified and is therefore <em>effectively</em> immutable. Fully persistent data structures allow both updates and queries on any version.</p>
+</div>
+<div class="paragraph">
+<p>Many operations perform only small changes. Just copying the previous version wouldn’t be efficient. To save time and memory, it is crucial to identify similarities between two versions and share as much data as possible.</p>
+</div>
+<div class="paragraph">
+<p>This model does not impose any implementation details. Here come functional data structures into play.</p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_functional_data_structures">1.4. Functional Data Structures</h3>
+<div class="paragraph">
+<p>Also known as <a href="https://en.wikipedia.org/wiki/Purely_functional"><em>purely</em> functional data structures</a>, these are <em>immutable</em>and <em>persistent</em>. The methods of functional data structures are <em>referential transparent</em>.</p>
+</div>
+<div class="paragraph">
+<p>Javaslang features a wide range of the most-commonly used functional data structures. The following examples are explained in-depth.</p>
+</div>
+<div class="sect3">
+<h4 id="_linked_list">1.4.1. Linked List</h4>
+<div class="paragraph">
+<p>One of the most popular and also simplest functional data structures is the <a href="https://en.wikipedia.org/wiki/Linked_list">(singly) linked List</a>. It has a <em>head</em> element and a <em>tail</em> List. A linked List behaves like a Stack which follows the <a href="https://en.wikipedia.org/wiki/Stack_(abstract_data_type)">last in, first out (LIFO)</a> method.</p>
+</div>
+<div class="paragraph">
+<p>In <a href="http://javaslang.com/">Javaslang</a> we instantiate a List like this:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="comment">// = List(1, 2, 3)</span>
+<span class="predefined-type">List</span> list1 = <span class="predefined-type">List</span>.of(<span class="integer">1</span>, <span class="integer">2</span>, <span class="integer">3</span>);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Each of the List elements forms a separate List node. The tail of the last element is Nil, the empty List.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/list1.png?w=660" alt="List 1">
+</div>
+</div>
+<div class="paragraph">
+<p>This enables us to share elements across different versions of the List.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="comment">// = List(0, 2, 3)</span>
+<span class="predefined-type">List</span> list2 = list1.tail().prepend(<span class="integer">0</span>);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The new head element 0 is <em>linked</em> to the tail of the original List. The original List remains unmodified.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/list2.png?w=660" alt="List 2">
+</div>
+</div>
+<div class="paragraph">
+<p>These operations take place in constant time, in other words they are independent of the List size. Most of the other operations take linear time. In Javaslang this is expressed by the interface LinearSeq, which we may already know from Scala.</p>
+</div>
+<div class="paragraph">
+<p>If we need data structures that are queryable in constant time, Javaslang offers Array and Vector. Both have <a href="https://en.wikipedia.org/wiki/Random_access">random access</a> capabilities.</p>
+</div>
+<div class="paragraph">
+<p>The Array type is backed by a Java array of objects. Insert and remove operations take linear time. Vector is in-between Array and List. It performs well in both areas, random access and modification.</p>
+</div>
+<div class="paragraph">
+<p>In fact the linked List can also be used to implement a Queue data structure.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_queue">1.4.2. Queue</h4>
+<div class="paragraph">
+<p>A very efficient functional Queue can be implemented based on two linked Lists. The <em>front</em> List holds the elements that are <em>dequeued</em>, the <em>rear</em>List holds the elements that are <em>enqueued</em>. Both operations enqueue and dequeue perform in O(1).</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="predefined-type">Queue</span> queue = <span class="predefined-type">Queue</span>.of(<span class="integer">1</span>, <span class="integer">2</span>, <span class="integer">3</span>)
+                            .enqueue(<span class="integer">4</span>)
+                            .enqueue(<span class="integer">5</span>);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The initial Queue is created of three elements. Two elements are enqueued on the rear List.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/queue1.png?w=660" alt="Queue 1">
+</div>
+</div>
+<div class="paragraph">
+<p>If the front List runs out of elements when dequeueing, the rear List is reversed and becomes the new front List.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/queue2.png?w=660" alt="Queue 2">
+</div>
+</div>
+<div class="paragraph">
+<p>When dequeueing an element we get a pair of the first element and the remaining Queue. It is necessary to return the new version of the Queue because functional data structures are immutable and persistent. The original Queue is not affected.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="predefined-type">Queue</span> queue = <span class="predefined-type">Queue</span>.of(<span class="integer">1</span>, <span class="integer">2</span>, <span class="integer">3</span>);
+
+<span class="comment">// = (1, Queue(2, 3))</span>
+Tuple2&lt;<span class="predefined-type">Integer</span>, <span class="predefined-type">Queue</span>&gt; dequeued =
+        queue.dequeue();</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>What happens when the Queue is empty? Then dequeue() will throw a NoSuchElementException. To do it the <em>functional way</em> we would rather expect an optional result.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="comment">// = Some((1, Queue()))</span>
+<span class="predefined-type">Queue</span>.of(<span class="integer">1</span>).dequeueOption();
+
+<span class="comment">// = None</span>
+<span class="predefined-type">Queue</span>.empty().dequeueOption();</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>An optional result may be further processed, regardless if it is empty or not.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="comment">// = Queue(1)</span>
+<span class="predefined-type">Queue</span> queue = <span class="predefined-type">Queue</span>.of(<span class="integer">1</span>);
+
+<span class="comment">// = Some((1, Queue()))</span>
+<span class="predefined-type">Option</span>&lt;Tuple2&lt;<span class="predefined-type">Integer</span>, <span class="predefined-type">Queue</span>&gt;&gt; dequeued =
+        queue.dequeueOption();
+
+<span class="comment">// = Some(1)</span>
+<span class="predefined-type">Option</span> element = dequeued.map(Tuple2::_1);
+
+<span class="comment">// = Some(Queue())</span>
+<span class="predefined-type">Option</span>&lt;<span class="predefined-type">Queue</span>&gt; remaining =
+        dequeued.map(Tuple2::_2);</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_sorted_set">1.4.3. Sorted Set</h4>
+<div class="paragraph">
+<p>Sorted Sets are data structures that are more frequently used than Queues. We use binary search trees to model them in a functional way. These trees consist of nodes with up to two children and values at each node.</p>
+</div>
+<div class="paragraph">
+<p>We build binary search trees in the presence of an ordering, represented by an element Comparator. All values of the left subtree of any given node are strictly less than the value of the given node. All values of the right subtree are strictly greater.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="comment">// = TreeSet(1, 2, 3, 4, 6, 7, 8)</span>
+<span class="predefined-type">SortedSet</span> xs =
+        <span class="predefined-type">TreeSet</span>.of(<span class="integer">6</span>, <span class="integer">1</span>, <span class="integer">3</span>, <span class="integer">2</span>, <span class="integer">4</span>, <span class="integer">7</span>, <span class="integer">8</span>);</code></pre>
+</div>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/binarytree1.png?w=660" alt="Binary Tree 1">
+</div>
+</div>
+<div class="paragraph">
+<p>Searches on such trees run in O(log n) time. We start the search at the root and decide if we found the element. Because of the total ordering of the values we know where to search next, in the left or in the right branch of the current tree.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="comment">// = TreeSet(1, 2, 3);</span>
+<span class="predefined-type">SortedSet</span> set = <span class="predefined-type">TreeSet</span>.of(<span class="integer">2</span>, <span class="integer">3</span>, <span class="integer">1</span>, <span class="integer">2</span>);
+
+<span class="comment">// = TreeSet(3, 2, 1);</span>
+<span class="predefined-type">Comparator</span> c = (a, b) -&gt; b - a;
+<span class="predefined-type">SortedSet</span> reversed =
+        <span class="predefined-type">TreeSet</span>.of(c, <span class="integer">2</span>, <span class="integer">3</span>, <span class="integer">1</span>, <span class="integer">2</span>);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Most tree operations are inherently <a href="https://en.wikipedia.org/wiki/Recursion">recursive</a>. The insert function behaves similar to the search function. When the end of a search path is reached, a new node is created and the whole path is reconstructed up to the root. Existing child nodes are referenced whenever possible. Hence the insert operation takes O(log n) time and space.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="comment">// = TreeSet(1, 2, 3, 4, 5, 6, 7, 8)</span>
+<span class="predefined-type">SortedSet</span> ys = xs.add(<span class="integer">5</span>);</code></pre>
+</div>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/binarytree2.png?w=660" alt="Binary Tree 2">
+</div>
+</div>
+<div class="paragraph">
+<p>In order to maintain the performance characteristics of a binary search tree it needs to be kept balanced. All paths from the root to a leaf need to have roughly the same length.</p>
+</div>
+<div class="paragraph">
+<p>In Javaslang we implemented a binary search tree based on a <a href="https://en.wikipedia.org/wiki/Red%E2%80%93black_tree">Red/Black Tree</a>. It uses a specific coloring strategy to keep the tree balanced on inserts and deletes. To read more about this topic please refer to the book <a href="http://www.amazon.com/Purely-Functional-Structures-Chris-Okasaki/dp/0521663504">Purely Functional Data Structures</a> by Chris Okasaki.</p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_state_of_the_collections">1.5. State of the Collections</h3>
+<div class="paragraph">
+<p>Generally we are observing a convergence of programming languages. Good features make it, other disappear. But Java is different, it is bound forever to be backward compatible. That is a strength but also slows down evolution.</p>
+</div>
+<div class="paragraph">
+<p>Lambda brought Java and Scala closer together, yet they are still so different. Martin Odersky, the creator of Scala, recently mentioned in hishttps://www.youtube.com/watch?v=NW5h8d_ZyOs[BDSBTB 2015 keynote] the state of the Java 8 collections.</p>
+</div>
+<div class="paragraph">
+<p>He described Java’s Stream as a fancy form of an Iterator. The Java 8 Stream API is an example of a <em>lifted</em> collection. What it does is to <em>define</em> a computation and <em>link</em> it to a specific collection in another excplicit step.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="comment">// i + 1</span>
+i.prepareForAddition()
+ .add(<span class="integer">1</span>)
+ .mapBackToInteger(Mappers.toInteger())</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This is how the new Java 8 Stream API works. It is a computational layer above the well known Java collections.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="comment">// = [&quot;1&quot;, &quot;2&quot;, &quot;3&quot;] in Java 8</span>
+<span class="predefined-type">Arrays</span>.asList(<span class="integer">1</span>, <span class="integer">2</span>, <span class="integer">3</span>)
+      .stream()
+      .map(<span class="predefined-type">Object</span>::toString)
+      .collect(Collectors.toList())</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Javaslang is greatly inspired by Scala. This is how the above example should have been in Java 8.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="comment">// = Stream(&quot;1&quot;, &quot;2&quot;, &quot;3&quot;) in Javaslang</span>
+Stream.of(<span class="integer">1</span>, <span class="integer">2</span>, <span class="integer">3</span>).map(<span class="predefined-type">Object</span>::toString)</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Within the last year we put much effort into implementing the Javaslang collection library. It comprises the most widely used collection types.</p>
+</div>
+<div class="sect3">
+<h4 id="_seq">1.5.1. Seq</h4>
+<div class="paragraph">
+<p>We started our journey by implementing sequential types. We already described the linked List above. Stream, a lazy linked List, followed. It allows us to process possibly infinite long sequences of elements.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/collections-seq.png?w=660" alt="Seq">
+</div>
+</div>
+<div class="paragraph">
+<p>All collections are Iterable and hence could be used in enhanced for-statements.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="keyword">for</span> (<span class="predefined-type">String</span> s : <span class="predefined-type">List</span>.of(<span class="string"><span class="delimiter">&quot;</span><span class="content">Java</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Advent</span><span class="delimiter">&quot;</span></span>)) {
+    <span class="comment">// side effects and mutation</span>
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>We could accomplish the same by internalizing the loop and injecting the behavior using a lambda.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="predefined-type">List</span>.of(<span class="string"><span class="delimiter">&quot;</span><span class="content">Java</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Advent</span><span class="delimiter">&quot;</span></span>).forEach(s -&gt; {
+    <span class="comment">// side effects and mutation</span>
+});</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Anyway, as we previously saw we prefer expressions that return a value over statements that return nothing. By looking at a simple example, soon we will recognize that statements add noise and divide what belongs together.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="predefined-type">String</span> join(<span class="predefined-type">String</span>... words) {
+    <span class="predefined-type">StringBuilder</span> builder = <span class="keyword">new</span> <span class="predefined-type">StringBuilder</span>();
+    <span class="keyword">for</span>(<span class="predefined-type">String</span> s : words) {
+        <span class="keyword">if</span> (builder.length() &gt; <span class="integer">0</span>) {
+            builder.append(<span class="string"><span class="delimiter">&quot;</span><span class="content">, </span><span class="delimiter">&quot;</span></span>);
+        }
+        builder.append(s);
+    }
+    <span class="keyword">return</span> builder.toString();
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The Javaslang collections provide us with many functions to operate on the underlying elements. This allows us to express things in a very concise way.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="predefined-type">String</span> join(<span class="predefined-type">String</span>... words) {
+    <span class="keyword">return</span> <span class="predefined-type">List</span>.of(words)
+               .intersperse(<span class="string"><span class="delimiter">&quot;</span><span class="content">, </span><span class="delimiter">&quot;</span></span>)
+               .fold(<span class="string"><span class="delimiter">&quot;</span><span class="delimiter">&quot;</span></span>, <span class="predefined-type">String</span>::concat);
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Most goals can be accomplished in various ways using Javaslang. Here we reduced the whole method body to fluent function calls on a List instance. We could even remove the whole method and directly use our List to obtain the computation result.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="predefined-type">List</span>.of(words).mkString(<span class="string"><span class="delimiter">&quot;</span><span class="content">, </span><span class="delimiter">&quot;</span></span>);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>In a real world application we are now able to drastically reduce the number of lines of code and hence lower the risk of bugs.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_set_and_map">1.5.2. Set and Map</h4>
+<div class="paragraph">
+<p>Sequences are great. But to be complete, a collection library also needs different types of Sets and Maps.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/collections-set-map.png?w=660" alt="Set and Map">
+</div>
+</div>
+<div class="paragraph">
+<p>We described how to model sorted Sets with binary tree structures. A sorted Map is nothing else than a sorted Set containing key-value pairs and having an ordering for the keys.</p>
+</div>
+<div class="paragraph">
+<p>The HashMap implementation is backed by a <a href="http://lampwww.epfl.ch/papers/idealhashtrees.pdf">Hash Array Mapped Trie (HAMT)</a>. Accordingly the HashSet is backed by a HAMT containing key-key pairs.</p>
+</div>
+<div class="paragraph">
+<p>Our Map does <em>not</em> have a special Entry type to represent key-value pairs. Instead we use Tuple2 which is already part of Javaslang. The fields of a Tuple are enumerated.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="comment">// = (1, &quot;A&quot;)</span>
+Tuple2 entry = Tuple.of(<span class="integer">1</span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">A</span><span class="delimiter">&quot;</span></span>);
+
+<span class="predefined-type">Integer</span> key = entry._1;
+<span class="predefined-type">String</span> value = entry._2;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Maps and Tuples are used throughout Javaslang. Tuples are inevitable to handle multi-valued return types in a general way.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="comment">// = HashMap((0, List(2, 4)), (1, List(1, 3)))</span>
+<span class="predefined-type">List</span>.of(<span class="integer">1</span>, <span class="integer">2</span>, <span class="integer">3</span>, <span class="integer">4</span>).groupBy(i -&gt; i % <span class="integer">2</span>);
+
+<span class="comment">// = List((a, 0), (b, 1), (c, 2))</span>
+<span class="predefined-type">List</span>.of(<span class="string"><span class="delimiter">'</span><span class="content">a</span><span class="delimiter">'</span></span>, <span class="string"><span class="delimiter">'</span><span class="content">b</span><span class="delimiter">'</span></span>, <span class="string"><span class="delimiter">'</span><span class="content">c</span><span class="delimiter">'</span></span>).zipWithIndex();</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>At Javaslang, we explore and test our library by implementing the <a href="https://projecteuler.net/archives">99 Euler Problems</a>. It is a great proof of concept. Please don’t hesitate to send pull requests.</p>
+</div>
+</div>
 </div>
 </div>
 </div>
@@ -1291,7 +1823,7 @@ limitations under the License.</p>
 <div id="footer">
 <div id="footer-text">
 Version 2.0.0-RC1<br>
-Last updated 2015-11-24 08:49:28 MEZ
+Last updated 2015-12-02 11:25:54 MEZ
 </div>
 </div>
 </body>
