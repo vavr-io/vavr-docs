@@ -27,6 +27,11 @@ asciidoctor {
         include 'index.adoc'
     }
     backends = ['html5']
+    resources {
+        from(sourceDir) {
+            include 'images/**'
+        }
+    }
 }
 
 publishGhPages.dependsOn asciidoctor

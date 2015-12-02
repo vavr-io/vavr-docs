@@ -2,3 +2,411 @@
 
 Javaslang is a functional library for Java 8+ that provides persistent data types and functional control structures. Because Javaslang does not depend on any libraries (other than the JVM) you can easily add it as standalone .jar to your classpath.
 
+=== Functional Data Structures in Java 8 with Javaslang
+
+Java 8’s https://docs.oracle.com/javase/tutorial/java/javaOO/lambdaexpressions.html[lambdas (λ)] empower us to create wonderful API’s. They incredibly increase the expressiveness of the language.
+
+http://javaslang.com/[Javaslang] leveraged lambdas to create various new features based on functional patterns. One of them is a functional collection library that is intended to be a replacement for Java’s standard collections.
+
+image::images/javaslang-collections.png?w=660[Javaslang Collections]
+
+__(This is just a bird’s view, you will find a human-readable version below.)__
+
+=== Functional Programming
+
+Before we deep-dive into the details about the data structures I want to talk about some basics. This will make it clear why I created Javaslang and specifically new Java collections.
+
+==== Side-Effects
+
+Java applications are typically plentiful of https://en.wikipedia.org/wiki/Side_effect_(computer_science)[side-effects]. They mutate some sort of state, maybe the outer world. Common side effects are changing objects or variables __in place__, printing to the console, writing to a log file or to a database. Side-effects are considered __harmful__ if they affect the semantics of our program in an undesirable way.
+
+For example, if a function throws an exception and this exception is__interpreted__, it is considered as side-effect that __affects our program__. Furthermore http://c2.com/cgi/wiki?DontUseExceptionsForFlowControl[exceptions are like non-local goto-statements]. They break the normal control-flow. However, real-world applications do perform side-effects.
+
+[source,java]
+----
+int divide(int dividend, int divisor) {
+    // throws if divisor is zero
+    return dividend / divisor;
+}
+
+----
+
+In a functional setting we are in the favorable situation to encapsulate the side-effect in a Try:
+
+[source,java]
+----
+// = Success(result) or Failure(exception)
+Try divide(Integer dividend, Integer divisor) {
+    return Try.of(() -> dividend / divisor);
+}
+
+----
+
+This version of divide does not throw any more. We made the possible failure explicit by using the type Try.
+
+==== Referential Transparency
+
+A function, or more general an expression, is called https://en.wikipedia.org/wiki/Referential_transparency[referential transparent] if a call can be replaced by its value without affecting the behavior of the program. Simply spoken, given the same input the output is always the same.
+
+[source,java]
+----
+// not referential transparent
+Math.random();
+
+// referential transparent
+Math.max(1, 2);
+
+----
+
+A function is called https://en.wikipedia.org/wiki/Pure_function[pure] if all expressions involved are referential transparent. An application composed of pure functions will most probably __just work__ if it compiles. We are able to reason about it. Unit tests are easy to write and debugging becomes a relict of the past.
+
+==== Thinking in Values
+
+Rich Hickey, the creator of Clojure, gave a great talk about https://www.youtube.com/watch?v=-6BsiVyC1kM[The Value of Values]. The most interesting values are https://en.wikipedia.org/wiki/Immutable_object[immutable] values. The main reason is that immutable values
+
+*   are inherently thread-safe and hence do not need to be synchronized
+*   are stable regarding __equals__ and __hashCode__ and thus are reliable hash keys
+*   do not need to be cloned
+*   behave type-safe when used in unchecked covariant casts (Java-specific)
+The key to a better Java is to use __immutable values__ paired with __referential transparent functions__.
+
+Javaslang provides the necessary http://javaslang.com/javadoc/snapshot/javaslang/control/package-summary.html[controls] and http://javaslang.com/javadoc/snapshot/javaslang/collection/package-summary.html[collections] to accomplish this goal in every-day Java programming.
+
+=== Data Structures in a Nutshell
+
+Javaslang’s collection library comprises of a rich set of functional data structures built on top of lambdas. The only interface they share with Java’s original collections is Iterable. The main reason is that the mutator methods of Java’s collection interfaces do not return an object of the underlying collection type.
+
+We will see why this is so essential by taking a look at the different types of data structures.
+
+==== Mutable Data Structures
+
+Java is an object-oriented programming language. We encapsulate state in objects to achieve data hiding and provide mutator methods to control the state. The https://en.wikipedia.org/wiki/Java_collections_framework[Java collections framework (JCF)] is built upon this idea.
+
+[source,java]
+----
+interface Collection<E> {
+    // removes all elements from this collection
+    void clear();
+}
+
+----
+
+Today I comprehend a __void__ return type as a smell. It is evidence thathttps://en.wikipedia.org/wiki/Side_effect_(computer_science)[side-effects] take place, state is mutated. __Shared__ mutable state is an important source of failure, not only in a concurrent setting.
+
+==== Immutable Data Structures
+
+https://en.wikipedia.org/wiki/Immutable_object[Immutable] data structures cannot be modified after their creation. In the context of Java they are widely used in the form of collection wrappers.
+
+[source,java]
+----
+List<String> list = Collections.unmodifiableList(otherList);
+
+// Boom!
+list.add("why not?");
+
+----
+
+There are various libraries that provide us with similar utility methods. The result is always an unmodifiable view of the specific collection. Typically it will throw at runtime when we call a mutator method.
+
+==== Persistent Data Structures
+
+A https://en.wikipedia.org/wiki/Persistent_data_structure[persistent data structure] does preserve the previous version of itself when being modified and is therefore __effectively__ immutable. Fully persistent data structures allow both updates and queries on any version.
+
+Many operations perform only small changes. Just copying the previous version wouldn’t be efficient. To save time and memory, it is crucial to identify similarities between two versions and share as much data as possible.
+
+This model does not impose any implementation details. Here come functional data structures into play.
+
+=== Functional Data Structures
+
+Also known as https://en.wikipedia.org/wiki/Purely_functional[__purely__ functional data structures], these are __immutable__and __persistent__. The methods of functional data structures are __referential transparent__.
+
+Javaslang features a wide range of the most-commonly used functional data structures. The following examples are explained in-depth.
+
+==== Linked List
+
+One of the most popular and also simplest functional data structures is the https://en.wikipedia.org/wiki/Linked_list[(singly) linked List]. It has a __head__ element and a __tail__ List. A linked List behaves like a Stack which follows the https://en.wikipedia.org/wiki/Stack_(abstract_data_type)[last in, first out (LIFO)] method.
+
+In http://javaslang.com/[Javaslang] we instantiate a List like this:
+
+[source,java]
+----
+// = List(1, 2, 3)
+List list1 = List.of(1, 2, 3);
+
+----
+
+Each of the List elements forms a separate List node. The tail of the last element is Nil, the empty List.
+
+image::images/list1.png?w=660[List 1]
+
+This enables us to share elements across different versions of the List.
+
+[source,java]
+----
+// = List(0, 2, 3)
+List list2 = list1.tail().prepend(0);
+
+----
+
+The new head element 0 is __linked__ to the tail of the original List. The original List remains unmodified.
+
+image::images/list2.png?w=660[List 2]
+
+These operations take place in constant time, in other words they are independent of the List size. Most of the other operations take linear time. In Javaslang this is expressed by the interface LinearSeq, which we may already know from Scala.
+
+If we need data structures that are queryable in constant time, Javaslang offers Array and Vector. Both have https://en.wikipedia.org/wiki/Random_access[random access] capabilities.
+
+The Array type is backed by a Java array of objects. Insert and remove operations take linear time. Vector is in-between Array and List. It performs well in both areas, random access and modification.
+
+In fact the linked List can also be used to implement a Queue data structure.
+
+==== Queue
+
+A very efficient functional Queue can be implemented based on two linked Lists. The __front__ List holds the elements that are __dequeued__, the __rear__List holds the elements that are __enqueued__. Both operations enqueue and dequeue perform in O(1).
+
+[source,java]
+----
+Queue queue = Queue.of(1, 2, 3)
+                            .enqueue(4)
+                            .enqueue(5);
+
+----
+
+The initial Queue is created of three elements. Two elements are enqueued on the rear List.
+
+image::images/queue1.png?w=660[Queue 1]
+
+If the front List runs out of elements when dequeueing, the rear List is reversed and becomes the new front List.
+
+image::images/queue2.png?w=660[Queue 2]
+
+When dequeueing an element we get a pair of the first element and the remaining Queue. It is necessary to return the new version of the Queue because functional data structures are immutable and persistent. The original Queue is not affected.
+
+[source,java]
+----
+Queue queue = Queue.of(1, 2, 3);
+
+// = (1, Queue(2, 3))
+Tuple2<Integer, Queue> dequeued =
+        queue.dequeue();
+
+----
+
+What happens when the Queue is empty? Then dequeue() will throw a NoSuchElementException. To do it the __functional way__ we would rather expect an optional result.
+
+[source,java]
+----
+// = Some((1, Queue()))
+Queue.of(1).dequeueOption();
+
+// = None
+Queue.empty().dequeueOption();
+
+----
+
+An optional result may be further processed, regardless if it is empty or not.
+
+[source,java]
+----
+// = Queue(1)
+Queue queue = Queue.of(1);
+
+// = Some((1, Queue()))
+Option<Tuple2<Integer, Queue>> dequeued =
+        queue.dequeueOption();
+
+// = Some(1)
+Option element = dequeued.map(Tuple2::_1);
+
+// = Some(Queue())
+Option<Queue> remaining =
+        dequeued.map(Tuple2::_2);
+
+----
+
+==== Sorted Set
+
+Sorted Sets are data structures that are more frequently used than Queues. We use binary search trees to model them in a functional way. These trees consist of nodes with up to two children and values at each node.
+
+We build binary search trees in the presence of an ordering, represented by an element Comparator. All values of the left subtree of any given node are strictly less than the value of the given node. All values of the right subtree are strictly greater.
+
+[source,java]
+----
+// = TreeSet(1, 2, 3, 4, 6, 7, 8)
+SortedSet xs =
+        TreeSet.of(6, 1, 3, 2, 4, 7, 8);
+
+----
+
+image::images/binarytree1.png?w=660[Binary Tree 1]
+
+Searches on such trees run in O(log n) time. We start the search at the root and decide if we found the element. Because of the total ordering of the values we know where to search next, in the left or in the right branch of the current tree.
+
+[source,java]
+----
+// = TreeSet(1, 2, 3);
+SortedSet set = TreeSet.of(2, 3, 1, 2);
+
+// = TreeSet(3, 2, 1);
+Comparator c = (a, b) -> b - a;
+SortedSet reversed =
+        TreeSet.of(c, 2, 3, 1, 2);
+
+----
+
+Most tree operations are inherently https://en.wikipedia.org/wiki/Recursion[recursive]. The insert function behaves similar to the search function. When the end of a search path is reached, a new node is created and the whole path is reconstructed up to the root. Existing child nodes are referenced whenever possible. Hence the insert operation takes O(log n) time and space.
+
+[source,java]
+----
+// = TreeSet(1, 2, 3, 4, 5, 6, 7, 8)
+SortedSet ys = xs.add(5);
+
+----
+
+image::images/binarytree2.png?w=660[Binary Tree 2]
+
+In order to maintain the performance characteristics of a binary search tree it needs to be kept balanced. All paths from the root to a leaf need to have roughly the same length.
+
+In Javaslang we implemented a binary search tree based on a https://en.wikipedia.org/wiki/Red%E2%80%93black_tree[Red/Black Tree]. It uses a specific coloring strategy to keep the tree balanced on inserts and deletes. To read more about this topic please refer to the book http://www.amazon.com/Purely-Functional-Structures-Chris-Okasaki/dp/0521663504[Purely Functional Data Structures] by Chris Okasaki.
+
+=== State of the Collections
+
+Generally we are observing a convergence of programming languages. Good features make it, other disappear. But Java is different, it is bound forever to be backward compatible. That is a strength but also slows down evolution.
+
+Lambda brought Java and Scala closer together, yet they are still so different. Martin Odersky, the creator of Scala, recently mentioned in hishttps://www.youtube.com/watch?v=NW5h8d_ZyOs[BDSBTB 2015 keynote] the state of the Java 8 collections.
+
+He described Java’s Stream as a fancy form of an Iterator. The Java 8 Stream API is an example of a __lifted__ collection. What it does is to __define__ a computation and __link__ it to a specific collection in another excplicit step.
+
+[source,java]
+----
+// i + 1
+i.prepareForAddition()
+ .add(1)
+ .mapBackToInteger(Mappers.toInteger())
+
+----
+
+This is how the new Java 8 Stream API works. It is a computational layer above the well known Java collections.
+
+[source,java]
+----
+// = ["1", "2", "3"] in Java 8
+Arrays.asList(1, 2, 3)
+      .stream()
+      .map(Object::toString)
+      .collect(Collectors.toList())
+
+----
+
+Javaslang is greatly inspired by Scala. This is how the above example should have been in Java 8.
+
+[source,java]
+----
+// = Stream("1", "2", "3") in Javaslang
+Stream.of(1, 2, 3).map(Object::toString)
+
+----
+
+Within the last year we put much effort into implementing the Javaslang collection library. It comprises the most widely used collection types.
+
+==== Seq
+
+We started our journey by implementing sequential types. We already described the linked List above. Stream, a lazy linked List, followed. It allows us to process possibly infinite long sequences of elements.
+
+image::images/collections-seq.png?w=660[Seq]
+
+All collections are Iterable and hence could be used in enhanced for-statements.
+
+[source,java]
+----
+for (String s : List.of("Java", "Advent")) {
+    // side effects and mutation
+}
+
+----
+
+We could accomplish the same by internalizing the loop and injecting the behavior using a lambda.
+
+[source,java]
+----
+List.of("Java", "Advent").forEach(s -> {
+    // side effects and mutation
+});
+
+----
+
+Anyway, as we previously saw we prefer expressions that return a value over statements that return nothing. By looking at a simple example, soon we will recognize that statements add noise and divide what belongs together.
+
+[source,java]
+----
+String join(String... words) {
+    StringBuilder builder = new StringBuilder();
+    for(String s : words) {
+        if (builder.length() > 0) {
+            builder.append(", ");
+        }
+        builder.append(s);
+    }
+    return builder.toString();
+}
+
+----
+
+The Javaslang collections provide us with many functions to operate on the underlying elements. This allows us to express things in a very concise way.
+
+[source,java]
+----
+String join(String... words) {
+    return List.of(words)
+               .intersperse(", ")
+               .fold("", String::concat);
+}
+
+----
+
+Most goals can be accomplished in various ways using Javaslang. Here we reduced the whole method body to fluent function calls on a List instance. We could even remove the whole method and directly use our List to obtain the computation result.
+
+[source,java]
+----
+List.of(words).mkString(", ");
+
+----
+
+In a real world application we are now able to drastically reduce the number of lines of code and hence lower the risk of bugs.
+
+==== Set and Map
+
+Sequences are great. But to be complete, a collection library also needs different types of Sets and Maps.
+
+image::images/collections-set-map.png?w=660[Set and Map]
+
+We described how to model sorted Sets with binary tree structures. A sorted Map is nothing else than a sorted Set containing key-value pairs and having an ordering for the keys.
+
+The HashMap implementation is backed by a http://lampwww.epfl.ch/papers/idealhashtrees.pdf[Hash Array Mapped Trie (HAMT)]. Accordingly the HashSet is backed by a HAMT containing key-key pairs.
+
+Our Map does __not__ have a special Entry type to represent key-value pairs. Instead we use Tuple2 which is already part of Javaslang. The fields of a Tuple are enumerated.
+
+[source,java]
+----
+// = (1, "A")
+Tuple2 entry = Tuple.of(1, "A");
+
+Integer key = entry._1;
+String value = entry._2;
+
+----
+
+Maps and Tuples are used throughout Javaslang. Tuples are inevitable to handle multi-valued return types in a general way.
+
+[source,java]
+----
+// = HashMap((0, List(2, 4)), (1, List(1, 3)))
+List.of(1, 2, 3, 4).groupBy(i -> i % 2);
+
+// = List((a, 0), (b, 1), (c, 2))
+List.of('a', 'b', 'c').zipWithIndex();
+
+----
+
+At Javaslang, we explore and test our library by implementing the https://projecteuler.net/archives[99 Euler Problems]. It is a great proof of concept. Please don’t hesitate to send pull requests.
+
