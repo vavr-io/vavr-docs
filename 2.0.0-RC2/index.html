@@ -1173,7 +1173,7 @@ Tuple2 entry = Tuple.of(<span class="integer">1</span>, <span class="string"><sp
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="xml"><span class="tag">&lt;profiles&gt;</span>
     <span class="tag">&lt;profile&gt;</span>
-        allow-snapshots
+        <span class="tag">&lt;id&gt;</span>allow-snapshots<span class="tag">&lt;/id&gt;</span>
         <span class="tag">&lt;activation&gt;</span>
             <span class="tag">&lt;activeByDefault&gt;</span>true<span class="tag">&lt;/activeByDefault&gt;</span>
         <span class="tag">&lt;/activation&gt;</span>
@@ -1202,17 +1202,12 @@ Tuple2 entry = Tuple.of(<span class="integer">1</span>, <span class="string"><sp
 <div class="sect2">
 <h3 id="_core">3.1. Core</h3>
 <div class="paragraph">
-<p>Javaslang comes along with well designed representations of some of the most basic types which apparently are missing or rudimentary in Java, Tuple and λ.</p>
-</div>
-<div class="imageblock">
-<div class="content">
-<img src="http://javaslang.com/img/doc-tuple-lambda-value.png" alt="doc tuple lambda value">
-</div>
+<p>Javaslang comes along with well designed representations of some of the most basic types which apparently are missing or rudimentary in Java: <code>Tuple</code>, <code>Value</code> and <code>λ</code>.</p>
 </div>
 <div class="sect3">
 <h4 id="_tuples">3.1.1. Tuples</h4>
 <div class="paragraph">
-<p>Java is missing a general notion of tuples. Tuple fills this gap. Tuples combine a fixed number of elements together so that they can be passed around as a whole. Unlike an array or list, a tuple can hold objects with different types, but they are also immutable.<br>
+<p>Java is missing a general notion of tuples. Tuples combine a fixed number of elements together so that they can be passed around as a whole. Unlike an array or list, a tuple can hold objects with different types, but they are also immutable.<br>
 Tuples are of type Tuple1, Tuple2, Tuple3 and so on. There currently is an upper limit of 8 elements. To access elements of a tuple <code>t</code>, you can use method <code>t._1</code> to access the first element, <code>t._2</code> to access the second, and so on.</p>
 </div>
 <div class="sect4">
