@@ -8,20 +8,45 @@ image::http://javaslang.com/img/doc-tuple-lambda-value.png[]
 
 ==== Tuples
 
-Java is missing a general notion of tuples. Tuple fills this gap.
+Java is missing a general notion of tuples. Tuple fills this gap. Tuples combine a fixed number of elements together so that they can be passed around as a whole. Unlike an array or list, a tuple can hold objects with different types, but they are also immutable.
+Tuples are of type Tuple1, Tuple2, Tuple3 and so on. There currently is an upper limit of 8 elements. To access elements of a tuple `t`, you can use method `t._1` to access the first element, `t._2` to access the second, and so on.
 
-[source,java]
+===== Create a tuple
+Here is an example of how to create a tuple holding a String and an Integer:
+
+[source,java,indent=0]
 ----
-// (Java, 8)
-final Tuple2<String, Integer> java8 = Tuple.of("Java", 8);
+include::../../test/java/javaslang/TupleDemo.java[tags=createTuple]
+----
+<1> A tuple is created via the static factory method `of()`
+<2> Get the 1st element of this tuple.
+<3> Get the 2nd element of this tuple.
 
-// (Javaslang, 2)
-final Tuple2<String, Integer> guessWhat = java8.map(
-    (s, i) -> Tuple.of(s + "slang", i / 4)
-);
+===== Map a tuple
 
-// and yes, java8 is still (Java, 8)
+Map evaluates a function per element in the tuple, returning another tuple.
 
+[source,java,indent=0]
+----
+include::../../test/java/javaslang/TupleDemo.java[tags=mapTuple]
+----
+
+===== FlatMap a tuple
+
+FlatMap is a frequently used combinator that combines mapping and flattening.
+
+[source,java,indent=0]
+----
+include::../../test/java/javaslang/TupleDemo.java[tags=flatMapTuple]
+----
+
+===== Transform a tuple
+
+Transform creates a new type based on the tuple's contents.
+
+[source,java,indent=0]
+----
+include::../../test/java/javaslang/TupleDemo.java[tags=transformTuple]
 ----
 
 ==== Functions

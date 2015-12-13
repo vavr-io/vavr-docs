@@ -8,7 +8,7 @@ Java 8’s https://docs.oracle.com/javase/tutorial/java/javaOO/lambdaexpressions
 
 http://javaslang.com/[Javaslang] leveraged lambdas to create various new features based on functional patterns. One of them is a functional collection library that is intended to be a replacement for Java’s standard collections.
 
-image::images/javaslang-collections.png?w=660[Javaslang Collections]
+image::images/javaslang-collections.png[Javaslang Collections]
 
 __(This is just a bird’s view, you will find a human-readable version below.)__
 
@@ -273,7 +273,7 @@ In Javaslang we implemented a binary search tree based on a https://en.wikipedia
 
 Generally we are observing a convergence of programming languages. Good features make it, other disappear. But Java is different, it is bound forever to be backward compatible. That is a strength but also slows down evolution.
 
-Lambda brought Java and Scala closer together, yet they are still so different. Martin Odersky, the creator of Scala, recently mentioned in hishttps://www.youtube.com/watch?v=NW5h8d_ZyOs[BDSBTB 2015 keynote] the state of the Java 8 collections.
+Lambda brought Java and Scala closer together, yet they are still so different. Martin Odersky, the creator of Scala, recently mentioned in his https://www.youtube.com/watch?v=NW5h8d_ZyOs[BDSBTB 2015 keynote] the state of the Java 8 collections.
 
 He described Java’s Stream as a fancy form of an Iterator. The Java 8 Stream API is an example of a __lifted__ collection. What it does is to __define__ a computation and __link__ it to a specific collection in another excplicit step.
 

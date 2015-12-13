@@ -16,10 +16,22 @@ apply plugin: 'org.asciidoctor.convert'
 apply plugin: 'org.ajoberstar.github-pages'
 apply plugin: 'com.bluepapa32.watch'
 apply plugin: 'org.kordamp.gradle.livereload'
+apply plugin: 'java'
 
 repositories {
     jcenter()
     mavenCentral()
+    maven {
+        url "https://oss.sonatype.org/content/repositories/snapshots"
+    }
+}
+
+dependencies {
+    testCompile "com.javaslang:javaslang:${project.version}"
+    testCompile "junit:junit:4.11"
+    testCompile "org.assertj:assertj-core:3.0.0"
+    testCompile "ch.qos.logback:logback-classic:0.9.26"
+    testCompile "org.mockito:mockito-core:1.10.19"
 }
 
 asciidoctor {
@@ -34,6 +46,7 @@ asciidoctor {
     }
 }
 
+asciidoctor.dependsOn test
 publishGhPages.dependsOn asciidoctor
 
 githubPages {
@@ -62,5 +75,5 @@ liveReload {
 }
 
 task wrapper(type: Wrapper) {
-    gradleVersion = '2.7'
+    gradleVersion = '2.8'
 }
