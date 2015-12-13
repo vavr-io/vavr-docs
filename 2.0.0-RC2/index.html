@@ -516,8 +516,8 @@ table.CodeRay td.code>pre{padding:0}
 <div class="details">
 <span id="author" class="author">Daniel Dietrich</span><br>
 <span id="email" class="email"><a href="mailto:cafebab3@gmail.com">cafebab3@gmail.com</a></span><br>
-<span id="revnumber">version 2.0.0-RC1,</span>
-<span id="revdate">2015-12-02</span>
+<span id="revnumber">version 2.0.0-RC2,</span>
+<span id="revdate">2015-12-13</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -629,7 +629,7 @@ table.CodeRay td.code>pre{padding:0}
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="images/javaslang-collections.png?w=660" alt="Javaslang Collections">
+<img src="images/javaslang-collections.png" alt="Javaslang Collections">
 </div>
 </div>
 <div class="paragraph">
@@ -967,7 +967,7 @@ Tuple2&lt;<span class="predefined-type">Integer</span>, <span class="predefined-
 <p>Generally we are observing a convergence of programming languages. Good features make it, other disappear. But Java is different, it is bound forever to be backward compatible. That is a strength but also slows down evolution.</p>
 </div>
 <div class="paragraph">
-<p>Lambda brought Java and Scala closer together, yet they are still so different. Martin Odersky, the creator of Scala, recently mentioned in hishttps://www.youtube.com/watch?v=NW5h8d_ZyOs[BDSBTB 2015 keynote] the state of the Java 8 collections.</p>
+<p>Lambda brought Java and Scala closer together, yet they are still so different. Martin Odersky, the creator of Scala, recently mentioned in his <a href="https://www.youtube.com/watch?v=NW5h8d_ZyOs">BDSBTB 2015 keynote</a> the state of the Java 8 collections.</p>
 </div>
 <div class="paragraph">
 <p>He described Java’s Stream as a fancy form of an Iterator. The Java 8 Stream API is an example of a <em>lifted</em> collection. What it does is to <em>define</em> a computation and <em>link</em> it to a specific collection in another excplicit step.</p>
@@ -1136,7 +1136,7 @@ Tuple2 entry = Tuple.of(<span class="integer">1</span>, <span class="string"><sp
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="groovy">dependencies {
-    compile "com.javaslang:javaslang:2.0.0-RC1"
+    compile "com.javaslang:javaslang:2.0.0-RC2"
 }</code></pre>
 </div>
 </div>
@@ -1212,19 +1212,86 @@ Tuple2 entry = Tuple.of(<span class="integer">1</span>, <span class="string"><sp
 <div class="sect3">
 <h4 id="_tuples">3.1.1. Tuples</h4>
 <div class="paragraph">
-<p>Java is missing a general notion of tuples. Tuple fills this gap.</p>
+<p>Java is missing a general notion of tuples. Tuple fills this gap. Tuples combine a fixed number of elements together so that they can be passed around as a whole. Unlike an array or list, a tuple can hold objects with different types, but they are also immutable.<br>
+Tuples are of type Tuple1, Tuple2, Tuple3 and so on. There currently is an upper limit of 8 elements. To access elements of a tuple <code>t</code>, you can use method <code>t._1</code> to access the first element, <code>t._2</code> to access the second, and so on.</p>
+</div>
+<div class="sect4">
+<h5 id="_create_a_tuple">Create a tuple</h5>
+<div class="paragraph">
+<p>Here is an example of how to create a tuple holding a String and an Integer:</p>
 </div>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="java"><span class="comment">// (Java, 8)</span>
-<span class="directive">final</span> Tuple2&lt;<span class="predefined-type">String</span>, <span class="predefined-type">Integer</span>&gt; java8 = Tuple.of(<span class="string"><span class="delimiter">&quot;</span><span class="content">Java</span><span class="delimiter">&quot;</span></span>, <span class="integer">8</span>);
+Tuple2&lt;<span class="predefined-type">String</span>, <span class="predefined-type">Integer</span>&gt; java8tuple = Tuple.of(<span class="string"><span class="delimiter">&quot;</span><span class="content">Java</span><span class="delimiter">&quot;</span></span>, <span class="integer">8</span>); <i class="conum" data-value="1"></i><b>(1)</b>
 
-<span class="comment">// (Javaslang, 2)</span>
-<span class="directive">final</span> Tuple2&lt;<span class="predefined-type">String</span>, <span class="predefined-type">Integer</span>&gt; guessWhat = java8.map(
-    (s, i) -&gt; Tuple.of(s + <span class="string"><span class="delimiter">&quot;</span><span class="content">slang</span><span class="delimiter">&quot;</span></span>, i / <span class="integer">4</span>)
+then(java8tuple._1).isEqualTo(<span class="string"><span class="delimiter">&quot;</span><span class="content">Java</span><span class="delimiter">&quot;</span></span>); <i class="conum" data-value="2"></i><b>(2)</b>
+then(java8tuple._2).isEqualTo(<span class="integer">8</span>); <i class="conum" data-value="3"></i><b>(3)</b></code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>A tuple is created via the static factory method <code>of()</code></td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>Get the 1st element of this tuple.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>Get the 2nd element of this tuple.</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_map_a_tuple">Map a tuple</h5>
+<div class="paragraph">
+<p>Map evaluates a function per element in the tuple, returning another tuple.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="comment">// (Java, 8)</span>
+Tuple2&lt;<span class="predefined-type">String</span>, <span class="predefined-type">Integer</span>&gt; javaslang2tuple = Tuple.of(<span class="string"><span class="delimiter">&quot;</span><span class="content">Java</span><span class="delimiter">&quot;</span></span>, <span class="integer">8</span>).map(
+        (s) -&gt; s + <span class="string"><span class="delimiter">&quot;</span><span class="content">slang</span><span class="delimiter">&quot;</span></span>, (i) -&gt; i/<span class="integer">4</span>
 );
-
-<span class="comment">// and yes, java8 is still (Java, 8)</span></code></pre>
+<span class="comment">// (Javaslang, 2)</span>
+then(javaslang2tuple._1).isEqualTo(<span class="string"><span class="delimiter">&quot;</span><span class="content">Javaslang</span><span class="delimiter">&quot;</span></span>);
+then(javaslang2tuple._2).isEqualTo(<span class="integer">2</span>);</code></pre>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_flatmap_a_tuple">FlatMap a tuple</h5>
+<div class="paragraph">
+<p>FlatMap is a frequently used combinator that combines mapping and flattening.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="comment">// (Java, 8)</span>
+Tuple2&lt;<span class="predefined-type">String</span>, <span class="predefined-type">Integer</span>&gt; javaslang2tuple = Tuple.of(<span class="string"><span class="delimiter">&quot;</span><span class="content">Java</span><span class="delimiter">&quot;</span></span>, <span class="integer">8</span>).flatMap(
+        (s, i) -&gt; Tuple.of(s + <span class="string"><span class="delimiter">&quot;</span><span class="content">slang</span><span class="delimiter">&quot;</span></span>, i / <span class="integer">4</span>)
+);
+<span class="comment">// (Javaslang, 2)</span>
+then(javaslang2tuple._1).isEqualTo(<span class="string"><span class="delimiter">&quot;</span><span class="content">Javaslang</span><span class="delimiter">&quot;</span></span>);
+then(javaslang2tuple._2).isEqualTo(<span class="integer">2</span>);</code></pre>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_transform_a_tuple">Transform a tuple</h5>
+<div class="paragraph">
+<p>Transform creates a new type based on the tuple&#8217;s contents.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="predefined-type">String</span> javaslang2 = Tuple.of(<span class="string"><span class="delimiter">&quot;</span><span class="content">Java</span><span class="delimiter">&quot;</span></span>, <span class="integer">8</span>).transform(
+        (s, i) -&gt; s + <span class="string"><span class="delimiter">&quot;</span><span class="content">slang </span><span class="delimiter">&quot;</span></span> + i/<span class="integer">4</span>
+);
+then(javaslang2).isEqualTo(<span class="string"><span class="delimiter">&quot;</span><span class="content">Javaslang 2</span><span class="delimiter">&quot;</span></span>);</code></pre>
+</div>
 </div>
 </div>
 </div>
@@ -1822,7 +1889,7 @@ limitations under the License.</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Version 2.0.0-RC1<br>
+Version 2.0.0-RC2<br>
 Last updated 2015-12-02 11:25:54 MEZ
 </div>
 </div>
