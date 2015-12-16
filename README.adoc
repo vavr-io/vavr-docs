@@ -1,5 +1,5 @@
 = Javaslang Documentation
 
-This is the source of the http://javaslang.github.io/javaslang-docs/2.0.0-RC1/[Javaslang documentation].
+This is the source of the http://javaslang.github.io/javaslang-docs/2.0.0-RC2/[Javaslang documentation].
 
 
