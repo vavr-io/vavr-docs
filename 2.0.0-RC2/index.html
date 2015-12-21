@@ -1228,7 +1228,7 @@ then(java8tuple._2).isEqualTo(<span class="integer">8</span>); <i class="conum" 
 <table>
 <tr>
 <td><i class="conum" data-value="1"></i><b>1</b></td>
-<td>A tuple is created via the static factory method <code>of()</code></td>
+<td>A tuple is created via the static factory method <code>Tuple.of()</code></td>
 </tr>
 <tr>
 <td><i class="conum" data-value="2"></i><b>2</b></td>
@@ -1298,7 +1298,7 @@ The following lambda expression creates a function to sum two integers:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java"><span class="directive">final</span> Function2&lt;<span class="predefined-type">Integer</span>, <span class="predefined-type">Integer</span>, <span class="predefined-type">Integer</span>&gt; sum =  (a, b) -&gt; a + b;
+<pre class="CodeRay highlight"><code data-lang="java">Function2&lt;<span class="predefined-type">Integer</span>, <span class="predefined-type">Integer</span>, <span class="predefined-type">Integer</span>&gt; sum =  (a, b) -&gt; a + b;
 then(sum.apply(<span class="integer">1</span>,<span class="integer">2</span>)).isEqualTo(<span class="integer">3</span>);</code></pre>
 </div>
 </div>
@@ -1307,7 +1307,7 @@ then(sum.apply(<span class="integer">1</span>,<span class="integer">2</span>)).i
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java"><span class="directive">final</span> Function2&lt;<span class="predefined-type">Integer</span>, <span class="predefined-type">Integer</span>, <span class="predefined-type">Integer</span>&gt; sum =  <span class="keyword">new</span> Function2&lt;<span class="predefined-type">Integer</span>, <span class="predefined-type">Integer</span>, <span class="predefined-type">Integer</span>&gt;() {
+<pre class="CodeRay highlight"><code data-lang="java">Function2&lt;<span class="predefined-type">Integer</span>, <span class="predefined-type">Integer</span>, <span class="predefined-type">Integer</span>&gt; sum =  <span class="keyword">new</span> Function2&lt;<span class="predefined-type">Integer</span>, <span class="predefined-type">Integer</span>, <span class="predefined-type">Integer</span>&gt;() {
     <span class="annotation">@Override</span>
     <span class="directive">public</span> <span class="predefined-type">Integer</span> apply(<span class="predefined-type">Integer</span> a, <span class="predefined-type">Integer</span> b) {
         <span class="keyword">return</span> a + b;
@@ -1329,6 +1329,9 @@ then(sum.apply(<span class="integer">1</span>,<span class="integer">2</span>)).i
 <div class="ulist">
 <ul>
 <li>
+<p>composition</p>
+</li>
+<li>
 <p>lifting</p>
 </li>
 <li>
@@ -1338,6 +1341,22 @@ then(sum.apply(<span class="integer">1</span>,<span class="integer">2</span>)).i
 <p>memoization</p>
 </li>
 </ul>
+</div>
+<div class="sect4">
+<h5 id="_composition">Composition</h5>
+<div class="paragraph">
+<p>You can compose functions. In mathematics, function composition is the application of one function to the result of another to produce a third function. For instance, the functions f : X → Y and g : Y → Z can be composed to yield a function <code>h: g(f(x))</code> which maps X &#8594; Z.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">Function1&lt;<span class="predefined-type">Integer</span>, <span class="predefined-type">Integer</span>&gt; add1 = (a) -&gt; a + <span class="integer">1</span>;
+Function1&lt;<span class="predefined-type">Integer</span>, <span class="predefined-type">Integer</span>&gt; multiplyBy2 = (a) -&gt; a * <span class="integer">2</span>;
+
+Function1&lt;<span class="predefined-type">Integer</span>, <span class="predefined-type">Integer</span>&gt; add1AndMultiplyBy2 = add1.andThen(multiplyBy2);
+
+assertThat(add1AndMultiplyBy2.apply(<span class="integer">2</span>)).isEqualTo(<span class="integer">6</span>);</code></pre>
+</div>
+</div>
 </div>
 <div class="sect4">
 <h5 id="_lifting">Lifting</h5>
@@ -1393,8 +1412,8 @@ assertThat(optionalResult.isEmpty()).isTrue();</code></pre>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java"><span class="directive">final</span> Function2&lt;<span class="predefined-type">Integer</span>, <span class="predefined-type">Integer</span>, <span class="predefined-type">Integer</span>&gt; sum = (a, b) -&gt; a + b;
-<span class="directive">final</span> Function1&lt;<span class="predefined-type">Integer</span>, <span class="predefined-type">Integer</span>&gt; add2 = sum.curried().apply(<span class="integer">2</span>);
+<pre class="CodeRay highlight"><code data-lang="java">Function2&lt;<span class="predefined-type">Integer</span>, <span class="predefined-type">Integer</span>, <span class="predefined-type">Integer</span>&gt; sum = (a, b) -&gt; a + b;
+Function1&lt;<span class="predefined-type">Integer</span>, <span class="predefined-type">Integer</span>&gt; add2 = sum.curried().apply(<span class="integer">2</span>);
 
 assertThat(add2.apply(<span class="integer">4</span>)).isEqualTo(<span class="integer">6</span>);</code></pre>
 </div>
