@@ -18,7 +18,7 @@ public class FunctionsDemo {
     @Test
     public void createFunctionWithLambda(){
         // tag::createFunctionWithLambda[]
-        final Function2<Integer, Integer, Integer> sum =  (a, b) -> a + b;
+        Function2<Integer, Integer, Integer> sum =  (a, b) -> a + b;
         then(sum.apply(1,2)).isEqualTo(3);
         // end::createFunctionWithLambda[]
     }
@@ -26,7 +26,7 @@ public class FunctionsDemo {
     @Test
     public void createFunction(){
         // tag::createFunction[]
-        final Function2<Integer, Integer, Integer> sum =  new Function2<Integer, Integer, Integer>() {
+        Function2<Integer, Integer, Integer> sum =  new Function2<Integer, Integer, Integer>() {
             @Override
             public Integer apply(Integer a, Integer b) {
                 return a + b;
@@ -82,10 +82,22 @@ public class FunctionsDemo {
     }
 
     @Test
+    public void composeFunctions(){
+        // tag::composeFunctions[]
+        Function1<Integer, Integer> add1 = (a) -> a + 1;
+        Function1<Integer, Integer> multiplyBy2 = (a) -> a * 2;
+
+        Function1<Integer, Integer> add1AndMultiplyBy2 = add1.andThen(multiplyBy2);
+
+        assertThat(add1AndMultiplyBy2.apply(2)).isEqualTo(6);
+        // end::composeFunctions[]
+    }
+
+    @Test
     public void curryingFunction(){
         // tag::curryingFunction[]
-        final Function2<Integer, Integer, Integer> sum = (a, b) -> a + b;
-        final Function1<Integer, Integer> add2 = sum.curried().apply(2);
+        Function2<Integer, Integer, Integer> sum = (a, b) -> a + b;
+        Function1<Integer, Integer> add2 = sum.curried().apply(2);
 
         assertThat(add2.apply(4)).isEqualTo(6);
         // end::curryingFunction[]

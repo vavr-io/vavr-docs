@@ -16,7 +16,7 @@ Here is an example of how to create a tuple holding a String and an Integer:
 ----
 include::../../test/java/javaslang/TupleDemo.java[tags=createTuple]
 ----
-<1> A tuple is created via the static factory method `of()`
+<1> A tuple is created via the static factory method `Tuple.of()`
 <2> Get the 1st element of this tuple.
 <3> Get the 2nd element of this tuple.
 
@@ -73,9 +73,18 @@ include::../../test/java/javaslang/FunctionsDemo.java[tags=createFunctionWithFac
 
 In fact Javaslang functional interfaces are Java 8 functional interfaces on steroids. They also provide features like:
 
+* composition
 * lifting
 * currying
 * memoization
+
+===== Composition
+You can compose functions. In mathematics, function composition is the application of one function to the result of another to produce a third function. For instance, the functions f : X → Y and g : Y → Z can be composed to yield a function `h: g(f(x))` which maps X -> Z.
+
+[source,java,indent=0]
+----
+include::../../test/java/javaslang/FunctionsDemo.java[tags=composeFunctions]
+----
 
 ===== Lifting
 You can lift a partial function into a total function that returns an `Option` result. The term partial function comes from mathematics. A partial function from X to Y is a function f: X′ → Y, for some subset X′ of X. It generalizes the concept of a function f: X → Y by not forcing f to map every element of X to an element of Y. That means a partial function works properly only for some input values. If the function is called with a disallowed input values, it will typically throw an exception.
