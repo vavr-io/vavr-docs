@@ -517,7 +517,7 @@ table.CodeRay td.code>pre{padding:0}
 <span id="author" class="author">Daniel Dietrich</span><br>
 <span id="email" class="email"><a href="mailto:cafebab3@gmail.com">cafebab3@gmail.com</a></span><br>
 <span id="revnumber">version 2.0.0-RC2,</span>
-<span id="revdate">2015-12-13</span>
+<span id="revdate">2015-12-21</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -566,7 +566,7 @@ table.CodeRay td.code>pre{padding:0}
 <ul class="sectlevel2">
 <li><a href="#_core">3.1. Core</a>
 <ul class="sectlevel3">
-<li><a href="#_tuples">3.1.1. Tuples</a></li>
+<li><a href="#_tuple">3.1.1. Tuple</a></li>
 <li><a href="#_functions">3.1.2. Functions</a></li>
 <li><a href="#_values">3.1.3. Values</a></li>
 </ul>
@@ -1205,9 +1205,9 @@ Tuple2 entry = Tuple.of(<span class="integer">1</span>, <span class="string"><sp
 <p>Javaslang comes along with well designed representations of some of the most basic types which apparently are missing or rudimentary in Java: <code>Tuple</code>, <code>Value</code> and <code>λ</code>.</p>
 </div>
 <div class="sect3">
-<h4 id="_tuples">3.1.1. Tuples</h4>
+<h4 id="_tuple">3.1.1. Tuple</h4>
 <div class="paragraph">
-<p>Java is missing a general notion of tuples. Tuples combine a fixed number of elements together so that they can be passed around as a whole. Unlike an array or list, a tuple can hold objects with different types, but they are also immutable.<br>
+<p>Java is missing a general notion of tuples. A Tuple combines a fixed number of elements together so that they can be passed around as a whole. Unlike an array or list, a tuple can hold objects with different types, but they are also immutable.<br>
 Tuples are of type Tuple1, Tuple2, Tuple3 and so on. There currently is an upper limit of 8 elements. To access elements of a tuple <code>t</code>, you can use method <code>t._1</code> to access the first element, <code>t._2</code> to access the second, and so on.</p>
 </div>
 <div class="sect4">
@@ -1293,43 +1293,129 @@ then(javaslang2).isEqualTo(<span class="string"><span class="delimiter">&quot;</
 <div class="sect3">
 <h4 id="_functions">3.1.2. Functions</h4>
 <div class="paragraph">
-<p>Functional programming is all about values and transformation of values using functions. Some basic examples are:</p>
+<p>Functional programming is all about values and transformation of values using functions. Java 8 just provides a <code>Function</code> which accepts one parameter and a <code>BiFunction</code> which accepts two parameters. Javaslang provides functions up to a limit of 8 parameters. The functional interfaces are of called <code>Function0, Function1, Function2, Function3</code> and so on. If you need a function which throws a checked exception you can use <code>CheckedFunction1, CheckedFunction2</code> and so on.<br>
+The following lambda expression creates a function to sum two integers:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java"><span class="comment">// sum.apply(1, 3) = 4</span>
-<span class="directive">final</span> Function2 sum = (a, b) -&gt; a + b;
-
-<span class="comment">// add2.apply(1) = 3</span>
-<span class="directive">final</span> Function1 add2 = sum.curried().apply(<span class="integer">2</span>);</code></pre>
+<pre class="CodeRay highlight"><code data-lang="java"><span class="directive">final</span> Function2&lt;<span class="predefined-type">Integer</span>, <span class="predefined-type">Integer</span>, <span class="predefined-type">Integer</span>&gt; sum =  (a, b) -&gt; a + b;
+then(sum.apply(<span class="integer">1</span>,<span class="integer">2</span>)).isEqualTo(<span class="integer">3</span>);</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>In fact λ is a functional interface on steroids times 10.</p>
+<p>This is a shorthand for the following anonymous class definition:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java"><span class="comment">// computes the hash code of an object</span>
-<span class="directive">final</span> Function1&lt;<span class="predefined-type">Object</span>, <span class="predefined-type">Integer</span>&gt; hash = <span class="predefined-type">Object</span>::hashCode;
-
-<span class="comment">// computes the hash once, then reads from cache</span>
-<span class="directive">final</span> Function&lt;<span class="predefined-type">Object</span>, <span class="predefined-type">Integer</span>&gt; hashCache =
-        Function1.lift(<span class="predefined-type">Object</span>::hashCode).memoized();
-
-<span class="comment">// ciao type erasure, hi Integer.class!</span>
-<span class="directive">final</span> <span class="predefined-type">Class</span>&lt;?&gt; returnType = hash.getType().returnType();</code></pre>
+<pre class="CodeRay highlight"><code data-lang="java"><span class="directive">final</span> Function2&lt;<span class="predefined-type">Integer</span>, <span class="predefined-type">Integer</span>, <span class="predefined-type">Integer</span>&gt; sum =  <span class="keyword">new</span> Function2&lt;<span class="predefined-type">Integer</span>, <span class="predefined-type">Integer</span>, <span class="predefined-type">Integer</span>&gt;() {
+    <span class="annotation">@Override</span>
+    <span class="directive">public</span> <span class="predefined-type">Integer</span> apply(<span class="predefined-type">Integer</span> a, <span class="predefined-type">Integer</span> b) {
+        <span class="keyword">return</span> a + b;
+    }
+};</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>Checked functions are indispensable when dealing with exceptions in a functional way.</p>
+<p>You can also use the static factory method <code>Function3.of(&#8230;&#8203;)</code> to a create a function from any method reference.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java"><span class="comment">// may throw when called</span>
-<span class="directive">final</span> Try.CheckedRunnable performIO = () -&gt; { ... };
+<pre class="CodeRay highlight"><code data-lang="java">Function3&lt;<span class="predefined-type">String</span>, <span class="predefined-type">String</span>, <span class="predefined-type">String</span>, <span class="predefined-type">String</span>&gt; function3 = Function3.of(TestClass::methodWhichAccepts3Parameters);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>In fact Javaslang functional interfaces are Java 8 functional interfaces on steroids. They also provide features like:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>lifting</p>
+</li>
+<li>
+<p>currying</p>
+</li>
+<li>
+<p>memoization</p>
+</li>
+</ul>
+</div>
+<div class="sect4">
+<h5 id="_lifting">Lifting</h5>
+<div class="paragraph">
+<p>You can lift a partial function into a total function that returns an <code>Option</code> result. The term partial function comes from mathematics. A partial function from X to Y is a function f: X′ → Y, for some subset X′ of X. It generalizes the concept of a function f: X → Y by not forcing f to map every element of X to an element of Y. That means a partial function works properly only for some input values. If the function is called with a disallowed input values, it will typically throw an exception.</p>
+</div>
+<div class="paragraph">
+<p>The following method <code>sum</code> is a partial function that only accepts positive Integers.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="directive">public</span> <span class="directive">static</span> <span class="type">int</span> sum(<span class="type">int</span> first, <span class="type">int</span> second) {
+    <span class="keyword">if</span> (first &gt;= <span class="integer">0</span> &amp;&amp; second &gt;= <span class="integer">0</span>) {
+        <span class="keyword">return</span> first + second;
+    } <span class="keyword">else</span> {
+        <span class="keyword">throw</span> <span class="keyword">new</span> <span class="exception">IllegalArgumentException</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">Only positive integers are allowed</span><span class="delimiter">&quot;</span></span>);
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>A lifted function returns <code>Some</code>, if the function is invoked with allowed input values.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">Function2&lt;<span class="predefined-type">Integer</span>, <span class="predefined-type">Integer</span>, <span class="predefined-type">Option</span>&lt;<span class="predefined-type">Integer</span>&gt;&gt; liftedPartialSumFunction = Function2.lift(TestClass::sum);
 
-<span class="comment">// handling failure in a functional way</span>
-Try.run(performIO).onFailure(...);</code></pre>
+<span class="predefined-type">Option</span>&lt;<span class="predefined-type">Integer</span>&gt; optionalResult = liftedPartialSumFunction.apply(<span class="integer">1</span>, <span class="integer">2</span>);
+
+assertThat(optionalResult).isInstanceOf(Some.class);
+assertThat(optionalResult.isDefined()).isTrue();
+assertThat(optionalResult.get()).isEqualTo(<span class="integer">3</span>);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>A lifted function returns <code>None</code> instead of throwing an exception, if the function is invoked with disallowed input values.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">Function2&lt;<span class="predefined-type">Integer</span>, <span class="predefined-type">Integer</span>, <span class="predefined-type">Option</span>&lt;<span class="predefined-type">Integer</span>&gt;&gt; liftedPartialSumFunction = Function2.lift(TestClass::sum);
+
+<span class="predefined-type">Option</span>&lt;<span class="predefined-type">Integer</span>&gt; optionalResult = liftedPartialSumFunction.apply(-<span class="integer">1</span>, <span class="integer">2</span>);
+
+assertThat(optionalResult).isInstanceOf(None.class);
+assertThat(optionalResult.isEmpty()).isTrue();</code></pre>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_currying">Currying</h5>
+<div class="paragraph">
+<p>Currying is a technique to partially apply a function by fixing values for some of the parameters. You can fix one or more parameters, depending on the number of parameters. The parameters are bound from left to right.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="directive">final</span> Function2&lt;<span class="predefined-type">Integer</span>, <span class="predefined-type">Integer</span>, <span class="predefined-type">Integer</span>&gt; sum = (a, b) -&gt; a + b;
+<span class="directive">final</span> Function1&lt;<span class="predefined-type">Integer</span>, <span class="predefined-type">Integer</span>&gt; add2 = sum.curried().apply(<span class="integer">2</span>);
+
+assertThat(add2.apply(<span class="integer">4</span>)).isEqualTo(<span class="integer">6</span>);</code></pre>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_memoization">Memoization</h5>
+<div class="paragraph">
+<p>Memoization is a form of caching. A memoized function executes only once and then returns the result from a cache.<br>
+The following example calculates a random number on the first invocation and returns the cached number on the second invocation.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">Function0&lt;<span class="predefined-type">Double</span>&gt; hashCache =
+        Function0.of(<span class="predefined-type">Math</span>::random).memoized();
+
+<span class="type">double</span> randomValue1 = hashCache.apply();
+<span class="type">double</span> randomValue2 = hashCache.apply();
+
+assertThat(randomValue1).isEqualTo(randomValue2);</code></pre>
+</div>
 </div>
 </div>
 </div>
