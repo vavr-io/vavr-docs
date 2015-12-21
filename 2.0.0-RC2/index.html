@@ -1345,7 +1345,8 @@ then(sum.apply(<span class="integer">1</span>,<span class="integer">2</span>)).i
 <div class="sect4">
 <h5 id="_composition">Composition</h5>
 <div class="paragraph">
-<p>You can compose functions. In mathematics, function composition is the application of one function to the result of another to produce a third function. For instance, the functions f : X → Y and g : Y → Z can be composed to yield a function <code>h: g(f(x))</code> which maps X &#8594; Z.</p>
+<p>You can compose functions. In mathematics, function composition is the application of one function to the result of another to produce a third function. For instance, the functions f : X → Y and g : Y → Z can be composed to yield a function <code>h: g(f(x))</code> which maps X &#8594; Z.<br>
+For example:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -1353,6 +1354,10 @@ then(sum.apply(<span class="integer">1</span>,<span class="integer">2</span>)).i
 Function1&lt;<span class="predefined-type">Integer</span>, <span class="predefined-type">Integer</span>&gt; multiplyBy2 = (a) -&gt; a * <span class="integer">2</span>;
 
 Function1&lt;<span class="predefined-type">Integer</span>, <span class="predefined-type">Integer</span>&gt; add1AndMultiplyBy2 = add1.andThen(multiplyBy2);
+
+assertThat(add1AndMultiplyBy2.apply(<span class="integer">2</span>)).isEqualTo(<span class="integer">6</span>);
+
+add1AndMultiplyBy2 = multiplyBy2.compose(add1);
 
 assertThat(add1AndMultiplyBy2.apply(<span class="integer">2</span>)).isEqualTo(<span class="integer">6</span>);</code></pre>
 </div>
