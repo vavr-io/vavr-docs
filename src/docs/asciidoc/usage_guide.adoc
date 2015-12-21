@@ -84,7 +84,12 @@ For example:
 
 [source,java,indent=0]
 ----
-include::../../test/java/javaslang/FunctionsDemo.java[tags=composeFunctions]
+include::../../test/java/javaslang/FunctionsDemo.java[tags=composeFunctions1]
+----
+
+[source,java,indent=0]
+----
+include::../../test/java/javaslang/FunctionsDemo.java[tags=composeFunctions2]
 ----
 
 ===== Lifting

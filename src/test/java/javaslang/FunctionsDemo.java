@@ -82,19 +82,26 @@ public class FunctionsDemo {
     }
 
     @Test
-    public void composeFunctions(){
-        // tag::composeFunctions[]
+    public void composeFunctions1(){
+        // tag::composeFunctions1[]
         Function1<Integer, Integer> add1 = (a) -> a + 1;
         Function1<Integer, Integer> multiplyBy2 = (a) -> a * 2;
 
         Function1<Integer, Integer> add1AndMultiplyBy2 = add1.andThen(multiplyBy2);
 
         assertThat(add1AndMultiplyBy2.apply(2)).isEqualTo(6);
+        // end::composeFunctions1[]
+    }
 
-        add1AndMultiplyBy2 = multiplyBy2.compose(add1);
+    @Test
+    public void composeFunctions2(){
+        Function1<Integer, Integer> add1 = (a) -> a + 1;
+        Function1<Integer, Integer> multiplyBy2 = (a) -> a * 2;
+        // tag::composeFunctions2[]
+        Function1<Integer, Integer> add1AndMultiplyBy2 = multiplyBy2.compose(add1);
 
         assertThat(add1AndMultiplyBy2.apply(2)).isEqualTo(6);
-        // end::composeFunctions[]
+        // end::composeFunctions2[]
     }
 
     @Test
