@@ -2,13 +2,11 @@
 
 === Core
 
-Javaslang comes along with well designed representations of some of the most basic types which apparently are missing or rudimentary in Java, Tuple and λ.
+Javaslang comes along with well designed representations of some of the most basic types which apparently are missing or rudimentary in Java: `Tuple`, `Value` and `λ`.
 
-image::http://javaslang.com/img/doc-tuple-lambda-value.png[]
+==== Tuple
 
-==== Tuples
-
-Java is missing a general notion of tuples. Tuple fills this gap. Tuples combine a fixed number of elements together so that they can be passed around as a whole. Unlike an array or list, a tuple can hold objects with different types, but they are also immutable.
+Java is missing a general notion of tuples. A Tuple combines a fixed number of elements together so that they can be passed around as a whole. Unlike an array or list, a tuple can hold objects with different types, but they are also immutable.
 Tuples are of type Tuple1, Tuple2, Tuple3 and so on. There currently is an upper limit of 8 elements. To access elements of a tuple `t`, you can use method `t._1` to access the first element, `t._2` to access the second, and so on.
 
 ===== Create a tuple
@@ -51,44 +49,73 @@ include::../../test/java/javaslang/TupleDemo.java[tags=transformTuple]
 
 ==== Functions
 
-Functional programming is all about values and transformation of values using functions. Some basic examples are:
+Functional programming is all about values and transformation of values using functions. Java 8 just provides a `Function` which accepts one parameter and a `BiFunction` which accepts two parameters. Javaslang provides functions up to a limit of 8 parameters. The functional interfaces are of called `Function0, Function1, Function2, Function3` and so on. If you need a function which throws a checked exception you can use `CheckedFunction1, CheckedFunction2` and so on.
+The following lambda expression creates a function to sum two integers:
 
-[source,java]
+[source,java,indent=0]
 ----
-// sum.apply(1, 3) = 4
-final Function2 sum = (a, b) -> a + b;
-
-// add2.apply(1) = 3
-final Function1 add2 = sum.curried().apply(2);
-
+include::../../test/java/javaslang/FunctionsDemo.java[tags=createFunctionWithLambda]
 ----
 
-In fact λ is a functional interface on steroids times 10.
+This is a shorthand for the following anonymous class definition:
 
-[source,java]
+[source,java,indent=0]
 ----
-// computes the hash code of an object
-final Function1<Object, Integer> hash = Object::hashCode;
-
-// computes the hash once, then reads from cache
-final Function<Object, Integer> hashCache =
-        Function1.lift(Object::hashCode).memoized();
-
-// ciao type erasure, hi Integer.class!
-final Class<?> returnType = hash.getType().returnType();
-
+include::../../test/java/javaslang/FunctionsDemo.java[tags=createFunction]
 ----
 
-Checked functions are indispensable when dealing with exceptions in a functional way.
+You can also use the static factory method `Function3.of(...)` to a create a function from any method reference.
 
-[source,java]
+[source,java,indent=0]
 ----
-// may throw when called
-final Try.CheckedRunnable performIO = () -> { ... };
+include::../../test/java/javaslang/FunctionsDemo.java[tags=createFunctionWithFactoryMethod]
+----
 
-// handling failure in a functional way
-Try.run(performIO).onFailure(...);
+In fact Javaslang functional interfaces are Java 8 functional interfaces on steroids. They also provide features like:
 
+* lifting
+* currying
+* memoization
+
+===== Lifting
+You can lift a partial function into a total function that returns an `Option` result. The term partial function comes from mathematics. A partial function from X to Y is a function f: X′ → Y, for some subset X′ of X. It generalizes the concept of a function f: X → Y by not forcing f to map every element of X to an element of Y. That means a partial function works properly only for some input values. If the function is called with a disallowed input values, it will typically throw an exception.
+
+The following method `sum` is a partial function that only accepts positive Integers.
+
+[source,java,indent=0]
+----
+include::../../test/java/javaslang/FunctionsDemo.java[tags=partialFunctionExample]
+----
+
+A lifted function returns `Some`, if the function is invoked with allowed input values.
+
+[source,java,indent=0]
+----
+include::../../test/java/javaslang/FunctionsDemo.java[tags=liftPartialFunction1]
+----
+
+A lifted function returns `None` instead of throwing an exception, if the function is invoked with disallowed input values.
+
+[source,java,indent=0]
+----
+include::../../test/java/javaslang/FunctionsDemo.java[tags=liftPartialFunction2]
+----
+
+===== Currying
+Currying is a technique to partially apply a function by fixing values for some of the parameters. You can fix one or more parameters, depending on the number of parameters. The parameters are bound from left to right.
+
+[source,java,indent=0]
+----
+include::../../test/java/javaslang/FunctionsDemo.java[tags=curryingFunction]
+----
+
+===== Memoization
+Memoization is a form of caching. A memoized function executes only once and then returns the result from a cache.
+The following example calculates a random number on the first invocation and returns the cached number on the second invocation.
+
+[source,java,indent=0]
+----
+include::../../test/java/javaslang/FunctionsDemo.java[tags=memoizedFunction]
 ----
 
 ==== Values

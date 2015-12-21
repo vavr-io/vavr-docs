@@ -41,7 +41,7 @@ Ensure that your ``~/.m2/settings.xml`` contains the following:
 ----
 <profiles>
     <profile>
-        allow-snapshots
+        <id>allow-snapshots</id>
         <activation>
             <activeByDefault>true</activeByDefault>
         </activation>
