@@ -90,6 +90,10 @@ public class FunctionsDemo {
         Function1<Integer, Integer> add1AndMultiplyBy2 = add1.andThen(multiplyBy2);
 
         assertThat(add1AndMultiplyBy2.apply(2)).isEqualTo(6);
+
+        add1AndMultiplyBy2 = multiplyBy2.compose(add1);
+
+        assertThat(add1AndMultiplyBy2.apply(2)).isEqualTo(6);
         // end::composeFunctions[]
     }
 

@@ -80,6 +80,7 @@ In fact Javaslang functional interfaces are Java 8 functional interfaces on ster
 
 ===== Composition
 You can compose functions. In mathematics, function composition is the application of one function to the result of another to produce a third function. For instance, the functions f : X → Y and g : Y → Z can be composed to yield a function `h: g(f(x))` which maps X -> Z.
+For example:
 
 [source,java,indent=0]
 ----
