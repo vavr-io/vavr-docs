@@ -1,15 +1,16 @@
 == Usage Guide
 
-=== Core
-
 Javaslang comes along with well designed representations of some of the most basic types which apparently are missing or rudimentary in Java: `Tuple`, `Value` and `λ`.
+In Javaslang, all is built upon these three basic building blocks:
 
-==== Tuple
+image::http://javaslang.com/img/doc-overview.png[]
+
+=== Tuples
 
 Java is missing a general notion of tuples. A Tuple combines a fixed number of elements together so that they can be passed around as a whole. Unlike an array or list, a tuple can hold objects with different types, but they are also immutable.
 Tuples are of type Tuple1, Tuple2, Tuple3 and so on. There currently is an upper limit of 8 elements. To access elements of a tuple `t`, you can use method `t._1` to access the first element, `t._2` to access the second, and so on.
 
-===== Create a tuple
+==== Create a tuple
 Here is an example of how to create a tuple holding a String and an Integer:
 
 [source,java,indent=0]
@@ -20,7 +21,7 @@ include::../../test/java/javaslang/TupleDemo.java[tags=createTuple]
 <2> Get the 1st element of this tuple.
 <3> Get the 2nd element of this tuple.
 
-===== Map a tuple
+==== Map a tuple
 
 Map evaluates a function per element in the tuple, returning another tuple.
 
@@ -29,7 +30,7 @@ Map evaluates a function per element in the tuple, returning another tuple.
 include::../../test/java/javaslang/TupleDemo.java[tags=mapTuple]
 ----
 
-===== FlatMap a tuple
+==== FlatMap a tuple
 
 FlatMap is a frequently used combinator that combines mapping and flattening.
 
@@ -38,7 +39,7 @@ FlatMap is a frequently used combinator that combines mapping and flattening.
 include::../../test/java/javaslang/TupleDemo.java[tags=flatMapTuple]
 ----
 
-===== Transform a tuple
+==== Transform a tuple
 
 Transform creates a new type based on the tuple's contents.
 
@@ -47,7 +48,7 @@ Transform creates a new type based on the tuple's contents.
 include::../../test/java/javaslang/TupleDemo.java[tags=transformTuple]
 ----
 
-==== Functions
+=== Functions
 
 Functional programming is all about values and transformation of values using functions. Java 8 just provides a `Function` which accepts one parameter and a `BiFunction` which accepts two parameters. Javaslang provides functions up to a limit of 8 parameters. The functional interfaces are of called `Function0, Function1, Function2, Function3` and so on. If you need a function which throws a checked exception you can use `CheckedFunction1, CheckedFunction2` and so on.
 The following lambda expression creates a function to sum two integers:
@@ -61,7 +62,7 @@ This is a shorthand for the following anonymous class definition:
 
 [source,java,indent=0]
 ----
-include::../../test/java/javaslang/FunctionsDemo.java[tags=createFunction]
+include::../../test/java/javaslang/FunctionsDemo.java[tags=createFunctionWithAnonymousClass]
 ----
 
 You can also use the static factory method `Function3.of(...)` to a create a function from any method reference.
@@ -73,58 +74,64 @@ include::../../test/java/javaslang/FunctionsDemo.java[tags=createFunctionWithFac
 
 In fact Javaslang functional interfaces are Java 8 functional interfaces on steroids. They also provide features like:
 
-* composition
-* lifting
-* currying
-* memoization
+* Composition
+* Lifting
+* Currying
+* Memoization
 
-===== Composition
+==== Composition
 You can compose functions. In mathematics, function composition is the application of one function to the result of another to produce a third function. For instance, the functions f : X → Y and g : Y → Z can be composed to yield a function `h: g(f(x))` which maps X -> Z.
-For example:
+You can use either `andThen`:
 
 [source,java,indent=0]
 ----
 include::../../test/java/javaslang/FunctionsDemo.java[tags=composeFunctions1]
 ----
 
+or `compose`:
+
 [source,java,indent=0]
 ----
 include::../../test/java/javaslang/FunctionsDemo.java[tags=composeFunctions2]
 ----
 
-===== Lifting
+==== Lifting
 You can lift a partial function into a total function that returns an `Option` result. The term partial function comes from mathematics. A partial function from X to Y is a function f: X′ → Y, for some subset X′ of X. It generalizes the concept of a function f: X → Y by not forcing f to map every element of X to an element of Y. That means a partial function works properly only for some input values. If the function is called with a disallowed input values, it will typically throw an exception.
 
-The following method `sum` is a partial function that only accepts positive Integers.
+The following method `sum` is a partial function that only accepts positive input values.
 
 [source,java,indent=0]
 ----
 include::../../test/java/javaslang/FunctionsDemo.java[tags=partialFunctionExample]
 ----
+<1> The function `sum` throws an `IllegalArgumentException` for negative input values.
 
 A lifted function returns `Some`, if the function is invoked with allowed input values.
 
 [source,java,indent=0]
 ----
-include::../../test/java/javaslang/FunctionsDemo.java[tags=liftPartialFunction1]
+include::../../test/java/javaslang/FunctionsDemo.java[tags=liftPartialFunctionShouldReturnSome]
 ----
+<1> The lifted function returns `Some(3)`.
 
 A lifted function returns `None` instead of throwing an exception, if the function is invoked with disallowed input values.
 
 [source,java,indent=0]
 ----
-include::../../test/java/javaslang/FunctionsDemo.java[tags=liftPartialFunction2]
+include::../../test/java/javaslang/FunctionsDemo.java[tags=liftPartialFunctionShouldReturnNone]
 ----
+<1> The lifted function catches the `IllegalArgumentException` and maps it to `None`.
 
-===== Currying
+==== Currying
 Currying is a technique to partially apply a function by fixing values for some of the parameters. You can fix one or more parameters, depending on the number of parameters. The parameters are bound from left to right.
 
 [source,java,indent=0]
 ----
 include::../../test/java/javaslang/FunctionsDemo.java[tags=curryingFunction]
 ----
+<1> The first parameter `a` is fixed to the value 2.
 
-===== Memoization
+==== Memoization
 Memoization is a form of caching. A memoized function executes only once and then returns the result from a cache.
 The following example calculates a random number on the first invocation and returns the cached number on the second invocation.
 
@@ -133,97 +140,138 @@ The following example calculates a random number on the first invocation and ret
 include::../../test/java/javaslang/FunctionsDemo.java[tags=memoizedFunction]
 ----
 
-==== Values
-
+=== Values
 In a functional setting we see a value as a kind of https://en.wikipedia.org/wiki/Normal_form_(abstract_rewriting)[normal form], it cannot be further evaluated. In Java we express this by making the state of an object final and call it https://en.wikipedia.org/wiki/Immutable_object[immutable].
-
 Javaslang's functional Value abstracts over immutable objects. Efficient write operations are added by sharing immutable memory between instances. What we get is thread-safety for free!
 
-[source,java]
+==== Option
+Option is a monadic container type which represents an optional value. Instances of Option are either an instance of `Some` or the `None`.
+
+[source,java,indent=0]
+----
+// optional *value*, no more nulls
+final Option<T> option = Option.of(...);
+----
+
+==== Try
+Try is a monadic container type which represents a computation that may either result in an exception, or return a successfully computed value. It's similar to, but semantically different from `Either`. Instances of Try, are either an instance of `Success` or `Failure`.
+
+[source,java,indent=0]
+----
+// no need to handle exceptions
+Try.of(() -> bunchOfWork()).orElse(other);
+----
+
+[source,java,indent=0]
+----
+final A result = Try.of(this::bunchOfWork)
+    .recover(x -> Match.of(x)
+        .whenType(Exception_1.class).then(...)
+        .whenType(Exception_2.class).then(...)
+        .whenType(Exception_n.class).then(...)
+        .get())
+    .orElse(other);
+----
+
+==== Lazy
+Lazy is a monadic container type which represents a lazy evaluated value. Compared to a Supplier, Lazy is memoizing, i.e. it evaluates only once and therefore is referential transparent.
+
+[source,java,indent=0]
+----
+final Lazy<Double> l = Lazy.of(Math::random);
+l.isDefined(); // = false
+l.get();       // = 0.123 (random generated)
+l.isDefined(); // = true
+l.get();       // = 0.123 (memoized)
+----
+
+Since version 2.0.0 you may also create a real lazy value (works only with interfaces):
+
+`final CharSequence chars = Lazy.of(() -> "Yay!", CharSequence.class);`
+
+==== Either
+Either represents a value of two possible types. An Either is either a Left or a Right. If the given Either is a Right and projected to a Left, the Left operations have no effect on the Right value. If the given Either is a Left and projected to a Right, the Right operations have no effect on the Left value. If a Left is projected to a Left or a Right is projected to a Right, the operations have an effect.
+
+Example: A compute() function, which results either in an Integer value (in the case of success) or in an error message of type String (in the case of failure). By convention the success case is Right and the failure is Left.
+
+[source,java,indent=0]
+----
+Either<String,Integer> value = compute().right().map(i -> i * 2).toEither();
+----
+
+If the result of compute() is Right(1), the value is Right(2).
+If the result of compute() is Left("error), the value is Left("error").
+
+==== Future
+A Future is a computation result that becomes available at some point. All operations provided are non-blocking.
+The underlying ExecutorService is used to execute asynchronous handlers, e.g. via onComplete(...).
+
+A Future has two states: pending and completed.
+
+Pending: The computation is ongoing. Only a pending future may be completed or cancelled.
+Completed: The computation finished successfully with a result, failed with an exception or was cancelled.
+Callbacks may be registered on a Future at each point of time. These actions are performed as soon as the Future is completed. An action which is registered on a completed Future is immediately performed. The action may run on a separate Thread, depending on the underlying ExecutorService. Actions which are registered on a cancelled Future are performed with the failed result.
+
+[source,java,indent=0]
 ----
 // future *value*, result of an async calculation
 final Future<T> future = Future.of(...);
-
-// lazy *value*, evaluated once
-final Lazy<T> lazy = Lazy.of(...);
-
-// optional *value*, no more nulls
-final Option<T> option = Option.of(...);
-
-// *value* of a possibly failing computation
-final Try<T> tryy = Try.of(...);
-
-// a list of *values*
-final List<T> list = List.of(...);
-
-// all of the above (here: value) obey:
-final String s = value.filter(...).ifDefined("yay", "noes");
-
 ----
 
-In Javaslang, all is built upon these three basic building blocks: tuples, functions and values. The possibilities are (countably) infinite...
+==== Match
+Match is a Java switch on steroids (without the negative 'side effects'). Some characteristics of Match are:
 
-image::http://javaslang.com/img/doc-overview.png[]
+* it has a fluent API
+* it can be Function
+* it can be Value
+* it is able to match values, i.e. when(Object) and whenIn(Object...)
+* it is able to match types, i.e. whenType(Class) and whenTypeIn(Class...)
+* it is able to match conditions, i.e. whenTrue(Function1)
+* it is able to match function applicability, i.e. whenApplicable(Function1)
+* results may be specified eagerly, i.e. then(value)
+* results may be obtained lazily, i.e. then(() -> value)
+* results may be derived from the context, i.e. then(object -> f(object)
 
-=== Collections
+The Match API comes in two flavors, the MatchMonad and the MatchFunction.
+MatchMonad is a Value, obtained by `Match.of(...)`. In this case a Match is terminated `get()`, `orElse()`, etc.
 
-With Javaslang there has been put much effort into designing an all-new collection library for Java which meets the requirements of functional programming, namely immutability.
-
-Java's Stream lifts a computation to a different layer and links to a specific collection in another explicit step. Whith Javaslang we don't need all this additional boilerplate.
-
-The new collections are based on http://docs.oracle.com/javase/8/docs/api/java/lang/Iterable.html[java.lang.Iterable], so they leverage the sugared iteration style.
-
-[source,java]
+[source,java,indent=0]
 ----
-// 1000 random numbers
-for (double random : Stream.gen(Math::random).take(1000)) {
-    ...
-}
-----
-
-`TraversableOnce` has a huge amount of useful functions to operate on the collection. Its API is similar to http://docs.oracle.com/javase/8/docs/api/java/util/stream/Stream.html[java.util.stream.Stream] but more mature.
-
-=== List
-
-Javaslang's `List` is an immutable linked list. Mutations create new instances. Most operations are performed in linear time. Consequent operations are executed one by one.
-
-==== Java 8
-
-[source,java]
-----
-Arrays.asList(1, 2, 3).stream().reduce((i, j) -> i + j);
-
+Match.of(1)
+      .whenType(String.class).then(s -> "String " + s)
+      .whenType(Number.class).then(n -> "Number " + n)
+      .whenType(Integer.class).then(i -> "int " + i)
+      .orElse("unknown");
 ----
 
-[source,java]
+MatchFunction is a Function, obtained by one of `Match.whenXxx(...)`. In this case a Match is terminated by applying it to an object, e.g.
+
+[source,java,indent=0]
 ----
-IntStream.of(1, 2, 3).sum();
-
-----
-
-==== Javaslang
-
-[source,java]
-----
-// javaslang.collection.List
-List.of(1, 2, 3).sum();
-
+Match.when(...).then(...).otherwise(...).apply(o);
 ----
 
-=== Stream
+A MatchFunction is a reusable Match, i.e. it may be applied to different objects.
+Example of a Match as partial function:
 
-The `javaslang.collection.Stream` implementation is a lazy linked list. Values are computed only when needed. Because of its laziness, most operations are performed in constant time. Operations are intermediate in general and executed in a single pass.
-
-The stunning thing about streams is that we can use them to represent sequences that are (theoretically) infinitely long.
-
-[source,java]
+[source,java,indent=0]
 ----
-// 2, 4, 6, ...
-Stream.gen(1).filter(i -> i % 2 == 0);
-
+Match<Number> toNumber = Match.as(Number.class)
+     .whenType(Integer.class).then(i -> i)
+     .whenType(String.class).then(s -> new BigDecimal(s));
+Number number = toNumber.apply(1.0d); // throws a MatchError
 ----
 
-=== Pattern Matching
+Example of a Match as total function:
+
+[source,java,indent=0]
+----
+Match<Number> toNumber = Match.as(Number.class)
+     .whenType(Integer.class).then(i -> i)
+     .whenType(String.class).then(s -> new BigDecimal(s));
+     .otherwise(-1)
+     .apply(1.0d); // result: -1
+----
 
 Javaslang's pattern matching feature goes far beyond Java's switch.
 
@@ -289,49 +337,63 @@ Match.whenIs(new Some<>(1)).then(true)
 
 ----
 
-=== Failure handling
+=== Collections
 
-The `Try` monad aims to ease exception handling. It represents the result state of a computation which may be a `Success` or a `Failure`.
+With Javaslang there has been put much effort into designing an all-new collection library for Java which meets the requirements of functional programming, namely immutability.
+
+Java's Stream lifts a computation to a different layer and links to a specific collection in another explicit step. Whith Javaslang we don't need all this additional boilerplate.
+
+The new collections are based on http://docs.oracle.com/javase/8/docs/api/java/lang/Iterable.html[java.lang.Iterable], so they leverage the sugared iteration style.
+
+[source,java]
+----
+// 1000 random numbers
+for (double random : Stream.gen(Math::random).take(1000)) {
+    ...
+}
+----
+
+`TraversableOnce` has a huge amount of useful functions to operate on the collection. Its API is similar to http://docs.oracle.com/javase/8/docs/api/java/util/stream/Stream.html[java.util.stream.Stream] but more mature.
+
+=== List
+
+Javaslang's `List` is an immutable linked list. Mutations create new instances. Most operations are performed in linear time. Consequent operations are executed one by one.
 
 ==== Java 8
 
 [source,java]
 ----
-// cannot be final
-A result = other;
-try {
-   result = bunchOfWork();
-} catch(Exception_1 e) {
-   ...
-} catch(Exception_2 e) {
-   ...
-} catch(Exception_n e) {
-   ...
-}
+Arrays.asList(1, 2, 3).stream().reduce((i, j) -> i + j);
+
+----
+
+[source,java]
+----
+IntStream.of(1, 2, 3).sum();
+
 ----
 
 ==== Javaslang
 
 [source,java]
 ----
-// no need to handle exceptions
-Try.of(() -> bunchOfWork()).orElse(other);
+// javaslang.collection.List
+List.of(1, 2, 3).sum();
 
 ----
+
+=== Stream
+
+The `javaslang.collection.Stream` implementation is a lazy linked list. Values are computed only when needed. Because of its laziness, most operations are performed in constant time. Operations are intermediate in general and executed in a single pass.
+
+The stunning thing about streams is that we can use them to represent sequences that are (theoretically) infinitely long.
 
 [source,java]
 ----
-final A result = Try.of(this::bunchOfWork)
-    .recover(x -> Match.of(x)
-        .whenType(Exception_1.class).then(...)
-        .whenType(Exception_2.class).then(...)
-        .whenType(Exception_n.class).then(...)
-        .get())
-    .orElse(other);
+// 2, 4, 6, ...
+Stream.gen(1).filter(i -> i % 2 == 0);
 
 ----
-
-Similar to collections it has the functions map() and flatMap() to further process results.
 
 === Property Checking
 

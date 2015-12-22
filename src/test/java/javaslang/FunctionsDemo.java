@@ -10,7 +10,6 @@ import javaslang.control.Option;
 import javaslang.control.Some;
 import org.junit.Test;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.BDDAssertions.then;
 
 public class FunctionsDemo {
@@ -24,15 +23,15 @@ public class FunctionsDemo {
     }
 
     @Test
-    public void createFunction(){
-        // tag::createFunction[]
+    public void createFunctionWithAnonymousClass(){
+        // tag::createFunctionWithAnonymousClass[]
         Function2<Integer, Integer, Integer> sum =  new Function2<Integer, Integer, Integer>() {
             @Override
             public Integer apply(Integer a, Integer b) {
                 return a + b;
             }
         };
-        // end::createFunction[]
+        // end::createFunctionWithAnonymousClass[]
         then(sum.apply(1,2)).isEqualTo(3);
     }
 
@@ -44,28 +43,28 @@ public class FunctionsDemo {
     }
 
     @Test
-    public void liftPartialFunction1(){
-        // tag::liftPartialFunction1[]
+    public void liftPartialFunctionShouldReturnSome(){
+        // tag::liftPartialFunctionShouldReturnSome[]
         Function2<Integer, Integer, Option<Integer>> liftedPartialSumFunction = Function2.lift(TestClass::sum);
 
-        Option<Integer> optionalResult = liftedPartialSumFunction.apply(1, 2);
+        Option<Integer> optionalResult = liftedPartialSumFunction.apply(1, 2); //<1>
 
-        assertThat(optionalResult).isInstanceOf(Some.class);
-        assertThat(optionalResult.isDefined()).isTrue();
-        assertThat(optionalResult.get()).isEqualTo(3);
-        // end::liftPartialFunction1[]
+        then(optionalResult).isInstanceOf(Some.class);
+        then(optionalResult.isDefined()).isTrue();
+        then(optionalResult.get()).isEqualTo(3);
+        // end::liftPartialFunctionShouldReturnSome[]
     }
 
     @Test
-    public void liftPartialFunction2(){
-        // tag::liftPartialFunction2[]
+    public void liftPartialFunctionShouldReturnNone(){
+        // tag::liftPartialFunctionShouldReturnNone[]
         Function2<Integer, Integer, Option<Integer>> liftedPartialSumFunction = Function2.lift(TestClass::sum);
 
-        Option<Integer> optionalResult = liftedPartialSumFunction.apply(-1, 2);
+        Option<Integer> optionalResult = liftedPartialSumFunction.apply(-1, 2); //<1>
 
-        assertThat(optionalResult).isInstanceOf(None.class);
-        assertThat(optionalResult.isEmpty()).isTrue();
-        // end::liftPartialFunction2[]
+        then(optionalResult).isInstanceOf(None.class);
+        then(optionalResult.isEmpty()).isTrue();
+        // end::liftPartialFunctionShouldReturnNone[]
     }
 
     @Test
@@ -77,30 +76,30 @@ public class FunctionsDemo {
         double randomValue1 = hashCache.apply();
         double randomValue2 = hashCache.apply();
 
-        assertThat(randomValue1).isEqualTo(randomValue2);
+        then(randomValue1).isEqualTo(randomValue2);
         // end::memoizedFunction[]
     }
 
     @Test
     public void composeFunctions1(){
         // tag::composeFunctions1[]
-        Function1<Integer, Integer> add1 = (a) -> a + 1;
-        Function1<Integer, Integer> multiplyBy2 = (a) -> a * 2;
+        Function1<Integer, Integer> plusOne = (a) -> a + 1;
+        Function1<Integer, Integer> multiplyByTwo = (a) -> a * 2;
 
-        Function1<Integer, Integer> add1AndMultiplyBy2 = add1.andThen(multiplyBy2);
+        Function1<Integer, Integer> add1AndMultiplyBy2 = plusOne.andThen(multiplyByTwo);
 
-        assertThat(add1AndMultiplyBy2.apply(2)).isEqualTo(6);
+        then(add1AndMultiplyBy2.apply(2)).isEqualTo(6);
         // end::composeFunctions1[]
     }
 
     @Test
     public void composeFunctions2(){
-        Function1<Integer, Integer> add1 = (a) -> a + 1;
-        Function1<Integer, Integer> multiplyBy2 = (a) -> a * 2;
+        Function1<Integer, Integer> plusOne = (a) -> a + 1;
+        Function1<Integer, Integer> multiplyByTwo = (a) -> a * 2;
         // tag::composeFunctions2[]
-        Function1<Integer, Integer> add1AndMultiplyBy2 = multiplyBy2.compose(add1);
+        Function1<Integer, Integer> add1AndMultiplyBy2 = multiplyByTwo.compose(plusOne);
 
-        assertThat(add1AndMultiplyBy2.apply(2)).isEqualTo(6);
+        then(add1AndMultiplyBy2.apply(2)).isEqualTo(6);
         // end::composeFunctions2[]
     }
 
@@ -108,9 +107,9 @@ public class FunctionsDemo {
     public void curryingFunction(){
         // tag::curryingFunction[]
         Function2<Integer, Integer, Integer> sum = (a, b) -> a + b;
-        Function1<Integer, Integer> add2 = sum.curried().apply(2);
+        Function1<Integer, Integer> add2 = sum.curried().apply(2); //<1>
 
-        assertThat(add2.apply(4)).isEqualTo(6);
+        then(add2.apply(4)).isEqualTo(6);
         // end::curryingFunction[]
     }
 
@@ -124,7 +123,7 @@ public class FunctionsDemo {
             if (first >= 0 && second >= 0) {
                 return first + second;
             } else {
-                throw new IllegalArgumentException("Only positive integers are allowed");
+                throw new IllegalArgumentException("Only positive integers are allowed"); //<1>
             }
         }
         // end::partialFunctionExample[]

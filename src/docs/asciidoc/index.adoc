@@ -1,5 +1,5 @@
 = Javaslang User Guide
-Daniel Dietrich <cafebab3@gmail.com>
+Daniel Dietrich, Robert Winkler
 :toc: left
 :toclevels: 3
 :source-highlighter: coderay
