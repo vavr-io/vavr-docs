@@ -5,7 +5,7 @@
 <!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]-->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 1.5.3">
-<meta name="author" content="Daniel Dietrich">
+<meta name="author" content="Daniel Dietrich, Robert Winkler">
 <title>Javaslang User Guide</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
@@ -514,10 +514,9 @@ table.CodeRay td.code>pre{padding:0}
 <div id="header">
 <h1>Javaslang User Guide</h1>
 <div class="details">
-<span id="author" class="author">Daniel Dietrich</span><br>
-<span id="email" class="email"><a href="mailto:cafebab3@gmail.com">cafebab3@gmail.com</a></span><br>
+<span id="author" class="author">Daniel Dietrich, Robert Winkler</span><br>
 <span id="revnumber">version 2.0.0-RC2,</span>
-<span id="revdate">2015-12-21</span>
+<span id="revdate">2015-12-22</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -564,28 +563,40 @@ table.CodeRay td.code>pre{padding:0}
 </li>
 <li><a href="#_usage_guide">3. Usage Guide</a>
 <ul class="sectlevel2">
-<li><a href="#_core">3.1. Core</a>
+<li><a href="#_tuples">3.1. Tuples</a>
 <ul class="sectlevel3">
-<li><a href="#_tuple">3.1.1. Tuple</a></li>
-<li><a href="#_functions">3.1.2. Functions</a></li>
-<li><a href="#_values">3.1.3. Values</a></li>
+<li><a href="#_create_a_tuple">3.1.1. Create a tuple</a></li>
+<li><a href="#_map_a_tuple">3.1.2. Map a tuple</a></li>
+<li><a href="#_flatmap_a_tuple">3.1.3. FlatMap a tuple</a></li>
+<li><a href="#_transform_a_tuple">3.1.4. Transform a tuple</a></li>
 </ul>
 </li>
-<li><a href="#_collections">3.2. Collections</a></li>
-<li><a href="#_list">3.3. List</a>
+<li><a href="#_functions">3.2. Functions</a>
 <ul class="sectlevel3">
-<li><a href="#_java_8">3.3.1. Java 8</a></li>
-<li><a href="#_javaslang">3.3.2. Javaslang</a></li>
+<li><a href="#_composition">3.2.1. Composition</a></li>
+<li><a href="#_lifting">3.2.2. Lifting</a></li>
+<li><a href="#_currying">3.2.3. Currying</a></li>
+<li><a href="#_memoization">3.2.4. Memoization</a></li>
 </ul>
 </li>
-<li><a href="#_stream">3.4. Stream</a></li>
-<li><a href="#_pattern_matching">3.5. Pattern Matching</a></li>
-<li><a href="#_failure_handling">3.6. Failure handling</a>
+<li><a href="#_values">3.3. Values</a>
 <ul class="sectlevel3">
-<li><a href="#_java_8_2">3.6.1. Java 8</a></li>
-<li><a href="#_javaslang_2">3.6.2. Javaslang</a></li>
+<li><a href="#_option">3.3.1. Option</a></li>
+<li><a href="#_try">3.3.2. Try</a></li>
+<li><a href="#_lazy">3.3.3. Lazy</a></li>
+<li><a href="#_either">3.3.4. Either</a></li>
+<li><a href="#_future">3.3.5. Future</a></li>
+<li><a href="#_match">3.3.6. Match</a></li>
 </ul>
 </li>
+<li><a href="#_collections">3.4. Collections</a></li>
+<li><a href="#_list">3.5. List</a>
+<ul class="sectlevel3">
+<li><a href="#_java_8">3.5.1. Java 8</a></li>
+<li><a href="#_javaslang">3.5.2. Javaslang</a></li>
+</ul>
+</li>
+<li><a href="#_stream">3.6. Stream</a></li>
 <li><a href="#_property_checking">3.7. Property Checking</a></li>
 </ul>
 </li>
@@ -1199,19 +1210,23 @@ Tuple2 entry = Tuple.of(<span class="integer">1</span>, <span class="string"><sp
 <div class="sect1">
 <h2 id="_usage_guide">3. Usage Guide</h2>
 <div class="sectionbody">
-<div class="sect2">
-<h3 id="_core">3.1. Core</h3>
 <div class="paragraph">
-<p>Javaslang comes along with well designed representations of some of the most basic types which apparently are missing or rudimentary in Java: <code>Tuple</code>, <code>Value</code> and <code>λ</code>.</p>
+<p>Javaslang comes along with well designed representations of some of the most basic types which apparently are missing or rudimentary in Java: <code>Tuple</code>, <code>Value</code> and <code>λ</code>.<br>
+In Javaslang, all is built upon these three basic building blocks:</p>
 </div>
-<div class="sect3">
-<h4 id="_tuple">3.1.1. Tuple</h4>
+<div class="imageblock">
+<div class="content">
+<img src="http://javaslang.com/img/doc-overview.png" alt="doc overview">
+</div>
+</div>
+<div class="sect2">
+<h3 id="_tuples">3.1. Tuples</h3>
 <div class="paragraph">
 <p>Java is missing a general notion of tuples. A Tuple combines a fixed number of elements together so that they can be passed around as a whole. Unlike an array or list, a tuple can hold objects with different types, but they are also immutable.<br>
 Tuples are of type Tuple1, Tuple2, Tuple3 and so on. There currently is an upper limit of 8 elements. To access elements of a tuple <code>t</code>, you can use method <code>t._1</code> to access the first element, <code>t._2</code> to access the second, and so on.</p>
 </div>
-<div class="sect4">
-<h5 id="_create_a_tuple">Create a tuple</h5>
+<div class="sect3">
+<h4 id="_create_a_tuple">3.1.1. Create a tuple</h4>
 <div class="paragraph">
 <p>Here is an example of how to create a tuple holding a String and an Integer:</p>
 </div>
@@ -1241,8 +1256,8 @@ then(java8tuple._2).isEqualTo(<span class="integer">8</span>); <i class="conum" 
 </table>
 </div>
 </div>
-<div class="sect4">
-<h5 id="_map_a_tuple">Map a tuple</h5>
+<div class="sect3">
+<h4 id="_map_a_tuple">3.1.2. Map a tuple</h4>
 <div class="paragraph">
 <p>Map evaluates a function per element in the tuple, returning another tuple.</p>
 </div>
@@ -1258,8 +1273,8 @@ then(javaslang2tuple._2).isEqualTo(<span class="integer">2</span>);</code></pre>
 </div>
 </div>
 </div>
-<div class="sect4">
-<h5 id="_flatmap_a_tuple">FlatMap a tuple</h5>
+<div class="sect3">
+<h4 id="_flatmap_a_tuple">3.1.3. FlatMap a tuple</h4>
 <div class="paragraph">
 <p>FlatMap is a frequently used combinator that combines mapping and flattening.</p>
 </div>
@@ -1275,8 +1290,8 @@ then(javaslang2tuple._2).isEqualTo(<span class="integer">2</span>);</code></pre>
 </div>
 </div>
 </div>
-<div class="sect4">
-<h5 id="_transform_a_tuple">Transform a tuple</h5>
+<div class="sect3">
+<h4 id="_transform_a_tuple">3.1.4. Transform a tuple</h4>
 <div class="paragraph">
 <p>Transform creates a new type based on the tuple&#8217;s contents.</p>
 </div>
@@ -1290,8 +1305,8 @@ then(javaslang2).isEqualTo(<span class="string"><span class="delimiter">&quot;</
 </div>
 </div>
 </div>
-<div class="sect3">
-<h4 id="_functions">3.1.2. Functions</h4>
+<div class="sect2">
+<h3 id="_functions">3.2. Functions</h3>
 <div class="paragraph">
 <p>Functional programming is all about values and transformation of values using functions. Java 8 just provides a <code>Function</code> which accepts one parameter and a <code>BiFunction</code> which accepts two parameters. Javaslang provides functions up to a limit of 8 parameters. The functional interfaces are of called <code>Function0, Function1, Function2, Function3</code> and so on. If you need a function which throws a checked exception you can use <code>CheckedFunction1, CheckedFunction2</code> and so on.<br>
 The following lambda expression creates a function to sum two integers:</p>
@@ -1329,50 +1344,53 @@ then(sum.apply(<span class="integer">1</span>,<span class="integer">2</span>)).i
 <div class="ulist">
 <ul>
 <li>
-<p>composition</p>
+<p>Composition</p>
 </li>
 <li>
-<p>lifting</p>
+<p>Lifting</p>
 </li>
 <li>
-<p>currying</p>
+<p>Currying</p>
 </li>
 <li>
-<p>memoization</p>
+<p>Memoization</p>
 </li>
 </ul>
 </div>
-<div class="sect4">
-<h5 id="_composition">Composition</h5>
+<div class="sect3">
+<h4 id="_composition">3.2.1. Composition</h4>
 <div class="paragraph">
 <p>You can compose functions. In mathematics, function composition is the application of one function to the result of another to produce a third function. For instance, the functions f : X → Y and g : Y → Z can be composed to yield a function <code>h: g(f(x))</code> which maps X &#8594; Z.<br>
-For example:</p>
+You can use either <code>andThen</code>:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java">Function1&lt;<span class="predefined-type">Integer</span>, <span class="predefined-type">Integer</span>&gt; add1 = (a) -&gt; a + <span class="integer">1</span>;
-Function1&lt;<span class="predefined-type">Integer</span>, <span class="predefined-type">Integer</span>&gt; multiplyBy2 = (a) -&gt; a * <span class="integer">2</span>;
+<pre class="CodeRay highlight"><code data-lang="java">Function1&lt;<span class="predefined-type">Integer</span>, <span class="predefined-type">Integer</span>&gt; plusOne = (a) -&gt; a + <span class="integer">1</span>;
+Function1&lt;<span class="predefined-type">Integer</span>, <span class="predefined-type">Integer</span>&gt; multiplyByTwo = (a) -&gt; a * <span class="integer">2</span>;
 
-Function1&lt;<span class="predefined-type">Integer</span>, <span class="predefined-type">Integer</span>&gt; add1AndMultiplyBy2 = add1.andThen(multiplyBy2);
+Function1&lt;<span class="predefined-type">Integer</span>, <span class="predefined-type">Integer</span>&gt; add1AndMultiplyBy2 = plusOne.andThen(multiplyByTwo);
 
-assertThat(add1AndMultiplyBy2.apply(<span class="integer">2</span>)).isEqualTo(<span class="integer">6</span>);</code></pre>
+then(add1AndMultiplyBy2.apply(<span class="integer">2</span>)).isEqualTo(<span class="integer">6</span>);</code></pre>
 </div>
+</div>
+<div class="paragraph">
+<p>or <code>compose</code>:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java">Function1&lt;<span class="predefined-type">Integer</span>, <span class="predefined-type">Integer</span>&gt; add1AndMultiplyBy2 = multiplyBy2.compose(add1);
+<pre class="CodeRay highlight"><code data-lang="java">Function1&lt;<span class="predefined-type">Integer</span>, <span class="predefined-type">Integer</span>&gt; add1AndMultiplyBy2 = multiplyByTwo.compose(plusOne);
 
-assertThat(add1AndMultiplyBy2.apply(<span class="integer">2</span>)).isEqualTo(<span class="integer">6</span>);</code></pre>
+then(add1AndMultiplyBy2.apply(<span class="integer">2</span>)).isEqualTo(<span class="integer">6</span>);</code></pre>
 </div>
 </div>
 </div>
-<div class="sect4">
-<h5 id="_lifting">Lifting</h5>
+<div class="sect3">
+<h4 id="_lifting">3.2.2. Lifting</h4>
 <div class="paragraph">
 <p>You can lift a partial function into a total function that returns an <code>Option</code> result. The term partial function comes from mathematics. A partial function from X to Y is a function f: X′ → Y, for some subset X′ of X. It generalizes the concept of a function f: X → Y by not forcing f to map every element of X to an element of Y. That means a partial function works properly only for some input values. If the function is called with a disallowed input values, it will typically throw an exception.</p>
 </div>
 <div class="paragraph">
-<p>The following method <code>sum</code> is a partial function that only accepts positive Integers.</p>
+<p>The following method <code>sum</code> is a partial function that only accepts positive input values.</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -1380,10 +1398,18 @@ assertThat(add1AndMultiplyBy2.apply(<span class="integer">2</span>)).isEqualTo(<
     <span class="keyword">if</span> (first &gt;= <span class="integer">0</span> &amp;&amp; second &gt;= <span class="integer">0</span>) {
         <span class="keyword">return</span> first + second;
     } <span class="keyword">else</span> {
-        <span class="keyword">throw</span> <span class="keyword">new</span> <span class="exception">IllegalArgumentException</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">Only positive integers are allowed</span><span class="delimiter">&quot;</span></span>);
+        <span class="keyword">throw</span> <span class="keyword">new</span> <span class="exception">IllegalArgumentException</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">Only positive integers are allowed</span><span class="delimiter">&quot;</span></span>); <i class="conum" data-value="1"></i><b>(1)</b>
     }
 }</code></pre>
 </div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>The function <code>sum</code> throws an <code>IllegalArgumentException</code> for negative input values.</td>
+</tr>
+</table>
 </div>
 <div class="paragraph">
 <p>A lifted function returns <code>Some</code>, if the function is invoked with allowed input values.</p>
@@ -1392,12 +1418,20 @@ assertThat(add1AndMultiplyBy2.apply(<span class="integer">2</span>)).isEqualTo(<
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="java">Function2&lt;<span class="predefined-type">Integer</span>, <span class="predefined-type">Integer</span>, <span class="predefined-type">Option</span>&lt;<span class="predefined-type">Integer</span>&gt;&gt; liftedPartialSumFunction = Function2.lift(TestClass::sum);
 
-<span class="predefined-type">Option</span>&lt;<span class="predefined-type">Integer</span>&gt; optionalResult = liftedPartialSumFunction.apply(<span class="integer">1</span>, <span class="integer">2</span>);
+<span class="predefined-type">Option</span>&lt;<span class="predefined-type">Integer</span>&gt; optionalResult = liftedPartialSumFunction.apply(<span class="integer">1</span>, <span class="integer">2</span>); <i class="conum" data-value="1"></i><b>(1)</b>
 
-assertThat(optionalResult).isInstanceOf(Some.class);
-assertThat(optionalResult.isDefined()).isTrue();
-assertThat(optionalResult.get()).isEqualTo(<span class="integer">3</span>);</code></pre>
+then(optionalResult).isInstanceOf(Some.class);
+then(optionalResult.isDefined()).isTrue();
+then(optionalResult.get()).isEqualTo(<span class="integer">3</span>);</code></pre>
 </div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>The lifted function returns <code>Some(3)</code>.</td>
+</tr>
+</table>
 </div>
 <div class="paragraph">
 <p>A lifted function returns <code>None</code> instead of throwing an exception, if the function is invoked with disallowed input values.</p>
@@ -1406,29 +1440,45 @@ assertThat(optionalResult.get()).isEqualTo(<span class="integer">3</span>);</cod
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="java">Function2&lt;<span class="predefined-type">Integer</span>, <span class="predefined-type">Integer</span>, <span class="predefined-type">Option</span>&lt;<span class="predefined-type">Integer</span>&gt;&gt; liftedPartialSumFunction = Function2.lift(TestClass::sum);
 
-<span class="predefined-type">Option</span>&lt;<span class="predefined-type">Integer</span>&gt; optionalResult = liftedPartialSumFunction.apply(-<span class="integer">1</span>, <span class="integer">2</span>);
+<span class="predefined-type">Option</span>&lt;<span class="predefined-type">Integer</span>&gt; optionalResult = liftedPartialSumFunction.apply(-<span class="integer">1</span>, <span class="integer">2</span>); <i class="conum" data-value="1"></i><b>(1)</b>
 
-assertThat(optionalResult).isInstanceOf(None.class);
-assertThat(optionalResult.isEmpty()).isTrue();</code></pre>
+then(optionalResult).isInstanceOf(None.class);
+then(optionalResult.isEmpty()).isTrue();</code></pre>
 </div>
 </div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>The lifted function catches the <code>IllegalArgumentException</code> and maps it to <code>None</code>.</td>
+</tr>
+</table>
 </div>
-<div class="sect4">
-<h5 id="_currying">Currying</h5>
+</div>
+<div class="sect3">
+<h4 id="_currying">3.2.3. Currying</h4>
 <div class="paragraph">
 <p>Currying is a technique to partially apply a function by fixing values for some of the parameters. You can fix one or more parameters, depending on the number of parameters. The parameters are bound from left to right.</p>
 </div>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="java">Function2&lt;<span class="predefined-type">Integer</span>, <span class="predefined-type">Integer</span>, <span class="predefined-type">Integer</span>&gt; sum = (a, b) -&gt; a + b;
-Function1&lt;<span class="predefined-type">Integer</span>, <span class="predefined-type">Integer</span>&gt; add2 = sum.curried().apply(<span class="integer">2</span>);
+Function1&lt;<span class="predefined-type">Integer</span>, <span class="predefined-type">Integer</span>&gt; add2 = sum.curried().apply(<span class="integer">2</span>); <i class="conum" data-value="1"></i><b>(1)</b>
 
-assertThat(add2.apply(<span class="integer">4</span>)).isEqualTo(<span class="integer">6</span>);</code></pre>
+then(add2.apply(<span class="integer">4</span>)).isEqualTo(<span class="integer">6</span>);</code></pre>
 </div>
 </div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>The first parameter <code>a</code> is fixed to the value 2.</td>
+</tr>
+</table>
 </div>
-<div class="sect4">
-<h5 id="_memoization">Memoization</h5>
+</div>
+<div class="sect3">
+<h4 id="_memoization">3.2.4. Memoization</h4>
 <div class="paragraph">
 <p>Memoization is a form of caching. A memoized function executes only once and then returns the result from a cache.<br>
 The following example calculates a random number on the first invocation and returns the cached number on the second invocation.</p>
@@ -1441,118 +1491,196 @@ The following example calculates a random number on the first invocation and ret
 <span class="type">double</span> randomValue1 = hashCache.apply();
 <span class="type">double</span> randomValue2 = hashCache.apply();
 
-assertThat(randomValue1).isEqualTo(randomValue2);</code></pre>
+then(randomValue1).isEqualTo(randomValue2);</code></pre>
 </div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_values">3.3. Values</h3>
+<div class="paragraph">
+<p>In a functional setting we see a value as a kind of <a href="https://en.wikipedia.org/wiki/Normal_form_(abstract_rewriting)">normal form</a>, it cannot be further evaluated. In Java we express this by making the state of an object final and call it <a href="https://en.wikipedia.org/wiki/Immutable_object">immutable</a>.<br>
+Javaslang&#8217;s functional Value abstracts over immutable objects. Efficient write operations are added by sharing immutable memory between instances. What we get is thread-safety for free!</p>
+</div>
+<div class="sect3">
+<h4 id="_option">3.3.1. Option</h4>
+<div class="paragraph">
+<p>Option is a monadic container type which represents an optional value. Instances of Option are either an instance of <code>Some</code> or the <code>None</code>.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="comment">// optional *value*, no more nulls</span>
+<span class="directive">final</span> <span class="predefined-type">Option</span>&lt;T&gt; option = <span class="predefined-type">Option</span>.of(...);</code></pre>
 </div>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_values">3.1.3. Values</h4>
+<h4 id="_try">3.3.2. Try</h4>
 <div class="paragraph">
-<p>In a functional setting we see a value as a kind of <a href="https://en.wikipedia.org/wiki/Normal_form_(abstract_rewriting)">normal form</a>, it cannot be further evaluated. In Java we express this by making the state of an object final and call it <a href="https://en.wikipedia.org/wiki/Immutable_object">immutable</a>.</p>
+<p>Try is a monadic container type which represents a computation that may either result in an exception, or return a successfully computed value. It&#8217;s similar to, but semantically different from <code>Either</code>. Instances of Try, are either an instance of <code>Success</code> or <code>Failure</code>.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="comment">// no need to handle exceptions</span>
+Try.of(() -&gt; bunchOfWork()).orElse(other);</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="directive">final</span> A result = Try.of(<span class="local-variable">this</span>::bunchOfWork)
+    .recover(x -&gt; Match.of(x)
+        .whenType(Exception_1.class).then(...)
+        .whenType(Exception_2.class).then(...)
+        .whenType(Exception_n.class).then(...)
+        .get())
+    .orElse(other);</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_lazy">3.3.3. Lazy</h4>
+<div class="paragraph">
+<p>Lazy is a monadic container type which represents a lazy evaluated value. Compared to a Supplier, Lazy is memoizing, i.e. it evaluates only once and therefore is referential transparent.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="directive">final</span> Lazy&lt;<span class="predefined-type">Double</span>&gt; l = Lazy.of(<span class="predefined-type">Math</span>::random);
+l.isDefined(); <span class="comment">// = false</span>
+l.get();       <span class="comment">// = 0.123 (random generated)</span>
+l.isDefined(); <span class="comment">// = true</span>
+l.get();       <span class="comment">// = 0.123 (memoized)</span></code></pre>
+</div>
 </div>
 <div class="paragraph">
-<p>Javaslang&#8217;s functional Value abstracts over immutable objects. Efficient write operations are added by sharing immutable memory between instances. What we get is thread-safety for free!</p>
+<p>Since version 2.0.0 you may also create a real lazy value (works only with interfaces):</p>
+</div>
+<div class="paragraph">
+<p><code>final CharSequence chars = Lazy.of(() &#8594; "Yay!", CharSequence.class);</code></p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_either">3.3.4. Either</h4>
+<div class="paragraph">
+<p>Either represents a value of two possible types. An Either is either a Left or a Right. If the given Either is a Right and projected to a Left, the Left operations have no effect on the Right value. If the given Either is a Left and projected to a Right, the Right operations have no effect on the Left value. If a Left is projected to a Left or a Right is projected to a Right, the operations have an effect.</p>
+</div>
+<div class="paragraph">
+<p>Example: A compute() function, which results either in an Integer value (in the case of success) or in an error message of type String (in the case of failure). By convention the success case is Right and the failure is Left.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">Either&lt;<span class="predefined-type">String</span>,<span class="predefined-type">Integer</span>&gt; value = compute().right().map(i -&gt; i * <span class="integer">2</span>).toEither();</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If the result of compute() is Right(1), the value is Right(2).<br>
+If the result of compute() is Left("error), the value is Left("error").</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_future">3.3.5. Future</h4>
+<div class="paragraph">
+<p>A Future is a computation result that becomes available at some point. All operations provided are non-blocking.<br>
+The underlying ExecutorService is used to execute asynchronous handlers, e.g. via onComplete(&#8230;&#8203;).</p>
+</div>
+<div class="paragraph">
+<p>A Future has two states: pending and completed.</p>
+</div>
+<div class="paragraph">
+<p>Pending: The computation is ongoing. Only a pending future may be completed or cancelled.<br>
+Completed: The computation finished successfully with a result, failed with an exception or was cancelled.<br>
+Callbacks may be registered on a Future at each point of time. These actions are performed as soon as the Future is completed. An action which is registered on a completed Future is immediately performed. The action may run on a separate Thread, depending on the underlying ExecutorService. Actions which are registered on a cancelled Future are performed with the failed result.</p>
 </div>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="java"><span class="comment">// future *value*, result of an async calculation</span>
-<span class="directive">final</span> <span class="predefined-type">Future</span>&lt;T&gt; future = <span class="predefined-type">Future</span>.of(...);
-
-<span class="comment">// lazy *value*, evaluated once</span>
-<span class="directive">final</span> Lazy&lt;T&gt; lazy = Lazy.of(...);
-
-<span class="comment">// optional *value*, no more nulls</span>
-<span class="directive">final</span> <span class="predefined-type">Option</span>&lt;T&gt; option = <span class="predefined-type">Option</span>.of(...);
-
-<span class="comment">// *value* of a possibly failing computation</span>
-<span class="directive">final</span> Try&lt;T&gt; tryy = Try.of(...);
-
-<span class="comment">// a list of *values*</span>
-<span class="directive">final</span> <span class="predefined-type">List</span>&lt;T&gt; list = <span class="predefined-type">List</span>.of(...);
-
-<span class="comment">// all of the above (here: value) obey:</span>
-<span class="directive">final</span> <span class="predefined-type">String</span> s = value.filter(...).ifDefined(<span class="string"><span class="delimiter">&quot;</span><span class="content">yay</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">noes</span><span class="delimiter">&quot;</span></span>);</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>In Javaslang, all is built upon these three basic building blocks: tuples, functions and values. The possibilities are (countably) infinite&#8230;&#8203;</p>
-</div>
-<div class="imageblock">
-<div class="content">
-<img src="http://javaslang.com/img/doc-overview.png" alt="doc overview">
-</div>
-</div>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_collections">3.2. Collections</h3>
-<div class="paragraph">
-<p>With Javaslang there has been put much effort into designing an all-new collection library for Java which meets the requirements of functional programming, namely immutability.</p>
-</div>
-<div class="paragraph">
-<p>Java&#8217;s Stream lifts a computation to a different layer and links to a specific collection in another explicit step. Whith Javaslang we don&#8217;t need all this additional boilerplate.</p>
-</div>
-<div class="paragraph">
-<p>The new collections are based on <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Iterable.html">java.lang.Iterable</a>, so they leverage the sugared iteration style.</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="java"><span class="comment">// 1000 random numbers</span>
-<span class="keyword">for</span> (<span class="type">double</span> random : Stream.gen(<span class="predefined-type">Math</span>::random).take(<span class="integer">1000</span>)) {
-    ...
-}</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p><code>TraversableOnce</code> has a huge amount of useful functions to operate on the collection. Its API is similar to <a href="http://docs.oracle.com/javase/8/docs/api/java/util/stream/Stream.html">java.util.stream.Stream</a> but more mature.</p>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_list">3.3. List</h3>
-<div class="paragraph">
-<p>Javaslang&#8217;s <code>List</code> is an immutable linked list. Mutations create new instances. Most operations are performed in linear time. Consequent operations are executed one by one.</p>
-</div>
-<div class="sect3">
-<h4 id="_java_8">3.3.1. Java 8</h4>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="java"><span class="predefined-type">Arrays</span>.asList(<span class="integer">1</span>, <span class="integer">2</span>, <span class="integer">3</span>).stream().reduce((i, j) -&gt; i + j);</code></pre>
-</div>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="java">IntStream.of(<span class="integer">1</span>, <span class="integer">2</span>, <span class="integer">3</span>).sum();</code></pre>
+<span class="directive">final</span> <span class="predefined-type">Future</span>&lt;T&gt; future = <span class="predefined-type">Future</span>.of(...);</code></pre>
 </div>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_javaslang">3.3.2. Javaslang</h4>
+<h4 id="_match">3.3.6. Match</h4>
+<div class="paragraph">
+<p>Match is a Java switch on steroids (without the negative 'side effects'). Some characteristics of Match are:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>it has a fluent API</p>
+</li>
+<li>
+<p>it can be Function</p>
+</li>
+<li>
+<p>it can be Value</p>
+</li>
+<li>
+<p>it is able to match values, i.e. when(Object) and whenIn(Object&#8230;&#8203;)</p>
+</li>
+<li>
+<p>it is able to match types, i.e. whenType(Class) and whenTypeIn(Class&#8230;&#8203;)</p>
+</li>
+<li>
+<p>it is able to match conditions, i.e. whenTrue(Function1)</p>
+</li>
+<li>
+<p>it is able to match function applicability, i.e. whenApplicable(Function1)</p>
+</li>
+<li>
+<p>results may be specified eagerly, i.e. then(value)</p>
+</li>
+<li>
+<p>results may be obtained lazily, i.e. then(() &#8594; value)</p>
+</li>
+<li>
+<p>results may be derived from the context, i.e. then(object &#8594; f(object)</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The Match API comes in two flavors, the MatchMonad and the MatchFunction.<br>
+MatchMonad is a Value, obtained by <code>Match.of(&#8230;&#8203;)</code>. In this case a Match is terminated <code>get()</code>, <code>orElse()</code>, etc.</p>
+</div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java"><span class="comment">// javaslang.collection.List</span>
-<span class="predefined-type">List</span>.of(<span class="integer">1</span>, <span class="integer">2</span>, <span class="integer">3</span>).sum();</code></pre>
+<pre class="CodeRay highlight"><code data-lang="java">Match.of(<span class="integer">1</span>)
+      .whenType(<span class="predefined-type">String</span>.class).then(s -&gt; <span class="string"><span class="delimiter">&quot;</span><span class="content">String </span><span class="delimiter">&quot;</span></span> + s)
+      .whenType(<span class="predefined-type">Number</span>.class).then(n -&gt; <span class="string"><span class="delimiter">&quot;</span><span class="content">Number </span><span class="delimiter">&quot;</span></span> + n)
+      .whenType(<span class="predefined-type">Integer</span>.class).then(i -&gt; <span class="string"><span class="delimiter">&quot;</span><span class="content">int </span><span class="delimiter">&quot;</span></span> + i)
+      .orElse(<span class="string"><span class="delimiter">&quot;</span><span class="content">unknown</span><span class="delimiter">&quot;</span></span>);</code></pre>
 </div>
-</div>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_stream">3.4. Stream</h3>
-<div class="paragraph">
-<p>The <code>javaslang.collection.Stream</code> implementation is a lazy linked list. Values are computed only when needed. Because of its laziness, most operations are performed in constant time. Operations are intermediate in general and executed in a single pass.</p>
 </div>
 <div class="paragraph">
-<p>The stunning thing about streams is that we can use them to represent sequences that are (theoretically) infinitely long.</p>
+<p>MatchFunction is a Function, obtained by one of <code>Match.whenXxx(&#8230;&#8203;)</code>. In this case a Match is terminated by applying it to an object, e.g.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java"><span class="comment">// 2, 4, 6, ...</span>
-Stream.gen(<span class="integer">1</span>).filter(i -&gt; i % <span class="integer">2</span> == <span class="integer">0</span>);</code></pre>
+<pre class="CodeRay highlight"><code data-lang="java">Match.when(...).then(...).otherwise(...).apply(o);</code></pre>
 </div>
 </div>
+<div class="paragraph">
+<p>A MatchFunction is a reusable Match, i.e. it may be applied to different objects.<br>
+Example of a Match as partial function:</p>
 </div>
-<div class="sect2">
-<h3 id="_pattern_matching">3.5. Pattern Matching</h3>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">Match&lt;<span class="predefined-type">Number</span>&gt; toNumber = Match.as(<span class="predefined-type">Number</span>.class)
+     .whenType(<span class="predefined-type">Integer</span>.class).then(i -&gt; i)
+     .whenType(<span class="predefined-type">String</span>.class).then(s -&gt; <span class="keyword">new</span> <span class="predefined-type">BigDecimal</span>(s));
+<span class="predefined-type">Number</span> number = toNumber.apply(<span class="float">1.0d</span>); <span class="comment">// throws a MatchError</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Example of a Match as total function:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">Match&lt;<span class="predefined-type">Number</span>&gt; toNumber = Match.as(<span class="predefined-type">Number</span>.class)
+     .whenType(<span class="predefined-type">Integer</span>.class).then(i -&gt; i)
+     .whenType(<span class="predefined-type">String</span>.class).then(s -&gt; <span class="keyword">new</span> <span class="predefined-type">BigDecimal</span>(s));
+     .otherwise(-<span class="integer">1</span>)
+     .apply(<span class="float">1.0d</span>); <span class="comment">// result: -1</span></code></pre>
+</div>
+</div>
 <div class="paragraph">
 <p>Javaslang&#8217;s pattern matching feature goes far beyond Java&#8217;s switch.</p>
 </div>
@@ -1618,50 +1746,70 @@ Match.whenIs(<span class="keyword">new</span> Some&lt;&gt;(<span class="integer"
 </div>
 </div>
 </div>
-<div class="sect2">
-<h3 id="_failure_handling">3.6. Failure handling</h3>
-<div class="paragraph">
-<p>The <code>Try</code> monad aims to ease exception handling. It represents the result state of a computation which may be a <code>Success</code> or a <code>Failure</code>.</p>
 </div>
-<div class="sect3">
-<h4 id="_java_8_2">3.6.1. Java 8</h4>
+<div class="sect2">
+<h3 id="_collections">3.4. Collections</h3>
+<div class="paragraph">
+<p>With Javaslang there has been put much effort into designing an all-new collection library for Java which meets the requirements of functional programming, namely immutability.</p>
+</div>
+<div class="paragraph">
+<p>Java&#8217;s Stream lifts a computation to a different layer and links to a specific collection in another explicit step. Whith Javaslang we don&#8217;t need all this additional boilerplate.</p>
+</div>
+<div class="paragraph">
+<p>The new collections are based on <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Iterable.html">java.lang.Iterable</a>, so they leverage the sugared iteration style.</p>
+</div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java"><span class="comment">// cannot be final</span>
-A result = other;
-<span class="keyword">try</span> {
-   result = bunchOfWork();
-} <span class="keyword">catch</span>(Exception_1 e) {
-   ...
-} <span class="keyword">catch</span>(Exception_2 e) {
-   ...
-} <span class="keyword">catch</span>(Exception_n e) {
-   ...
+<pre class="CodeRay highlight"><code data-lang="java"><span class="comment">// 1000 random numbers</span>
+<span class="keyword">for</span> (<span class="type">double</span> random : Stream.gen(<span class="predefined-type">Math</span>::random).take(<span class="integer">1000</span>)) {
+    ...
 }</code></pre>
 </div>
 </div>
+<div class="paragraph">
+<p><code>TraversableOnce</code> has a huge amount of useful functions to operate on the collection. Its API is similar to <a href="http://docs.oracle.com/javase/8/docs/api/java/util/stream/Stream.html">java.util.stream.Stream</a> but more mature.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_list">3.5. List</h3>
+<div class="paragraph">
+<p>Javaslang&#8217;s <code>List</code> is an immutable linked list. Mutations create new instances. Most operations are performed in linear time. Consequent operations are executed one by one.</p>
 </div>
 <div class="sect3">
-<h4 id="_javaslang_2">3.6.2. Javaslang</h4>
+<h4 id="_java_8">3.5.1. Java 8</h4>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java"><span class="comment">// no need to handle exceptions</span>
-Try.of(() -&gt; bunchOfWork()).orElse(other);</code></pre>
+<pre class="CodeRay highlight"><code data-lang="java"><span class="predefined-type">Arrays</span>.asList(<span class="integer">1</span>, <span class="integer">2</span>, <span class="integer">3</span>).stream().reduce((i, j) -&gt; i + j);</code></pre>
 </div>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java"><span class="directive">final</span> A result = Try.of(<span class="local-variable">this</span>::bunchOfWork)
-    .recover(x -&gt; Match.of(x)
-        .whenType(Exception_1.class).then(...)
-        .whenType(Exception_2.class).then(...)
-        .whenType(Exception_n.class).then(...)
-        .get())
-    .orElse(other);</code></pre>
+<pre class="CodeRay highlight"><code data-lang="java">IntStream.of(<span class="integer">1</span>, <span class="integer">2</span>, <span class="integer">3</span>).sum();</code></pre>
 </div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_javaslang">3.5.2. Javaslang</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="comment">// javaslang.collection.List</span>
+<span class="predefined-type">List</span>.of(<span class="integer">1</span>, <span class="integer">2</span>, <span class="integer">3</span>).sum();</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_stream">3.6. Stream</h3>
+<div class="paragraph">
+<p>The <code>javaslang.collection.Stream</code> implementation is a lazy linked list. Values are computed only when needed. Because of its laziness, most operations are performed in constant time. Operations are intermediate in general and executed in a single pass.</p>
 </div>
 <div class="paragraph">
-<p>Similar to collections it has the functions map() and flatMap() to further process results.</p>
+<p>The stunning thing about streams is that we can use them to represent sequences that are (theoretically) infinitely long.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="comment">// 2, 4, 6, ...</span>
+Stream.gen(<span class="integer">1</span>).filter(i -&gt; i % <span class="integer">2</span> == <span class="integer">0</span>);</code></pre>
 </div>
 </div>
 </div>
@@ -1998,7 +2146,7 @@ limitations under the License.</p>
 <div id="footer">
 <div id="footer-text">
 Version 2.0.0-RC2<br>
-Last updated 2015-12-02 11:25:54 MEZ
+Last updated 2015-12-22 10:42:09 MEZ
 </div>
 </div>
 </body>
