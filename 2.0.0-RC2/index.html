@@ -589,15 +589,13 @@ table.CodeRay td.code>pre{padding:0}
 <li><a href="#_match">3.3.6. Match</a></li>
 </ul>
 </li>
-<li><a href="#_collections">3.4. Collections</a></li>
-<li><a href="#_list">3.5. List</a>
+<li><a href="#_collections">3.4. Collections</a>
 <ul class="sectlevel3">
-<li><a href="#_java_8">3.5.1. Java 8</a></li>
-<li><a href="#_javaslang">3.5.2. Javaslang</a></li>
+<li><a href="#_list">3.4.1. List</a></li>
+<li><a href="#_stream">3.4.2. Stream</a></li>
 </ul>
 </li>
-<li><a href="#_stream">3.6. Stream</a></li>
-<li><a href="#_property_checking">3.7. Property Checking</a></li>
+<li><a href="#_property_checking">3.5. Property Checking</a></li>
 </ul>
 </li>
 <li><a href="#_how_to_contribute">4. How to Contribute</a>
@@ -1769,14 +1767,13 @@ Match.whenIs(<span class="keyword">new</span> Some&lt;&gt;(<span class="integer"
 <div class="paragraph">
 <p><code>TraversableOnce</code> has a huge amount of useful functions to operate on the collection. Its API is similar to <a href="http://docs.oracle.com/javase/8/docs/api/java/util/stream/Stream.html">java.util.stream.Stream</a> but more mature.</p>
 </div>
-</div>
-<div class="sect2">
-<h3 id="_list">3.5. List</h3>
+<div class="sect3">
+<h4 id="_list">3.4.1. List</h4>
 <div class="paragraph">
 <p>Javaslang&#8217;s <code>List</code> is an immutable linked list. Mutations create new instances. Most operations are performed in linear time. Consequent operations are executed one by one.</p>
 </div>
-<div class="sect3">
-<h4 id="_java_8">3.5.1. Java 8</h4>
+<div class="sect4">
+<h5 id="_java_8">Java 8</h5>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="java"><span class="predefined-type">Arrays</span>.asList(<span class="integer">1</span>, <span class="integer">2</span>, <span class="integer">3</span>).stream().reduce((i, j) -&gt; i + j);</code></pre>
@@ -1788,8 +1785,8 @@ Match.whenIs(<span class="keyword">new</span> Some&lt;&gt;(<span class="integer"
 </div>
 </div>
 </div>
-<div class="sect3">
-<h4 id="_javaslang">3.5.2. Javaslang</h4>
+<div class="sect4">
+<h5 id="_javaslang">Javaslang</h5>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="java"><span class="comment">// javaslang.collection.List</span>
@@ -1798,8 +1795,8 @@ Match.whenIs(<span class="keyword">new</span> Some&lt;&gt;(<span class="integer"
 </div>
 </div>
 </div>
-<div class="sect2">
-<h3 id="_stream">3.6. Stream</h3>
+<div class="sect3">
+<h4 id="_stream">3.4.2. Stream</h4>
 <div class="paragraph">
 <p>The <code>javaslang.collection.Stream</code> implementation is a lazy linked list. Values are computed only when needed. Because of its laziness, most operations are performed in constant time. Operations are intermediate in general and executed in a single pass.</p>
 </div>
@@ -1813,8 +1810,9 @@ Stream.gen(<span class="integer">1</span>).filter(i -&gt; i % <span class="integ
 </div>
 </div>
 </div>
+</div>
 <div class="sect2">
-<h3 id="_property_checking">3.7. Property Checking</h3>
+<h3 id="_property_checking">3.5. Property Checking</h3>
 <div class="paragraph">
 <p>Property checking (also known as <a href="http://en.wikipedia.org/wiki/Property_testing">property testing</a>) is a truly powerful way to test properties of our code in a functional way. It is based on <em><a href="http://javaslang.com/#">arbitrarily</a></em> generated random data, which is passed to a user defined check function.</p>
 </div>
