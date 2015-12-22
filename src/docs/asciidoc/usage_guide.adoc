@@ -355,11 +355,11 @@ for (double random : Stream.gen(Math::random).take(1000)) {
 
 `TraversableOnce` has a huge amount of useful functions to operate on the collection. Its API is similar to http://docs.oracle.com/javase/8/docs/api/java/util/stream/Stream.html[java.util.stream.Stream] but more mature.
 
-=== List
+==== List
 
 Javaslang's `List` is an immutable linked list. Mutations create new instances. Most operations are performed in linear time. Consequent operations are executed one by one.
 
-==== Java 8
+===== Java 8
 
 [source,java]
 ----
@@ -373,7 +373,7 @@ IntStream.of(1, 2, 3).sum();
 
 ----
 
-==== Javaslang
+===== Javaslang
 
 [source,java]
 ----
@@ -382,7 +382,7 @@ List.of(1, 2, 3).sum();
 
 ----
 
-=== Stream
+==== Stream
 
 The `javaslang.collection.Stream` implementation is a lazy linked list. Values are computed only when needed. Because of its laziness, most operations are performed in constant time. Operations are intermediate in general and executed in a single pass.
 
