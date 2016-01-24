@@ -1858,7 +1858,7 @@ action.accept(<span class="string"><span class="delimiter">&quot;</span><span cl
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="java"><span class="comment">// 2, 4, 6, ...</span>
-Stream.gen(<span class="integer">1</span>).filter(i -&gt; i % <span class="integer">2</span> == <span class="integer">0</span>);</code></pre>
+Stream.from(<span class="integer">1</span>).filter(i -&gt; i % <span class="integer">2</span> == <span class="integer">0</span>);</code></pre>
 </div>
 </div>
 </div>
@@ -1873,10 +1873,10 @@ Stream.gen(<span class="integer">1</span>).filter(i -&gt; i % <span class="integ
 <pre class="CodeRay highlight"><code data-lang="java"><span class="directive">final</span> Arbitrary ints = Arbitrary.integer();
 
 <span class="comment">// square(int) &gt;= 0: OK, passed 1000 tests.</span>
-<span class="directive">final</span> CheckResult result = <span class="keyword">new</span> Property(<span class="string"><span class="delimiter">&quot;</span><span class="content">square(int) &gt;= 0</span><span class="delimiter">&quot;</span></span>)
+Property.def(<span class="string"><span class="delimiter">&quot;</span><span class="content">square(int) &gt;= 0</span><span class="delimiter">&quot;</span></span>)
         .forAll(ints)
         .suchThat(i -&gt; (i * i) &gt;= <span class="integer">0</span>)
-        .check();
+        .check()
         .assertIsSatisfied();</code></pre>
 </div>
 </div>
