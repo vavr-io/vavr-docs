@@ -24,9 +24,9 @@ public class TupleDemo {
     }
 
     @Test
-    public void mapTuple(){
+    public void bimapTuple(){
 
-        // tag::mapTuple[]
+        // tag::bimapTuple[]
         // (Java, 8)
         Tuple2<String, Integer> javaslang2tuple = Tuple.of("Java", 8).map(
                 (s) -> s + "slang", (i) -> i/4
@@ -34,21 +34,21 @@ public class TupleDemo {
         // (Javaslang, 2)
         then(javaslang2tuple._1).isEqualTo("Javaslang");
         then(javaslang2tuple._2).isEqualTo(2);
-        // end::mapTuple[]
+        // end::bimapTuple[]
     }
 
     @Test
-    public void flatMapTuple(){
+    public void mapTuple(){
 
-        // tag::flatMapTuple[]
+        // tag::mapTuple[]
         // (Java, 8)
-        Tuple2<String, Integer> javaslang2tuple = Tuple.of("Java", 8).flatMap(
+        Tuple2<String, Integer> javaslang2tuple = Tuple.of("Java", 8).map(
                 (s, i) -> Tuple.of(s + "slang", i / 4)
         );
         // (Javaslang, 2)
         then(javaslang2tuple._1).isEqualTo("Javaslang");
         then(javaslang2tuple._2).isEqualTo(2);
-        // end::flatMapTuple[]
+        // end::mapTuple[]
     }
 
     @Test

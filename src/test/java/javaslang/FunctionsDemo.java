@@ -5,9 +5,9 @@
  */
 package javaslang;
 
-import javaslang.control.None;
 import javaslang.control.Option;
-import javaslang.control.Some;
+import static javaslang.control.Option.None;
+import static javaslang.control.Option.Some;
 import org.junit.Test;
 
 import static org.assertj.core.api.BDDAssertions.then;

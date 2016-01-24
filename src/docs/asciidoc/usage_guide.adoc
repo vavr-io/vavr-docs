@@ -21,22 +21,22 @@ include::../../test/java/javaslang/TupleDemo.java[tags=createTuple]
 <2> Get the 1st element of this tuple.
 <3> Get the 2nd element of this tuple.
 
-==== Map a tuple
+==== Map a tuple component-wise
 
-Map evaluates a function per element in the tuple, returning another tuple.
+The component-wise map evaluates a function per element in the tuple, returning another tuple.
+
+[source,java,indent=0]
+----
+include::../../test/java/javaslang/TupleDemo.java[tags=bimapTuple]
+----
+
+==== Map a tuple using one mapper
+
+It is also possible to map a tuple using one mapping function.
 
 [source,java,indent=0]
 ----
 include::../../test/java/javaslang/TupleDemo.java[tags=mapTuple]
-----
-
-==== FlatMap a tuple
-
-FlatMap is a frequently used combinator that combines mapping and flattening.
-
-[source,java,indent=0]
-----
-include::../../test/java/javaslang/TupleDemo.java[tags=flatMapTuple]
 ----
 
 ==== Transform a tuple
