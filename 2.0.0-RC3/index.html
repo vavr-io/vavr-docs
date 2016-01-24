@@ -609,7 +609,6 @@ table.CodeRay td.code>pre{padding:0}
 <li><a href="#_scm">2.9. SCM</a></li>
 </ul>
 </li>
-<li><a href="#_license">3. License</a></li>
 </ul>
 </div>
 </div>
@@ -1295,8 +1294,8 @@ The following lambda expression creates a function to sum two integers:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java">Function2&lt;<span class="predefined-type">Integer</span>, <span class="predefined-type">Integer</span>, <span class="predefined-type">Integer</span>&gt; sum =  (a, b) -&gt; a + b;
-then(sum.apply(<span class="integer">1</span>,<span class="integer">2</span>)).isEqualTo(<span class="integer">3</span>);</code></pre>
+<pre class="CodeRay highlight"><code data-lang="java"><span class="comment">// sum.apply(1, 2) = 3</span>
+Function2&lt;<span class="predefined-type">Integer</span>, <span class="predefined-type">Integer</span>, <span class="predefined-type">Integer</span>&gt; sum = (a, b) -&gt; a + b;</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -1304,7 +1303,7 @@ then(sum.apply(<span class="integer">1</span>,<span class="integer">2</span>)).i
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java">Function2&lt;<span class="predefined-type">Integer</span>, <span class="predefined-type">Integer</span>, <span class="predefined-type">Integer</span>&gt; sum =  <span class="keyword">new</span> Function2&lt;<span class="predefined-type">Integer</span>, <span class="predefined-type">Integer</span>, <span class="predefined-type">Integer</span>&gt;() {
+<pre class="CodeRay highlight"><code data-lang="java">Function2&lt;<span class="predefined-type">Integer</span>, <span class="predefined-type">Integer</span>, <span class="predefined-type">Integer</span>&gt; sum = <span class="keyword">new</span> Function2&lt;<span class="predefined-type">Integer</span>, <span class="predefined-type">Integer</span>, <span class="predefined-type">Integer</span>&gt;() {
     <span class="annotation">@Override</span>
     <span class="directive">public</span> <span class="predefined-type">Integer</span> apply(<span class="predefined-type">Integer</span> a, <span class="predefined-type">Integer</span> b) {
         <span class="keyword">return</span> a + b;
@@ -1317,7 +1316,8 @@ then(sum.apply(<span class="integer">1</span>,<span class="integer">2</span>)).i
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java">Function3&lt;<span class="predefined-type">String</span>, <span class="predefined-type">String</span>, <span class="predefined-type">String</span>, <span class="predefined-type">String</span>&gt; function3 = Function3.of(TestClass::methodWhichAccepts3Parameters);</code></pre>
+<pre class="CodeRay highlight"><code data-lang="java">Function3&lt;<span class="predefined-type">String</span>, <span class="predefined-type">String</span>, <span class="predefined-type">String</span>, <span class="predefined-type">String</span>&gt; function3 =
+        Function3.of(<span class="local-variable">this</span>::methodWhichAccepts3Parameters);</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -1347,8 +1347,8 @@ You can use either <code>andThen</code>:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java">Function1&lt;<span class="predefined-type">Integer</span>, <span class="predefined-type">Integer</span>&gt; plusOne = (a) -&gt; a + <span class="integer">1</span>;
-Function1&lt;<span class="predefined-type">Integer</span>, <span class="predefined-type">Integer</span>&gt; multiplyByTwo = (a) -&gt; a * <span class="integer">2</span>;
+<pre class="CodeRay highlight"><code data-lang="java">Function1&lt;<span class="predefined-type">Integer</span>, <span class="predefined-type">Integer</span>&gt; plusOne = a -&gt; a + <span class="integer">1</span>;
+Function1&lt;<span class="predefined-type">Integer</span>, <span class="predefined-type">Integer</span>&gt; multiplyByTwo = a -&gt; a * <span class="integer">2</span>;
 
 Function1&lt;<span class="predefined-type">Integer</span>, <span class="predefined-type">Integer</span>&gt; add1AndMultiplyBy2 = plusOne.andThen(multiplyByTwo);
 
@@ -1369,19 +1369,52 @@ then(add1AndMultiplyBy2.apply(<span class="integer">2</span>)).isEqualTo(<span c
 <div class="sect3">
 <h4 id="_lifting">2.2.2. Lifting</h4>
 <div class="paragraph">
-<p>You can lift a partial function into a total function that returns an <code>Option</code> result. The term partial function comes from mathematics. A partial function from X to Y is a function f: X′ → Y, for some subset X′ of X. It generalizes the concept of a function f: X → Y by not forcing f to map every element of X to an element of Y. That means a partial function works properly only for some input values. If the function is called with a disallowed input values, it will typically throw an exception.</p>
+<p>You can lift a partial function into a total function that returns an <code>Option</code> result. The term <em>partial function</em> comes from mathematics. A partial function from X to Y is a function f: X′ → Y, for some subset X′ of X. It generalizes the concept of a function f: X → Y by not forcing f to map every element of X to an element of Y. That means a partial function works properly only for some input values. If the function is called with a disallowed input values, it will typically throw an exception.</p>
+</div>
+<div class="paragraph">
+<p>The following method <code>divide</code> is a partial function that only accepts non-zero divisors.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">Function2&lt;<span class="predefined-type">Integer</span>, <span class="predefined-type">Integer</span>, <span class="predefined-type">Integer</span>&gt; divide = (a, b) -&gt; a / b;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>We use <code>lift</code> to turn <code>divide</code> into a total function that is defined for all inputs.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">Function2&lt;<span class="predefined-type">Integer</span>, <span class="predefined-type">Integer</span>, <span class="predefined-type">Option</span>&lt;<span class="predefined-type">Integer</span>&gt;&gt; safeDivide = Function2.lift(divide);
+
+<span class="comment">// = None</span>
+<span class="predefined-type">Option</span>&lt;<span class="predefined-type">Integer</span>&gt; i1 = safeDivide.apply(<span class="integer">1</span>, <span class="integer">0</span>); <i class="conum" data-value="1"></i><b>(1)</b>
+
+<span class="comment">// = Some(2)</span>
+<span class="predefined-type">Option</span>&lt;<span class="predefined-type">Integer</span>&gt; i2 = safeDivide.apply(<span class="integer">4</span>, <span class="integer">2</span>); <i class="conum" data-value="2"></i><b>(2)</b></code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>A lifted function returns <code>None</code> instead of throwing an exception, if the function is invoked with disallowed input values.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>A lifted function returns <code>Some</code>, if the function is invoked with allowed input values.</td>
+</tr>
+</table>
 </div>
 <div class="paragraph">
 <p>The following method <code>sum</code> is a partial function that only accepts positive input values.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java"><span class="directive">public</span> <span class="directive">static</span> <span class="type">int</span> sum(<span class="type">int</span> first, <span class="type">int</span> second) {
-    <span class="keyword">if</span> (first &gt;= <span class="integer">0</span> &amp;&amp; second &gt;= <span class="integer">0</span>) {
-        <span class="keyword">return</span> first + second;
-    } <span class="keyword">else</span> {
+<pre class="CodeRay highlight"><code data-lang="java"><span class="type">int</span> sum(<span class="type">int</span> first, <span class="type">int</span> second) {
+    <span class="keyword">if</span> (first &lt; <span class="integer">0</span> || second &lt; <span class="integer">0</span>) {
         <span class="keyword">throw</span> <span class="keyword">new</span> <span class="exception">IllegalArgumentException</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">Only positive integers are allowed</span><span class="delimiter">&quot;</span></span>); <i class="conum" data-value="1"></i><b>(1)</b>
     }
+    <span class="keyword">return</span> first + second;
 }</code></pre>
 </div>
 </div>
@@ -1394,38 +1427,14 @@ then(add1AndMultiplyBy2.apply(<span class="integer">2</span>)).isEqualTo(<span c
 </table>
 </div>
 <div class="paragraph">
-<p>A lifted function returns <code>Some</code>, if the function is invoked with allowed input values.</p>
+<p>We may lift the <code>sum</code> method by providing the methods reference.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java">Function2&lt;<span class="predefined-type">Integer</span>, <span class="predefined-type">Integer</span>, <span class="predefined-type">Option</span>&lt;<span class="predefined-type">Integer</span>&gt;&gt; liftedPartialSumFunction = Function2.lift(TestClass::sum);
+<pre class="CodeRay highlight"><code data-lang="java">Function2&lt;<span class="predefined-type">Integer</span>, <span class="predefined-type">Integer</span>, <span class="predefined-type">Option</span>&lt;<span class="predefined-type">Integer</span>&gt;&gt; sum = Function2.lift(<span class="local-variable">this</span>::sum);
 
-<span class="predefined-type">Option</span>&lt;<span class="predefined-type">Integer</span>&gt; optionalResult = liftedPartialSumFunction.apply(<span class="integer">1</span>, <span class="integer">2</span>); <i class="conum" data-value="1"></i><b>(1)</b>
-
-then(optionalResult).isInstanceOf(Some.class);
-then(optionalResult.isDefined()).isTrue();
-then(optionalResult.get()).isEqualTo(<span class="integer">3</span>);</code></pre>
-</div>
-</div>
-<div class="colist arabic">
-<table>
-<tr>
-<td><i class="conum" data-value="1"></i><b>1</b></td>
-<td>The lifted function returns <code>Some(3)</code>.</td>
-</tr>
-</table>
-</div>
-<div class="paragraph">
-<p>A lifted function returns <code>None</code> instead of throwing an exception, if the function is invoked with disallowed input values.</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="java">Function2&lt;<span class="predefined-type">Integer</span>, <span class="predefined-type">Integer</span>, <span class="predefined-type">Option</span>&lt;<span class="predefined-type">Integer</span>&gt;&gt; liftedPartialSumFunction = Function2.lift(TestClass::sum);
-
-<span class="predefined-type">Option</span>&lt;<span class="predefined-type">Integer</span>&gt; optionalResult = liftedPartialSumFunction.apply(-<span class="integer">1</span>, <span class="integer">2</span>); <i class="conum" data-value="1"></i><b>(1)</b>
-
-then(optionalResult).isInstanceOf(None.class);
-then(optionalResult.isEmpty()).isTrue();</code></pre>
+<span class="comment">// = None</span>
+<span class="predefined-type">Option</span>&lt;<span class="predefined-type">Integer</span>&gt; optionalResult = sum.apply(-<span class="integer">1</span>, <span class="integer">2</span>); <i class="conum" data-value="1"></i><b>(1)</b></code></pre>
 </div>
 </div>
 <div class="colist arabic">
@@ -1526,11 +1535,11 @@ Try.of(() -&gt; bunchOfWork()).orElse(other);</code></pre>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java"><span class="directive">final</span> Lazy&lt;<span class="predefined-type">Double</span>&gt; l = Lazy.of(<span class="predefined-type">Math</span>::random);
-l.isEvaluated(); <span class="comment">// = false</span>
-l.get();         <span class="comment">// = 0.123 (random generated)</span>
-l.isEvaluated(); <span class="comment">// = true</span>
-l.get();         <span class="comment">// = 0.123 (memoized)</span></code></pre>
+<pre class="CodeRay highlight"><code data-lang="java"><span class="directive">final</span> Lazy&lt;<span class="predefined-type">Double</span>&gt; lazy = Lazy.of(<span class="predefined-type">Math</span>::random);
+lazy.isEvaluated(); <span class="comment">// = false</span>
+lazy.get();         <span class="comment">// = 0.123 (random generated)</span>
+lazy.isEvaluated(); <span class="comment">// = true</span>
+lazy.get();         <span class="comment">// = 0.123 (memoized)</span></code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -1743,7 +1752,7 @@ Match.whenIs(<span class="keyword">new</span> Some&lt;&gt;(<span class="integer"
 <p>With Javaslang there has been put much effort into designing an all-new collection library for Java which meets the requirements of functional programming, namely immutability.</p>
 </div>
 <div class="paragraph">
-<p>Java&#8217;s Stream lifts a computation to a different layer and links to a specific collection in another explicit step. Whith Javaslang we don&#8217;t need all this additional boilerplate.</p>
+<p>Java&#8217;s Stream lifts a computation to a different layer and links to a specific collection in another explicit step. With Javaslang we don&#8217;t need all this additional boilerplate.</p>
 </div>
 <div class="paragraph">
 <p>The new collections are based on <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Iterable.html">java.lang.Iterable</a>, so they leverage the sugared iteration style.</p>
@@ -2014,7 +2023,7 @@ private Xxx() {
 <p>The extended type is the first parameter of an extension method. E.g. <code>Lists.lastElement(list)</code>.</p>
 </li>
 <li>
-<p>Use <code>Iterable</code> instead of <code>Collection</code> to support also <code>javaslang.collection.<strong></code>. See <code>javaslang.Streamz.</strong></code> for streaming Iterables.</p>
+<p>Use <code>Iterable</code> instead of <code>Collection</code> to support also Javaslang collections. See <code>javaslang.collection.Stream</code> for streaming Iterables.</p>
 </li>
 <li>
 <p>Use <code>CharSequence</code> instead of <code>String</code> to widen the API (<code>charSequence.toString()</code> will provide the String).</p>
@@ -2098,16 +2107,11 @@ private Xxx() {
 <p>Commits do not mix change sets of different domains/purpose.</p>
 </li>
 <li>
-<p>Commit messages provide enough detail to extract a changelog for a new release.</p>
+<p>Commit messages provide enough detail to extract a changelog for a new release.<br>
+== License</p>
 </li>
 </ul>
 </div>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_license">3. License</h2>
-<div class="sectionbody">
 <div class="paragraph">
 <p>Copyright 2014-2015 Daniel Dietrich</p>
 </div>
@@ -2125,6 +2129,7 @@ distributed under the License is distributed on an "AS IS" BASIS,<br>
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.<br>
 See the License for the specific language governing permissions and<br>
 limitations under the License.</p>
+</div>
 </div>
 </div>
 </div>
