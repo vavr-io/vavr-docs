@@ -244,8 +244,6 @@ Match is a Java switch on steroids (without the negative 'side effects'). Some c
 The Match API comes in two flavors, the MatchValue and the MatchFunction. Both can be used either as expression or
 as side-effect producing statement.
 
-image::images/match.png[Pattern Matching]
-
 MatchValue is a Value, obtained by `Match.of(...)`. In this case a Match is terminated with `get()`, `getOrElse()`, etc.
 
 [source,java,indent=0]
@@ -316,7 +314,7 @@ Javaslang allows to match more special objects by more general cases:
 
 [source,java]
 ----
-// Match as Monad
+// Match as Value
 Match.of(new Some<>(1))
      .whenApplicable((Option i) -> true).thenApply()
      .get(); // = true
@@ -337,7 +335,7 @@ The opposite is also possible, to match more general objects by more special cas
 
 [source,java]
 ----
-// Match as Monad
+// Match as Value
 Match.of(Option.of(1))
      .whenIs(new Some<>(1)).then(true)
      .get(); // = true
@@ -346,6 +344,37 @@ Match.of(Option.of(1))
 Match.whenIs(new Some<>(1)).then(true)
      .apply(Option.of(1)); // = true
 ----
+
+Match can be also used to perform side-effects instead of returning values. This is not recommended in general. However, real world Java programs contain side-effects.
+
+For example let us consider a method which prints output to the console:
+
+[source,java,indent=0]
+----
+include::../../test/java/javaslang/MatchDemo.java[tags=effect]
+----
+
+Then there are two ways to use `Match` to print a match result, either as `MatchValue` effect or as `MatchFunction` effect.
+
+The `MatchValue` effect is not reusable. A value is matched and at the same time the an effect takes place:
+
+[source,java,indent=0]
+----
+include::../../test/java/javaslang/MatchDemo.java[tags=matchValueAsEffect]
+----
+
+The `MatchFunction` effect is reusable. It is a `Consumer` which performs the effect when applied to an object:
+
+[source,java,indent=0]
+----
+include::../../test/java/javaslang/MatchDemo.java[tags=matchFunctionAsEffect]
+----
+
+Both versions of effect performing matches result in nothing, i.e. `void`.
+
+Here is a complete overview over the whole Match syntax:
+
+image::images/match.png[Pattern Matching]
 
 === Collections
 
