@@ -96,7 +96,24 @@ include::../../test/java/javaslang/FunctionsDemo.java[tags=composeFunctions2]
 ----
 
 ==== Lifting
-You can lift a partial function into a total function that returns an `Option` result. The term partial function comes from mathematics. A partial function from X to Y is a function f: X′ → Y, for some subset X′ of X. It generalizes the concept of a function f: X → Y by not forcing f to map every element of X to an element of Y. That means a partial function works properly only for some input values. If the function is called with a disallowed input values, it will typically throw an exception.
+You can lift a partial function into a total function that returns an `Option` result. The term _partial function_ comes from mathematics. A partial function from X to Y is a function f: X′ → Y, for some subset X′ of X. It generalizes the concept of a function f: X → Y by not forcing f to map every element of X to an element of Y. That means a partial function works properly only for some input values. If the function is called with a disallowed input values, it will typically throw an exception.
+
+The following method `divide` is a partial function that only accepts non-zero divisors.
+
+[source,java,indent=0]
+----
+include::../../test/java/javaslang/FunctionsDemo.java[tags=partialDivideFunction]
+----
+
+We use `lift` to turn `divide` into a total function that is defined for all inputs.
+
+[source,java,indent=0]
+----
+include::../../test/java/javaslang/FunctionsDemo.java[tags=liftedDivideFunction]
+----
+
+<1> A lifted function returns `None` instead of throwing an exception, if the function is invoked with disallowed input values.
+<2> A lifted function returns `Some`, if the function is invoked with allowed input values.
 
 The following method `sum` is a partial function that only accepts positive input values.
 
@@ -106,19 +123,11 @@ include::../../test/java/javaslang/FunctionsDemo.java[tags=partialFunctionExampl
 ----
 <1> The function `sum` throws an `IllegalArgumentException` for negative input values.
 
-A lifted function returns `Some`, if the function is invoked with allowed input values.
+We may lift the `sum` method by providing the methods reference.
 
 [source,java,indent=0]
 ----
-include::../../test/java/javaslang/FunctionsDemo.java[tags=liftPartialFunctionShouldReturnSome]
-----
-<1> The lifted function returns `Some(3)`.
-
-A lifted function returns `None` instead of throwing an exception, if the function is invoked with disallowed input values.
-
-[source,java,indent=0]
-----
-include::../../test/java/javaslang/FunctionsDemo.java[tags=liftPartialFunctionShouldReturnNone]
+include::../../test/java/javaslang/FunctionsDemo.java[tags=liftMethodReference]
 ----
 <1> The lifted function catches the `IllegalArgumentException` and maps it to `None`.
 
@@ -178,11 +187,11 @@ Lazy is a monadic container type which represents a lazy evaluated value. Compar
 
 [source,java,indent=0]
 ----
-final Lazy<Double> l = Lazy.of(Math::random);
-l.isEvaluated(); // = false
-l.get();         // = 0.123 (random generated)
-l.isEvaluated(); // = true
-l.get();         // = 0.123 (memoized)
+final Lazy<Double> lazy = Lazy.of(Math::random);
+lazy.isEvaluated(); // = false
+lazy.get();         // = 0.123 (random generated)
+lazy.isEvaluated(); // = true
+lazy.get();         // = 0.123 (memoized)
 ----
 
 Since version 2.0.0 you may also create a real lazy value (works only with interfaces):
@@ -342,7 +351,7 @@ Match.whenIs(new Some<>(1)).then(true)
 
 With Javaslang there has been put much effort into designing an all-new collection library for Java which meets the requirements of functional programming, namely immutability.
 
-Java's Stream lifts a computation to a different layer and links to a specific collection in another explicit step. Whith Javaslang we don't need all this additional boilerplate.
+Java's Stream lifts a computation to a different layer and links to a specific collection in another explicit step. With Javaslang we don't need all this additional boilerplate.
 
 The new collections are based on http://docs.oracle.com/javase/8/docs/api/java/lang/Iterable.html[java.lang.Iterable], so they leverage the sugared iteration style.
 

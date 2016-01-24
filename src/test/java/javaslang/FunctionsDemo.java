@@ -6,8 +6,6 @@
 package javaslang;
 
 import javaslang.control.Option;
-import static javaslang.control.Option.None;
-import static javaslang.control.Option.Some;
 import org.junit.Test;
 
 import static org.assertj.core.api.BDDAssertions.then;
@@ -15,60 +13,69 @@ import static org.assertj.core.api.BDDAssertions.then;
 public class FunctionsDemo {
 
     @Test
-    public void createFunctionWithLambda(){
+    public void createFunctionWithLambda() {
         // tag::createFunctionWithLambda[]
-        Function2<Integer, Integer, Integer> sum =  (a, b) -> a + b;
-        then(sum.apply(1,2)).isEqualTo(3);
+        // sum.apply(1, 2) = 3
+        Function2<Integer, Integer, Integer> sum = (a, b) -> a + b;
         // end::createFunctionWithLambda[]
+        then(sum.apply(1, 2)).isEqualTo(3);
     }
 
     @Test
-    public void createFunctionWithAnonymousClass(){
+    public void createFunctionWithAnonymousClass() {
         // tag::createFunctionWithAnonymousClass[]
-        Function2<Integer, Integer, Integer> sum =  new Function2<Integer, Integer, Integer>() {
+        Function2<Integer, Integer, Integer> sum = new Function2<Integer, Integer, Integer>() {
             @Override
             public Integer apply(Integer a, Integer b) {
                 return a + b;
             }
         };
         // end::createFunctionWithAnonymousClass[]
-        then(sum.apply(1,2)).isEqualTo(3);
+        then(sum.apply(1, 2)).isEqualTo(3);
     }
 
     @Test
-    public void createFunctionWithFactoryMethod(){
+    public void createFunctionWithFactoryMethod() {
         // tag::createFunctionWithFactoryMethod[]
-        Function3<String, String, String, String> function3 = Function3.of(TestClass::methodWhichAccepts3Parameters);
+        Function3<String, String, String, String> function3 =
+                Function3.of(this::methodWhichAccepts3Parameters);
         // end::createFunctionWithFactoryMethod[]
     }
 
     @Test
-    public void liftPartialFunctionShouldReturnSome(){
-        // tag::liftPartialFunctionShouldReturnSome[]
-        Function2<Integer, Integer, Option<Integer>> liftedPartialSumFunction = Function2.lift(TestClass::sum);
+    public void liftMethodReference() {
+        // tag::liftMethodReference[]
+        Function2<Integer, Integer, Option<Integer>> sum = Function2.lift(this::sum);
 
-        Option<Integer> optionalResult = liftedPartialSumFunction.apply(1, 2); //<1>
-
-        then(optionalResult).isInstanceOf(Some.class);
-        then(optionalResult.isDefined()).isTrue();
-        then(optionalResult.get()).isEqualTo(3);
-        // end::liftPartialFunctionShouldReturnSome[]
+        // = None
+        Option<Integer> optionalResult = sum.apply(-1, 2); //<1>
+        // end::liftMethodReference[]
+        then(optionalResult).isEqualTo(Option.none());
     }
 
     @Test
-    public void liftPartialFunctionShouldReturnNone(){
-        // tag::liftPartialFunctionShouldReturnNone[]
-        Function2<Integer, Integer, Option<Integer>> liftedPartialSumFunction = Function2.lift(TestClass::sum);
+    public void liftPartialFunction() {
 
-        Option<Integer> optionalResult = liftedPartialSumFunction.apply(-1, 2); //<1>
+        // tag::partialDivideFunction[]
+        Function2<Integer, Integer, Integer> divide = (a, b) -> a / b;
+        // end::partialDivideFunction[]
 
-        then(optionalResult).isInstanceOf(None.class);
-        then(optionalResult.isEmpty()).isTrue();
-        // end::liftPartialFunctionShouldReturnNone[]
+        // tag::liftedDivideFunction[]
+        Function2<Integer, Integer, Option<Integer>> safeDivide = Function2.lift(divide);
+
+        // = None
+        Option<Integer> i1 = safeDivide.apply(1, 0); //<1>
+
+        // = Some(2)
+        Option<Integer> i2 = safeDivide.apply(4, 2); //<2>
+        // end::liftedDivideFunction[]
+
+        then(i1).isEqualTo(Option.none());
+        then(i2).isEqualTo(Option.some(2));
     }
 
     @Test
-    public void memoizedFunction(){
+    public void memoizedFunction() {
         // tag::memoizedFunction[]
         Function0<Double> hashCache =
                 Function0.of(Math::random).memoized();
@@ -81,10 +88,10 @@ public class FunctionsDemo {
     }
 
     @Test
-    public void composeFunctions1(){
+    public void composeFunctions1() {
         // tag::composeFunctions1[]
-        Function1<Integer, Integer> plusOne = (a) -> a + 1;
-        Function1<Integer, Integer> multiplyByTwo = (a) -> a * 2;
+        Function1<Integer, Integer> plusOne = a -> a + 1;
+        Function1<Integer, Integer> multiplyByTwo = a -> a * 2;
 
         Function1<Integer, Integer> add1AndMultiplyBy2 = plusOne.andThen(multiplyByTwo);
 
@@ -93,9 +100,9 @@ public class FunctionsDemo {
     }
 
     @Test
-    public void composeFunctions2(){
-        Function1<Integer, Integer> plusOne = (a) -> a + 1;
-        Function1<Integer, Integer> multiplyByTwo = (a) -> a * 2;
+    public void composeFunctions2() {
+        Function1<Integer, Integer> plusOne = a -> a + 1;
+        Function1<Integer, Integer> multiplyByTwo = a -> a * 2;
         // tag::composeFunctions2[]
         Function1<Integer, Integer> add1AndMultiplyBy2 = multiplyByTwo.compose(plusOne);
 
@@ -104,7 +111,7 @@ public class FunctionsDemo {
     }
 
     @Test
-    public void curryingFunction(){
+    public void curryingFunction() {
         // tag::curryingFunction[]
         Function2<Integer, Integer, Integer> sum = (a, b) -> a + b;
         Function1<Integer, Integer> add2 = sum.curried().apply(2); //<1>
@@ -113,20 +120,17 @@ public class FunctionsDemo {
         // end::curryingFunction[]
     }
 
-    public static class TestClass {
-        public static String methodWhichAccepts3Parameters(String one, String two, String three) {
-            return one + two + three;
-        }
-
-        // tag::partialFunctionExample[]
-        public static int sum(int first, int second) {
-            if (first >= 0 && second >= 0) {
-                return first + second;
-            } else {
-                throw new IllegalArgumentException("Only positive integers are allowed"); //<1>
-            }
-        }
-        // end::partialFunctionExample[]
+    String methodWhichAccepts3Parameters(String one, String two, String three) {
+        return one + two + three;
     }
+
+    // tag::partialFunctionExample[]
+    int sum(int first, int second) {
+        if (first < 0 || second < 0) {
+            throw new IllegalArgumentException("Only positive integers are allowed"); //<1>
+        }
+        return first + second;
+    }
+    // end::partialFunctionExample[]
 
 }

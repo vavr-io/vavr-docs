@@ -43,7 +43,7 @@ Using Eclipse, the minimal requirements are
 *   Unit tests contain no javadoc at all (because they introduce no new API and contain no business logic).
 *   Running ``mvn javadoc:javadoc`` results in no javadoc errors.
 *   All classes start with the following copyright notice, which contains the list of core developers:
-[source,java]
+[source,java,options="nowrap"]
 ----
 /*     / \____  _    _  ____   ______  / \ ____  __    _ _____
  *    /  /    \/ \  / \/    \ /  /\__\/  //    \/  \  / /  _  \   Javaslang
@@ -85,7 +85,7 @@ private Xxx() {
 ----
 
 *   The extended type is the first parameter of an extension method. E.g. ``Lists.lastElement(list)``.
-*   Use ``Iterable`` instead of ``Collection`` to support also ``javaslang.collection.*``. See ``javaslang.Streamz.*`` for streaming Iterables.
+*   Use ``Iterable`` instead of ``Collection`` to support also Javaslang collections. See ``javaslang.collection.Stream`` for streaming Iterables.
 *   Use ``CharSequence`` instead of ``String`` to widen the API (``charSequence.toString()`` will provide the String).
 
 ==== toString
@@ -117,4 +117,3 @@ private Xxx() {
 *   Commits are coarsely granular grouped by feature/change.
 *   Commits do not mix change sets of different domains/purpose.
 *   Commit messages provide enough detail to extract a changelog for a new release.
-
