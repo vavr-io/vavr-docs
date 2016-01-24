@@ -515,8 +515,8 @@ table.CodeRay td.code>pre{padding:0}
 <h1>Javaslang User Guide</h1>
 <div class="details">
 <span id="author" class="author">Daniel Dietrich, Robert Winkler</span><br>
-<span id="revnumber">version 2.0.0-RC2,</span>
-<span id="revdate">2015-12-22</span>
+<span id="revnumber">version 2.0.0-RC3,</span>
+<span id="revdate">2016-01-24</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -1145,7 +1145,7 @@ Tuple2 entry = Tuple.of(<span class="integer">1</span>, <span class="string"><sp
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="groovy">dependencies {
-    compile "com.javaslang:javaslang:2.0.0-RC2"
+    compile "com.javaslang:javaslang:2.0.0-RC3"
 }</code></pre>
 </div>
 </div>
@@ -1279,7 +1279,7 @@ then(javaslang2tuple._2).isEqualTo(<span class="integer">2</span>);</code></pre>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="java"><span class="comment">// (Java, 8)</span>
-Tuple2&lt;<span class="predefined-type">String</span>, <span class="predefined-type">Integer</span>&gt; javaslang2tuple = Tuple.of(<span class="string"><span class="delimiter">&quot;</span><span class="content">Java</span><span class="delimiter">&quot;</span></span>, <span class="integer">8</span>).flatMap(
+Tuple2&lt;<span class="predefined-type">String</span>, <span class="predefined-type">Integer</span>&gt; javaslang2tuple = Tuple.of(<span class="string"><span class="delimiter">&quot;</span><span class="content">Java</span><span class="delimiter">&quot;</span></span>, <span class="integer">8</span>).map(
         (s, i) -&gt; Tuple.of(s + <span class="string"><span class="delimiter">&quot;</span><span class="content">slang</span><span class="delimiter">&quot;</span></span>, i / <span class="integer">4</span>)
 );
 <span class="comment">// (Javaslang, 2)</span>
@@ -2143,8 +2143,8 @@ limitations under the License.</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Version 2.0.0-RC2<br>
-Last updated 2015-12-22 10:42:09 MEZ
+Version 2.0.0-RC3<br>
+Last updated 2016-01-24 12:52:55 +01:00
 </div>
 </div>
 </body>
