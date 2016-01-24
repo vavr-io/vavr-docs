@@ -1217,10 +1217,13 @@ Tuples are of type Tuple1, Tuple2, Tuple3 and so on. There currently is an upper
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="java"><span class="comment">// (Java, 8)</span>
-Tuple2&lt;<span class="predefined-type">String</span>, <span class="predefined-type">Integer</span>&gt; java8tuple = Tuple.of(<span class="string"><span class="delimiter">&quot;</span><span class="content">Java</span><span class="delimiter">&quot;</span></span>, <span class="integer">8</span>); <i class="conum" data-value="1"></i><b>(1)</b>
+Tuple2&lt;<span class="predefined-type">String</span>, <span class="predefined-type">Integer</span>&gt; java8 = Tuple.of(<span class="string"><span class="delimiter">&quot;</span><span class="content">Java</span><span class="delimiter">&quot;</span></span>, <span class="integer">8</span>); <i class="conum" data-value="1"></i><b>(1)</b>
 
-then(java8tuple._1).isEqualTo(<span class="string"><span class="delimiter">&quot;</span><span class="content">Java</span><span class="delimiter">&quot;</span></span>); <i class="conum" data-value="2"></i><b>(2)</b>
-then(java8tuple._2).isEqualTo(<span class="integer">8</span>); <i class="conum" data-value="3"></i><b>(3)</b></code></pre>
+<span class="comment">// &quot;Java&quot;</span>
+<span class="predefined-type">String</span> s = java8._1; <i class="conum" data-value="2"></i><b>(2)</b>
+
+<span class="comment">// 8</span>
+<span class="predefined-type">Integer</span> i = java8._2; <i class="conum" data-value="3"></i><b>(3)</b></code></pre>
 </div>
 </div>
 <div class="colist arabic">
@@ -1247,13 +1250,11 @@ then(java8tuple._2).isEqualTo(<span class="integer">8</span>); <i class="conum" 
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java"><span class="comment">// (Java, 8)</span>
-Tuple2&lt;<span class="predefined-type">String</span>, <span class="predefined-type">Integer</span>&gt; javaslang2tuple = Tuple.of(<span class="string"><span class="delimiter">&quot;</span><span class="content">Java</span><span class="delimiter">&quot;</span></span>, <span class="integer">8</span>).map(
-        (s) -&gt; s + <span class="string"><span class="delimiter">&quot;</span><span class="content">slang</span><span class="delimiter">&quot;</span></span>, (i) -&gt; i/<span class="integer">4</span>
-);
-<span class="comment">// (Javaslang, 2)</span>
-then(javaslang2tuple._1).isEqualTo(<span class="string"><span class="delimiter">&quot;</span><span class="content">Javaslang</span><span class="delimiter">&quot;</span></span>);
-then(javaslang2tuple._2).isEqualTo(<span class="integer">2</span>);</code></pre>
+<pre class="CodeRay highlight"><code data-lang="java"><span class="comment">// (Javaslang, 2)</span>
+Tuple2&lt;<span class="predefined-type">String</span>, <span class="predefined-type">Integer</span>&gt; that = java8.map(
+        s -&gt; s + <span class="string"><span class="delimiter">&quot;</span><span class="content">slang</span><span class="delimiter">&quot;</span></span>,
+        i -&gt; i / <span class="integer">4</span>
+);</code></pre>
 </div>
 </div>
 </div>
@@ -1264,13 +1265,10 @@ then(javaslang2tuple._2).isEqualTo(<span class="integer">2</span>);</code></pre>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java"><span class="comment">// (Java, 8)</span>
-Tuple2&lt;<span class="predefined-type">String</span>, <span class="predefined-type">Integer</span>&gt; javaslang2tuple = Tuple.of(<span class="string"><span class="delimiter">&quot;</span><span class="content">Java</span><span class="delimiter">&quot;</span></span>, <span class="integer">8</span>).map(
+<pre class="CodeRay highlight"><code data-lang="java"><span class="comment">// (Javaslang, 2)</span>
+Tuple2&lt;<span class="predefined-type">String</span>, <span class="predefined-type">Integer</span>&gt; that = java8.map(
         (s, i) -&gt; Tuple.of(s + <span class="string"><span class="delimiter">&quot;</span><span class="content">slang</span><span class="delimiter">&quot;</span></span>, i / <span class="integer">4</span>)
-);
-<span class="comment">// (Javaslang, 2)</span>
-then(javaslang2tuple._1).isEqualTo(<span class="string"><span class="delimiter">&quot;</span><span class="content">Javaslang</span><span class="delimiter">&quot;</span></span>);
-then(javaslang2tuple._2).isEqualTo(<span class="integer">2</span>);</code></pre>
+);</code></pre>
 </div>
 </div>
 </div>
@@ -1281,10 +1279,10 @@ then(javaslang2tuple._2).isEqualTo(<span class="integer">2</span>);</code></pre>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java"><span class="predefined-type">String</span> javaslang2 = Tuple.of(<span class="string"><span class="delimiter">&quot;</span><span class="content">Java</span><span class="delimiter">&quot;</span></span>, <span class="integer">8</span>).transform(
-        (s, i) -&gt; s + <span class="string"><span class="delimiter">&quot;</span><span class="content">slang </span><span class="delimiter">&quot;</span></span> + i/<span class="integer">4</span>
-);
-then(javaslang2).isEqualTo(<span class="string"><span class="delimiter">&quot;</span><span class="content">Javaslang 2</span><span class="delimiter">&quot;</span></span>);</code></pre>
+<pre class="CodeRay highlight"><code data-lang="java"><span class="comment">// &quot;Javaslang 2&quot;</span>
+<span class="predefined-type">String</span> that = java8.transform(
+        (s, i) -&gt; s + <span class="string"><span class="delimiter">&quot;</span><span class="content">slang </span><span class="delimiter">&quot;</span></span> + i / <span class="integer">4</span>
+);</code></pre>
 </div>
 </div>
 </div>
@@ -2134,7 +2132,7 @@ limitations under the License.</p>
 <div id="footer">
 <div id="footer-text">
 Version 2.0.0-RC3<br>
-Last updated 2016-01-24 16:12:04 +01:00
+Last updated 2016-01-24 20:49:15 +01:00
 </div>
 </div>
 </body>
