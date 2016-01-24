@@ -17,6 +17,7 @@ apply plugin: 'org.ajoberstar.github-pages'
 apply plugin: 'com.bluepapa32.watch'
 apply plugin: 'org.kordamp.gradle.livereload'
 apply plugin: 'java'
+apply plugin: 'idea'
 
 repositories {
     jcenter()
@@ -32,6 +33,18 @@ dependencies {
     testCompile "org.assertj:assertj-core:3.0.0"
     testCompile "ch.qos.logback:logback-classic:0.9.26"
     testCompile "org.mockito:mockito-core:1.10.19"
+}
+
+compileJava {
+    sourceCompatibility = 1.8
+    targetCompatibility = 1.8
+}
+
+idea {
+    project {
+        jdkName = 1.8
+        languageLevel = 1.8
+    }
 }
 
 asciidoctor {
@@ -75,5 +88,5 @@ liveReload {
 }
 
 task wrapper(type: Wrapper) {
-    gradleVersion = '2.8'
+    gradleVersion = '2.9'
 }
