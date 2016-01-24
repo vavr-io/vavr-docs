@@ -1748,7 +1748,7 @@ Match.whenIs(<span class="keyword">new</span> Some&lt;&gt;(<span class="integer"
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="java"><span class="directive">static</span> <span class="type">void</span> println(<span class="predefined-type">Object</span> o, <span class="predefined-type">String</span> message) {
-    <span class="predefined-type">System</span>.out.println(o + message);
+    <span class="predefined-type">System</span>.out.println(o + <span class="string"><span class="delimiter">&quot;</span><span class="content"> </span><span class="delimiter">&quot;</span></span> + message);
 }</code></pre>
 </div>
 </div>
@@ -1760,10 +1760,11 @@ Match.whenIs(<span class="keyword">new</span> Some&lt;&gt;(<span class="integer"
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java">Match.of(<span class="integer">1</span>)
-     .whenType(<span class="predefined-type">String</span>.class).thenRun(s -&gt; println(s, <span class="string"><span class="delimiter">&quot;</span><span class="content"> is a String!</span><span class="delimiter">&quot;</span></span>))
-     .whenType(<span class="predefined-type">Number</span>.class).thenRun(n -&gt; println(n, <span class="string"><span class="delimiter">&quot;</span><span class="content"> is a Number!</span><span class="delimiter">&quot;</span></span>))
-     .otherwiseRun(o -&gt; println(o, <span class="string"><span class="delimiter">&quot;</span><span class="content">has an unknown type.</span><span class="delimiter">&quot;</span></span>));</code></pre>
+<pre class="CodeRay highlight"><code data-lang="java"><span class="comment">// 1 is a Number!</span>
+Match.of(<span class="integer">1</span>)
+        .whenType(<span class="predefined-type">String</span>.class).thenRun(s -&gt; println(s, <span class="string"><span class="delimiter">&quot;</span><span class="content">is a String!</span><span class="delimiter">&quot;</span></span>))
+        .whenType(<span class="predefined-type">Number</span>.class).thenRun(n -&gt; println(n, <span class="string"><span class="delimiter">&quot;</span><span class="content">is a Number!</span><span class="delimiter">&quot;</span></span>))
+        .otherwiseRun(o -&gt; println(o, <span class="string"><span class="delimiter">&quot;</span><span class="content">has an unknown type.</span><span class="delimiter">&quot;</span></span>));</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -1772,8 +1773,8 @@ Match.whenIs(<span class="keyword">new</span> Some&lt;&gt;(<span class="integer"
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="java"><span class="directive">final</span> Consumer&lt;<span class="predefined-type">Object</span>&gt; action = Match
-        .whenType(<span class="predefined-type">String</span>.class).thenRun(s -&gt; println(s, <span class="string"><span class="delimiter">&quot;</span><span class="content"> is a String!</span><span class="delimiter">&quot;</span></span>))
-        .whenType(<span class="predefined-type">Number</span>.class).thenRun(n -&gt; println(n, <span class="string"><span class="delimiter">&quot;</span><span class="content"> is a Number!</span><span class="delimiter">&quot;</span></span>))
+        .whenType(<span class="predefined-type">String</span>.class).thenRun(s -&gt; println(s, <span class="string"><span class="delimiter">&quot;</span><span class="content">is a String!</span><span class="delimiter">&quot;</span></span>))
+        .whenType(<span class="predefined-type">Number</span>.class).thenRun(n -&gt; println(n, <span class="string"><span class="delimiter">&quot;</span><span class="content">is a Number!</span><span class="delimiter">&quot;</span></span>))
         .otherwiseRun(o -&gt; println(o, <span class="string"><span class="delimiter">&quot;</span><span class="content">has an unknown type.</span><span class="delimiter">&quot;</span></span>));
 
 <span class="comment">// 1 is a Number!</span>
