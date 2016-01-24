@@ -516,7 +516,7 @@ table.CodeRay td.code>pre{padding:0}
 <div class="details">
 <span id="author" class="author">Daniel Dietrich, Robert Winkler</span><br>
 <span id="revnumber">version 2.0.0-RC3,</span>
-<span id="revdate">2016-01-24</span>
+<span id="revdate">2016-01-25</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -1501,7 +1501,7 @@ Javaslang&#8217;s functional Value abstracts over immutable objects. Efficient w
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="java"><span class="comment">// optional *value*, no more nulls</span>
-<span class="directive">final</span> <span class="predefined-type">Option</span>&lt;T&gt; option = <span class="predefined-type">Option</span>.of(...);</code></pre>
+<span class="predefined-type">Option</span>&lt;T&gt; option = <span class="predefined-type">Option</span>.of(...);</code></pre>
 </div>
 </div>
 </div>
@@ -1518,7 +1518,7 @@ Try.of(() -&gt; bunchOfWork()).orElse(other);</code></pre>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java"><span class="directive">final</span> A result = Try.of(<span class="local-variable">this</span>::bunchOfWork)
+<pre class="CodeRay highlight"><code data-lang="java">A result = Try.of(<span class="local-variable">this</span>::bunchOfWork)
     .recover(x -&gt; Match.of(x)
         .whenType(Exception_1.class).then(...)
         .whenType(Exception_2.class).then(...)
@@ -1535,7 +1535,7 @@ Try.of(() -&gt; bunchOfWork()).orElse(other);</code></pre>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java"><span class="directive">final</span> Lazy&lt;<span class="predefined-type">Double</span>&gt; lazy = Lazy.of(<span class="predefined-type">Math</span>::random);
+<pre class="CodeRay highlight"><code data-lang="java">Lazy&lt;<span class="predefined-type">Double</span>&gt; lazy = Lazy.of(<span class="predefined-type">Math</span>::random);
 lazy.isEvaluated(); <span class="comment">// = false</span>
 lazy.get();         <span class="comment">// = 0.123 (random generated)</span>
 lazy.isEvaluated(); <span class="comment">// = true</span>
@@ -1546,7 +1546,7 @@ lazy.get();         <span class="comment">// = 0.123 (memoized)</span></code></p
 <p>Since version 2.0.0 you may also create a real lazy value (works only with interfaces):</p>
 </div>
 <div class="paragraph">
-<p><code>final CharSequence chars = Lazy.of(() &#8594; "Yay!", CharSequence.class);</code></p>
+<p><code>CharSequence chars = Lazy.of(() &#8594; "Yay!", CharSequence.class);</code></p>
 </div>
 </div>
 <div class="sect3">
@@ -1584,7 +1584,7 @@ Callbacks may be registered on a Future at each point of time. These actions are
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="java"><span class="comment">// future *value*, result of an async calculation</span>
-<span class="directive">final</span> <span class="predefined-type">Future</span>&lt;T&gt; future = <span class="predefined-type">Future</span>.of(...);</code></pre>
+<span class="predefined-type">Future</span>&lt;T&gt; future = <span class="predefined-type">Future</span>.of(...);</code></pre>
 </div>
 </div>
 </div>
@@ -1772,7 +1772,7 @@ Match.of(<span class="integer">1</span>)
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java"><span class="directive">final</span> Consumer&lt;<span class="predefined-type">Object</span>&gt; action = Match
+<pre class="CodeRay highlight"><code data-lang="java">Consumer&lt;<span class="predefined-type">Object</span>&gt; action = Match
         .whenType(<span class="predefined-type">String</span>.class).thenRun(s -&gt; println(s, <span class="string"><span class="delimiter">&quot;</span><span class="content">is a String!</span><span class="delimiter">&quot;</span></span>))
         .whenType(<span class="predefined-type">Number</span>.class).thenRun(n -&gt; println(n, <span class="string"><span class="delimiter">&quot;</span><span class="content">is a Number!</span><span class="delimiter">&quot;</span></span>))
         .otherwiseRun(o -&gt; println(o, <span class="string"><span class="delimiter">&quot;</span><span class="content">has an unknown type.</span><span class="delimiter">&quot;</span></span>));
@@ -1870,7 +1870,7 @@ Stream.from(<span class="integer">1</span>).filter(i -&gt; i % <span class="inte
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java"><span class="directive">final</span> Arbitrary ints = Arbitrary.integer();
+<pre class="CodeRay highlight"><code data-lang="java">Arbitrary ints = Arbitrary.integer();
 
 <span class="comment">// square(int) &gt;= 0: OK, passed 1000 tests.</span>
 Property.def(<span class="string"><span class="delimiter">&quot;</span><span class="content">square(int) &gt;= 0</span><span class="delimiter">&quot;</span></span>)
