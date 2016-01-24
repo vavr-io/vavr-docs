@@ -26,7 +26,7 @@ public class MatchDemo {
     @Test
     public void shouldMatchFunctionAsEffect() {
         // tag::matchFunctionAsEffect[]
-        final Consumer<Object> action = Match
+        Consumer<Object> action = Match
                 .whenType(String.class).thenRun(s -> println(s, "is a String!"))
                 .whenType(Number.class).thenRun(n -> println(n, "is a Number!"))
                 .otherwiseRun(o -> println(o, "has an unknown type."));

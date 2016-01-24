@@ -159,7 +159,7 @@ Option is a monadic container type which represents an optional value. Instances
 [source,java,indent=0]
 ----
 // optional *value*, no more nulls
-final Option<T> option = Option.of(...);
+Option<T> option = Option.of(...);
 ----
 
 ==== Try
@@ -173,7 +173,7 @@ Try.of(() -> bunchOfWork()).orElse(other);
 
 [source,java,indent=0]
 ----
-final A result = Try.of(this::bunchOfWork)
+A result = Try.of(this::bunchOfWork)
     .recover(x -> Match.of(x)
         .whenType(Exception_1.class).then(...)
         .whenType(Exception_2.class).then(...)
@@ -187,7 +187,7 @@ Lazy is a monadic container type which represents a lazy evaluated value. Compar
 
 [source,java,indent=0]
 ----
-final Lazy<Double> lazy = Lazy.of(Math::random);
+Lazy<Double> lazy = Lazy.of(Math::random);
 lazy.isEvaluated(); // = false
 lazy.get();         // = 0.123 (random generated)
 lazy.isEvaluated(); // = true
@@ -196,7 +196,7 @@ lazy.get();         // = 0.123 (memoized)
 
 Since version 2.0.0 you may also create a real lazy value (works only with interfaces):
 
-`final CharSequence chars = Lazy.of(() -> "Yay!", CharSequence.class);`
+`CharSequence chars = Lazy.of(() -> "Yay!", CharSequence.class);`
 
 ==== Either
 Either represents a value of two possible types. An Either is either a Left or a Right. If the given Either is a Right and projected to a Left, the Left operations have no effect on the Right value. If the given Either is a Left and projected to a Right, the Right operations have no effect on the Left value. If a Left is projected to a Left or a Right is projected to a Right, the operations have an effect.
@@ -224,7 +224,7 @@ Callbacks may be registered on a Future at each point of time. These actions are
 [source,java,indent=0]
 ----
 // future *value*, result of an async calculation
-final Future<T> future = Future.of(...);
+Future<T> future = Future.of(...);
 ----
 
 ==== Match
@@ -436,7 +436,7 @@ Property checking (also known as http://en.wikipedia.org/wiki/Property_testing[p
 
 [source,java]
 ----
-final Arbitrary ints = Arbitrary.integer();
+Arbitrary ints = Arbitrary.integer();
 
 // square(int) >= 0: OK, passed 1000 tests.
 Property.def("square(int) >= 0")
