@@ -17,9 +17,9 @@ public class MatchDemo {
         // tag::matchValueAsEffect[]
         // 1 is a Number!
         Match.of(1)
-             .whenType(String.class).thenRun(s -> println(s, "is a String!"))
-             .whenType(Number.class).thenRun(n -> println(n, "is a Number!"))
-             .otherwiseRun(o -> println(o, "has an unknown type."));
+                .whenType(String.class).thenRun(s -> println(s, "is a String!"))
+                .whenType(Number.class).thenRun(n -> println(n, "is a Number!"))
+                .otherwiseRun(o -> println(o, "has an unknown type."));
         // end::matchValueAsEffect[]
     }
 
