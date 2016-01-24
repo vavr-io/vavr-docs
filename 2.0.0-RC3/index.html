@@ -1631,11 +1631,6 @@ Callbacks may be registered on a Future at each point of time. These actions are
 <p>The Match API comes in two flavors, the MatchValue and the MatchFunction. Both can be used either as expression or<br>
 as side-effect producing statement.</p>
 </div>
-<div class="imageblock">
-<div class="content">
-<img src="images/match.png" alt="Pattern Matching">
-</div>
-</div>
 <div class="paragraph">
 <p>MatchValue is a Value, obtained by <code>Match.of(&#8230;&#8203;)</code>. In this case a Match is terminated with <code>get()</code>, <code>getOrElse()</code>, etc.</p>
 </div>
@@ -1712,7 +1707,7 @@ out.flush(); <span class="comment">// Avoid mixing sout and serr</span>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java"><span class="comment">// Match as Monad</span>
+<pre class="CodeRay highlight"><code data-lang="java"><span class="comment">// Match as Value</span>
 Match.of(<span class="keyword">new</span> Some&lt;&gt;(<span class="integer">1</span>))
      .whenApplicable((<span class="predefined-type">Option</span> i) -&gt; <span class="predefined-constant">true</span>).thenApply()
      .get(); <span class="comment">// = true</span>
@@ -1734,7 +1729,7 @@ Match.whenType(<span class="predefined-type">Option</span>.class).then(<span cla
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java"><span class="comment">// Match as Monad</span>
+<pre class="CodeRay highlight"><code data-lang="java"><span class="comment">// Match as Value</span>
 Match.of(<span class="predefined-type">Option</span>.of(<span class="integer">1</span>))
      .whenIs(<span class="keyword">new</span> Some&lt;&gt;(<span class="integer">1</span>)).then(<span class="predefined-constant">true</span>)
      .get(); <span class="comment">// = true</span>
@@ -1742,6 +1737,61 @@ Match.of(<span class="predefined-type">Option</span>.of(<span class="integer">1<
 <span class="comment">// Match as Function</span>
 Match.whenIs(<span class="keyword">new</span> Some&lt;&gt;(<span class="integer">1</span>)).then(<span class="predefined-constant">true</span>)
      .apply(<span class="predefined-type">Option</span>.of(<span class="integer">1</span>)); <span class="comment">// = true</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Match can be also used to perform side-effects instead of returning values. This is not recommended in general. However, real world Java programs contain side-effects.</p>
+</div>
+<div class="paragraph">
+<p>For example let us consider a method which prints output to the console:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="directive">static</span> <span class="type">void</span> println(<span class="predefined-type">Object</span> o, <span class="predefined-type">String</span> message) {
+    <span class="predefined-type">System</span>.out.println(o + message);
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Then there are two ways to use <code>Match</code> to print a match result, either as <code>MatchValue</code> effect or as <code>MatchFunction</code> effect.</p>
+</div>
+<div class="paragraph">
+<p>The <code>MatchValue</code> effect is not reusable. A value is matched and at the same time the an effect takes place:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">Match.of(<span class="integer">1</span>)
+     .whenType(<span class="predefined-type">String</span>.class).thenRun(s -&gt; println(s, <span class="string"><span class="delimiter">&quot;</span><span class="content"> is a String!</span><span class="delimiter">&quot;</span></span>))
+     .whenType(<span class="predefined-type">Number</span>.class).thenRun(n -&gt; println(n, <span class="string"><span class="delimiter">&quot;</span><span class="content"> is a Number!</span><span class="delimiter">&quot;</span></span>))
+     .otherwiseRun(o -&gt; println(o, <span class="string"><span class="delimiter">&quot;</span><span class="content">has an unknown type.</span><span class="delimiter">&quot;</span></span>));</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The <code>MatchFunction</code> effect is reusable. It is a <code>Consumer</code> which performs the effect when applied to an object:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="directive">final</span> Consumer&lt;<span class="predefined-type">Object</span>&gt; action = Match
+        .whenType(<span class="predefined-type">String</span>.class).thenRun(s -&gt; println(s, <span class="string"><span class="delimiter">&quot;</span><span class="content"> is a String!</span><span class="delimiter">&quot;</span></span>))
+        .whenType(<span class="predefined-type">Number</span>.class).thenRun(n -&gt; println(n, <span class="string"><span class="delimiter">&quot;</span><span class="content"> is a Number!</span><span class="delimiter">&quot;</span></span>))
+        .otherwiseRun(o -&gt; println(o, <span class="string"><span class="delimiter">&quot;</span><span class="content">has an unknown type.</span><span class="delimiter">&quot;</span></span>));
+
+<span class="comment">// 1 is a Number!</span>
+action.accept(<span class="integer">1</span>);
+
+<span class="comment">// A is a String!</span>
+action.accept(<span class="string"><span class="delimiter">&quot;</span><span class="content">A</span><span class="delimiter">&quot;</span></span>);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Both versions of effect performing matches result in nothing, i.e. <code>void</code>.</p>
+</div>
+<div class="paragraph">
+<p>Here is a complete overview over the whole Match syntax:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/match.png" alt="Pattern Matching">
 </div>
 </div>
 </div>
