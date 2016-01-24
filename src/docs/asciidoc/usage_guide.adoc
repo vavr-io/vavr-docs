@@ -376,6 +376,30 @@ Here is a complete overview over the whole Match syntax:
 
 image::images/match.png[Pattern Matching]
 
+==== Validation
+The Validation control is an _applicative functor_, and facilitates accumulating errors. When trying to compose Monads, the combination process will short circuit at the first encountered error. But 'Validation' will continue processing the combining functions, accumulating all errors. This is especially useful when doing validation of multiple fields, say a web form, and you want to know all errors encountered, instead of one at a time.
+
+Example: We get the fields 'name' and 'age' from a web form and want to create either a valid Person instance, or return the list of validation errors.
+
+[source,java,indent=0]
+----
+include::../../test/java/javaslang/ValidationDemo.java[tags=validatePerson]
+----
+
+A valid value is contained in a `Validation.Valid` instance, a list of validation errors is contained in a `Validation.Invalid` instance.
+
+The following validator is used to combine different validation results to one `Validation` instance.
+
+----
+include::../../test/java/javaslang/ValidationDemo.java[tags=personValidator]
+----
+
+If the validation succeeds, i.e. the input data is valid, then an instance of `Person` is created of the given fields `name` and `age`.
+
+----
+include::../../test/java/javaslang/ValidationDemo.java[tags=person]
+----
+
 === Collections
 
 With Javaslang there has been put much effort into designing an all-new collection library for Java which meets the requirements of functional programming, namely immutability.
