@@ -10,6 +10,5 @@ This is the source of the http://docs.javaslang.com/2.0.0-RC3/[Javaslang documen
   githubPassword=<GitHub password>
 
 * Update the version in `gradle.properties`
-* commit, push and gradlew publishGhPages
-
-Note: if the API has changed, some code example test might fail.
+* Write documentation and test results with `./gradlew asciidoc`. If the Javaslang API has changed, some code example tests might fail.
+* Then `git commit`, `git push` and `./gradlew publishGhPages`
