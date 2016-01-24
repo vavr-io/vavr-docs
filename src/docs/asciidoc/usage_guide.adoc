@@ -3,7 +3,7 @@
 Javaslang comes along with well designed representations of some of the most basic types which apparently are missing or rudimentary in Java: `Tuple`, `Value` and `λ`.
 In Javaslang, all is built upon these three basic building blocks:
 
-image::http://javaslang.com/img/doc-overview.png[]
+image::images/javaslang-overview.png[Javaslang Overview]
 
 === Tuples
 
@@ -179,10 +179,10 @@ Lazy is a monadic container type which represents a lazy evaluated value. Compar
 [source,java,indent=0]
 ----
 final Lazy<Double> l = Lazy.of(Math::random);
-l.isDefined(); // = false
-l.get();       // = 0.123 (random generated)
-l.isDefined(); // = true
-l.get();       // = 0.123 (memoized)
+l.isEvaluated(); // = false
+l.get();         // = 0.123 (random generated)
+l.isEvaluated(); // = true
+l.get();         // = 0.123 (memoized)
 ----
 
 Since version 2.0.0 you may also create a real lazy value (works only with interfaces):
@@ -224,24 +224,28 @@ Match is a Java switch on steroids (without the negative 'side effects'). Some c
 * it has a fluent API
 * it can be Function
 * it can be Value
-* it is able to match values, i.e. when(Object) and whenIn(Object...)
+* it is able to match values, i.e. whenIs(Object) and whenIn(Object...)
 * it is able to match types, i.e. whenType(Class) and whenTypeIn(Class...)
 * it is able to match conditions, i.e. whenTrue(Function1)
 * it is able to match function applicability, i.e. whenApplicable(Function1)
 * results may be specified eagerly, i.e. then(value)
 * results may be obtained lazily, i.e. then(() -> value)
-* results may be derived from the context, i.e. then(object -> f(object)
+* results may be derived from the context, i.e. then(object -> f(object))
 
-The Match API comes in two flavors, the MatchMonad and the MatchFunction.
-MatchMonad is a Value, obtained by `Match.of(...)`. In this case a Match is terminated `get()`, `orElse()`, etc.
+The Match API comes in two flavors, the MatchValue and the MatchFunction. Both can be used either as expression or
+as side-effect producing statement.
+
+image::images/match.png[Pattern Matching]
+
+MatchValue is a Value, obtained by `Match.of(...)`. In this case a Match is terminated with `get()`, `getOrElse()`, etc.
 
 [source,java,indent=0]
 ----
 Match.of(1)
-      .whenType(String.class).then(s -> "String " + s)
-      .whenType(Number.class).then(n -> "Number " + n)
-      .whenType(Integer.class).then(i -> "int " + i)
-      .orElse("unknown");
+     .whenType(String.class).then(s -> "String " + s)
+     .whenType(Number.class).then(n -> "Number " + n)
+     .whenType(Integer.class).then(i -> "int " + i)
+     .getOrElse("unknown");
 ----
 
 MatchFunction is a Function, obtained by one of `Match.whenXxx(...)`. In this case a Match is terminated by applying it to an object, e.g.
@@ -297,7 +301,6 @@ for (String s : Match.of(0)
         .map(String::toUpperCase)) {
     out.println(s);
 }
-
 ----
 
 Javaslang allows to match more special objects by more general cases:
@@ -319,7 +322,6 @@ Match.whenApplicable((Option i) -> true).thenApply()
 
 Match.whenType(Option.class).then(true)
      .apply(new Some<>(1)); // = true
-
 ----
 
 The opposite is also possible, to match more general objects by more special cases:
@@ -334,7 +336,6 @@ Match.of(Option.of(1))
 // Match as Function
 Match.whenIs(new Some<>(1)).then(true)
      .apply(Option.of(1)); // = true
-
 ----
 
 === Collections
@@ -364,13 +365,11 @@ Javaslang's `List` is an immutable linked list. Mutations create new instances. 
 [source,java]
 ----
 Arrays.asList(1, 2, 3).stream().reduce((i, j) -> i + j);
-
 ----
 
 [source,java]
 ----
 IntStream.of(1, 2, 3).sum();
-
 ----
 
 ===== Javaslang
@@ -379,7 +378,6 @@ IntStream.of(1, 2, 3).sum();
 ----
 // javaslang.collection.List
 List.of(1, 2, 3).sum();
-
 ----
 
 ==== Stream
@@ -392,7 +390,6 @@ The stunning thing about streams is that we can use them to represent sequences 
 ----
 // 2, 4, 6, ...
 Stream.gen(1).filter(i -> i % 2 == 0);
-
 ----
 
 === Property Checking
@@ -409,8 +406,6 @@ final CheckResult result = new Property("square(int) >= 0")
         .suchThat(i -> (i * i) >= 0)
         .check();
         .assertIsSatisfied();
-
 ----
 
 Generators of complex data structures are composed of simple generators.
-

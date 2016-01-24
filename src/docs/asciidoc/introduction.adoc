@@ -131,8 +131,7 @@ In http://javaslang.com/[Javaslang] we instantiate a List like this:
 [source,java]
 ----
 // = List(1, 2, 3)
-List list1 = List.of(1, 2, 3);
-
+List<Integer> list1 = List.of(1, 2, 3);
 ----
 
 Each of the List elements forms a separate List node. The tail of the last element is Nil, the empty List.
@@ -144,8 +143,7 @@ This enables us to share elements across different versions of the List.
 [source,java]
 ----
 // = List(0, 2, 3)
-List list2 = list1.tail().prepend(0);
-
+List<Integer> list2 = list1.tail().prepend(0);
 ----
 
 The new head element 0 is __linked__ to the tail of the original List. The original List remains unmodified.
@@ -166,10 +164,9 @@ A very efficient functional Queue can be implemented based on two linked Lists. 
 
 [source,java]
 ----
-Queue queue = Queue.of(1, 2, 3)
+Queue<Integer> queue = Queue.of(1, 2, 3)
                             .enqueue(4)
                             .enqueue(5);
-
 ----
 
 The initial Queue is created of three elements. Two elements are enqueued on the rear List.
@@ -189,7 +186,6 @@ Queue queue = Queue.of(1, 2, 3);
 // = (1, Queue(2, 3))
 Tuple2<Integer, Queue> dequeued =
         queue.dequeue();
-
 ----
 
 What happens when the Queue is empty? Then dequeue() will throw a NoSuchElementException. To do it the __functional way__ we would rather expect an optional result.
@@ -201,7 +197,6 @@ Queue.of(1).dequeueOption();
 
 // = None
 Queue.empty().dequeueOption();
-
 ----
 
 An optional result may be further processed, regardless if it is empty or not.
@@ -221,7 +216,6 @@ Option element = dequeued.map(Tuple2::_1);
 // = Some(Queue())
 Option<Queue> remaining =
         dequeued.map(Tuple2::_2);
-
 ----
 
 ==== Sorted Set
@@ -233,9 +227,7 @@ We build binary search trees in the presence of an ordering, represented by an e
 [source,java]
 ----
 // = TreeSet(1, 2, 3, 4, 6, 7, 8)
-SortedSet xs =
-        TreeSet.of(6, 1, 3, 2, 4, 7, 8);
-
+SortedSet<Integer> xs = TreeSet.of(6, 1, 3, 2, 4, 7, 8);
 ----
 
 image::images/binarytree1.png?w=660[Binary Tree 1]
@@ -245,13 +237,11 @@ Searches on such trees run in O(log n) time. We start the search at the root and
 [source,java]
 ----
 // = TreeSet(1, 2, 3);
-SortedSet set = TreeSet.of(2, 3, 1, 2);
+SortedSet<Integer> set = TreeSet.of(2, 3, 1, 2);
 
 // = TreeSet(3, 2, 1);
 Comparator c = (a, b) -> b - a;
-SortedSet reversed =
-        TreeSet.of(c, 2, 3, 1, 2);
-
+SortedSet<Integer> reversed = TreeSet.of(c, 2, 3, 1, 2);
 ----
 
 Most tree operations are inherently https://en.wikipedia.org/wiki/Recursion[recursive]. The insert function behaves similar to the search function. When the end of a search path is reached, a new node is created and the whole path is reconstructed up to the root. Existing child nodes are referenced whenever possible. Hence the insert operation takes O(log n) time and space.
@@ -259,8 +249,7 @@ Most tree operations are inherently https://en.wikipedia.org/wiki/Recursion[recu
 [source,java]
 ----
 // = TreeSet(1, 2, 3, 4, 5, 6, 7, 8)
-SortedSet ys = xs.add(5);
-
+SortedSet<Integer> ys = xs.add(5);
 ----
 
 image::images/binarytree2.png?w=660[Binary Tree 2]
@@ -283,7 +272,6 @@ He described Java’s Stream as a fancy form of an Iterator. The Java 8 Stream A
 i.prepareForAddition()
  .add(1)
  .mapBackToInteger(Mappers.toInteger())
-
 ----
 
 This is how the new Java 8 Stream API works. It is a computational layer above the well known Java collections.
@@ -295,7 +283,6 @@ Arrays.asList(1, 2, 3)
       .stream()
       .map(Object::toString)
       .collect(Collectors.toList())
-
 ----
 
 Javaslang is greatly inspired by Scala. This is how the above example should have been in Java 8.
@@ -304,7 +291,6 @@ Javaslang is greatly inspired by Scala. This is how the above example should hav
 ----
 // = Stream("1", "2", "3") in Javaslang
 Stream.of(1, 2, 3).map(Object::toString)
-
 ----
 
 Within the last year we put much effort into implementing the Javaslang collection library. It comprises the most widely used collection types.
@@ -322,7 +308,6 @@ All collections are Iterable and hence could be used in enhanced for-statements.
 for (String s : List.of("Java", "Advent")) {
     // side effects and mutation
 }
-
 ----
 
 We could accomplish the same by internalizing the loop and injecting the behavior using a lambda.
@@ -332,7 +317,6 @@ We could accomplish the same by internalizing the loop and injecting the behavio
 List.of("Java", "Advent").forEach(s -> {
     // side effects and mutation
 });
-
 ----
 
 Anyway, as we previously saw we prefer expressions that return a value over statements that return nothing. By looking at a simple example, soon we will recognize that statements add noise and divide what belongs together.
@@ -349,7 +333,6 @@ String join(String... words) {
     }
     return builder.toString();
 }
-
 ----
 
 The Javaslang collections provide us with many functions to operate on the underlying elements. This allows us to express things in a very concise way.
@@ -361,7 +344,6 @@ String join(String... words) {
                .intersperse(", ")
                .fold("", String::concat);
 }
-
 ----
 
 Most goals can be accomplished in various ways using Javaslang. Here we reduced the whole method body to fluent function calls on a List instance. We could even remove the whole method and directly use our List to obtain the computation result.
@@ -369,7 +351,6 @@ Most goals can be accomplished in various ways using Javaslang. Here we reduced 
 [source,java]
 ----
 List.of(words).mkString(", ");
-
 ----
 
 In a real world application we are now able to drastically reduce the number of lines of code and hence lower the risk of bugs.
@@ -389,11 +370,10 @@ Our Map does __not__ have a special Entry type to represent key-value pairs. Ins
 [source,java]
 ----
 // = (1, "A")
-Tuple2 entry = Tuple.of(1, "A");
+Tuple2<Integer, String> entry = Tuple.of(1, "A");
 
 Integer key = entry._1;
 String value = entry._2;
-
 ----
 
 Maps and Tuples are used throughout Javaslang. Tuples are inevitable to handle multi-valued return types in a general way.
@@ -405,8 +385,6 @@ List.of(1, 2, 3, 4).groupBy(i -> i % 2);
 
 // = List((a, 0), (b, 1), (c, 2))
 List.of('a', 'b', 'c').zipWithIndex();
-
 ----
 
 At Javaslang, we explore and test our library by implementing the https://projecteuler.net/archives[99 Euler Problems]. It is a great proof of concept. Please don’t hesitate to send pull requests.
-
