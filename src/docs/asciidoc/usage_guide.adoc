@@ -427,7 +427,7 @@ The stunning thing about streams is that we can use them to represent sequences 
 [source,java]
 ----
 // 2, 4, 6, ...
-Stream.gen(1).filter(i -> i % 2 == 0);
+Stream.from(1).filter(i -> i % 2 == 0);
 ----
 
 === Property Checking
@@ -439,10 +439,10 @@ Property checking (also known as http://en.wikipedia.org/wiki/Property_testing[p
 final Arbitrary ints = Arbitrary.integer();
 
 // square(int) >= 0: OK, passed 1000 tests.
-final CheckResult result = new Property("square(int) >= 0")
+Property.def("square(int) >= 0")
         .forAll(ints)
         .suchThat(i -> (i * i) >= 0)
-        .check();
+        .check()
         .assertIsSatisfied();
 ----
 
