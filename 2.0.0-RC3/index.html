@@ -583,6 +583,7 @@ table.CodeRay td.code>pre{padding:0}
 <li><a href="#_either">2.3.4. Either</a></li>
 <li><a href="#_future">2.3.5. Future</a></li>
 <li><a href="#_match">2.3.6. Match</a></li>
+<li><a href="#_validation">2.3.7. Validation</a></li>
 </ul>
 </li>
 <li><a href="#_collections">2.4. Collections</a>
@@ -1793,6 +1794,82 @@ action.accept(<span class="string"><span class="delimiter">&quot;</span><span cl
 <div class="imageblock">
 <div class="content">
 <img src="images/match.png" alt="Pattern Matching">
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_validation">2.3.7. Validation</h4>
+<div class="paragraph">
+<p>The Validation control is an <em>applicative functor</em>, and facilitates accumulating errors. When trying to compose Monads, the combination process will short circuit at the first encountered error. But 'Validation' will continue processing the combining functions, accumulating all errors. This is especially useful when doing validation of multiple fields, say a web form, and you want to know all errors encountered, instead of one at a time.</p>
+</div>
+<div class="paragraph">
+<p>Example: We get the fields 'name' and 'age' from a web form and want to create either a valid Person instance, or return the list of validation errors.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">PersonValidator personValidator = <span class="keyword">new</span> PersonValidator();
+
+<span class="comment">// Valid(Person(John Doe, 30))</span>
+Validation&lt;<span class="predefined-type">List</span>&lt;<span class="predefined-type">String</span>&gt;, Person&gt; valid = personValidator.validatePerson(<span class="string"><span class="delimiter">&quot;</span><span class="content">John Doe</span><span class="delimiter">&quot;</span></span>, <span class="integer">30</span>);
+
+<span class="comment">// Invalid(List(Name contains invalid characters: '!4?', Age must be greater than 0))</span>
+Validation&lt;<span class="predefined-type">List</span>&lt;<span class="predefined-type">String</span>&gt;, Person&gt; invalid = personValidator.validatePerson(<span class="string"><span class="delimiter">&quot;</span><span class="content">John? Doe!4</span><span class="delimiter">&quot;</span></span>, -<span class="integer">1</span>);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>A valid value is contained in a <code>Validation.Valid</code> instance, a list of validation errors is contained in a <code>Validation.Invalid</code> instance.</p>
+</div>
+<div class="paragraph">
+<p>The following validator is used to combine different validation results to one <code>Validation</code> instance.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>class PersonValidator {
+
+    private static final String VALID_NAME_CHARS = "[a-zA-Z ]";
+    private static final int MIN_AGE = 0;
+
+    public Validation&lt;List&lt;String&gt;, Person&gt; validatePerson(String name, int age) {
+        return Validation.combine(validateName(name), validateAge(age)).ap(Person::new);
+    }
+
+    private Validation&lt;String, String&gt; validateName(String name) {
+        return CharSeq.of(name).replaceAll(VALID_NAME_CHARS, "").transform(seq -&gt; seq.isEmpty()
+                ? Validation.valid(name)
+                : Validation.invalid("Name contains invalid characters: '"
+                + seq.distinct().sort() + "'"));
+    }
+
+    private Validation&lt;String, Integer&gt; validateAge(int age) {
+        return age &lt; MIN_AGE
+                ? Validation.invalid("Age must be greater than " + MIN_AGE)
+                : Validation.valid(age);
+    }
+
+}</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If the validation succeeds, i.e. the input data is valid, then an instance of <code>Person</code> is created of the given fields <code>name</code> and <code>age</code>.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>class Person {
+
+    public final String name;
+    public final int age;
+
+    public Person(String name, int age) {
+        this.name = name;
+        this.age = age;
+    }
+
+    @Override
+    public String toString() {
+        return "Person(" + name + ", " + age + ")";
+    }
+
+}</pre>
 </div>
 </div>
 </div>
