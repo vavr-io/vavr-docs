@@ -516,7 +516,7 @@ table.CodeRay td.code>pre{padding:0}
 <div class="details">
 <span id="author" class="author">Daniel Dietrich, Robert Winkler</span><br>
 <span id="revnumber">version 2.0.0-RC3,</span>
-<span id="revdate">2016-01-25</span>
+<span id="revdate">2016-01-26</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -1952,7 +1952,7 @@ Stream.from(<span class="integer">1</span>).filter(i -&gt; i % <span class="inte
 <span class="comment">// square(int) &gt;= 0: OK, passed 1000 tests.</span>
 Property.def(<span class="string"><span class="delimiter">&quot;</span><span class="content">square(int) &gt;= 0</span><span class="delimiter">&quot;</span></span>)
         .forAll(ints)
-        .suchThat(i -&gt; (i * i) &gt;= <span class="integer">0</span>)
+        .suchThat(i -&gt; i * i &gt;= <span class="integer">0</span>)
         .check()
         .assertIsSatisfied();</code></pre>
 </div>
