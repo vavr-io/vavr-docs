@@ -1,6 +1,6 @@
 = Javaslang Documentation
 
-This is the source of the http://docs.javaslang.com/2.0.0-RC3/[Javaslang documentation].
+This is the source of the http://docs.javaslang.com/2.0.0-RC4/[Javaslang documentation].
 
 === Performing Updates
 

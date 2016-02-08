@@ -41,7 +41,7 @@ class PersonValidator {
         return CharSeq.of(name).replaceAll(VALID_NAME_CHARS, "").transform(seq -> seq.isEmpty()
                 ? Validation.valid(name)
                 : Validation.invalid("Name contains invalid characters: '"
-                + seq.distinct().sort() + "'"));
+                + seq.distinct().sorted() + "'"));
     }
 
     private Validation<String, Integer> validateAge(int age) {
