@@ -515,8 +515,8 @@ table.CodeRay td.code>pre{padding:0}
 <h1>Javaslang User Guide</h1>
 <div class="details">
 <span id="author" class="author">Daniel Dietrich, Robert Winkler</span><br>
-<span id="revnumber">version 2.0.0-RC3,</span>
-<span id="revdate">2016-01-26</span>
+<span id="revnumber">version 2.0.0-RC4,</span>
+<span id="revdate">2016-02-08</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -1131,7 +1131,7 @@ Tuple2&lt;<span class="predefined-type">Integer</span>, <span class="predefined-
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="groovy">dependencies {
-    compile "com.javaslang:javaslang:2.0.0-RC3"
+    compile "com.javaslang:javaslang:2.0.0-RC4"
 }</code></pre>
 </div>
 </div>
@@ -1144,7 +1144,7 @@ Tuple2&lt;<span class="predefined-type">Integer</span>, <span class="predefined-
     <span class="tag">&lt;dependency&gt;</span>
         <span class="tag">&lt;groupId&gt;</span>com.javaslang<span class="tag">&lt;/groupId&gt;</span>
         <span class="tag">&lt;artifactId&gt;</span>javaslang<span class="tag">&lt;/artifactId&gt;</span>
-        <span class="tag">&lt;version&gt;</span>2.0.0-RC3<span class="tag">&lt;/version&gt;</span>
+        <span class="tag">&lt;version&gt;</span>2.0.0-RC4<span class="tag">&lt;/version&gt;</span>
     <span class="tag">&lt;/dependency&gt;</span>
 <span class="tag">&lt;/dependencies&gt;</span></code></pre>
 </div>
@@ -1837,7 +1837,7 @@ Validation&lt;<span class="predefined-type">List</span>&lt;<span class="predefin
         return CharSeq.of(name).replaceAll(VALID_NAME_CHARS, "").transform(seq -&gt; seq.isEmpty()
                 ? Validation.valid(name)
                 : Validation.invalid("Name contains invalid characters: '"
-                + seq.distinct().sort() + "'"));
+                + seq.distinct().sorted() + "'"));
     }
 
     private Validation&lt;String, Integer&gt; validateAge(int age) {
@@ -2264,7 +2264,7 @@ limitations under the License.</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Version 2.0.0-RC3<br>
+Version 2.0.0-RC4<br>
 Last updated 2016-01-24 20:49:15 +01:00
 </div>
 </div>
