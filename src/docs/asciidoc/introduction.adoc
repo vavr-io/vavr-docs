@@ -1,6 +1,6 @@
 == Introduction
 
-Javaslang is a functional library for Java 8+ that provides persistent data types and functional control structures. Because Javaslang does not depend on any libraries (other than the JVM) you can easily add it as standalone .jar to your classpath.
+Javaslang is a functional library for Java 8+ that provides persistent data types and functional control structures. 
 
 === Functional Data Structures in Java 8 with Javaslang
 
