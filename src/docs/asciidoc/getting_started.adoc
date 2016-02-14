@@ -47,7 +47,7 @@ Ensure that your ``~/.m2/settings.xml`` contains the following:
         </activation>
         <repositories>
             <repository>
-                snapshots-repo
+                <id>snapshots-repo</id>
                 <url>https://oss.sonatype.org/content/repositories/snapshots</url>
                 <releases>
                     <enabled>false</enabled>
