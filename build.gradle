@@ -64,8 +64,8 @@ tasks.withType(Copy) {
 }
 
 task copyCNAME(type: Copy) {
-    from 'CNAME'
-    into file(asciidoctor.outputDir.path + '/html5')
+//    from 'CNAME'
+//    into file(asciidoctor.outputDir.path + '/html5')
 }
 
 asciidoctor.dependsOn test
