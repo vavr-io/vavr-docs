@@ -91,7 +91,7 @@ interface Collection<E> {
 
 ----
 
-Today I comprehend a __void__ return type as a smell. It is evidence thathttps://en.wikipedia.org/wiki/Side_effect_(computer_science)[side-effects] take place, state is mutated. __Shared__ mutable state is an important source of failure, not only in a concurrent setting.
+Today I comprehend a __void__ return type as a smell. It is evidence that https://en.wikipedia.org/wiki/Side_effect_(computer_science)[side-effects] take place, state is mutated. __Shared__ mutable state is an important source of failure, not only in a concurrent setting.
 
 ==== Immutable Data Structures
 
