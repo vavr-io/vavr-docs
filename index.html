@@ -1526,18 +1526,18 @@ Javaslang&#8217;s functional Value abstracts over immutable objects. Efficient w
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="java"><span class="comment">// no need to handle exceptions</span>
-Try.of(() -&gt; bunchOfWork()).orElse(other);</code></pre>
+Try.of(() -&gt; bunchOfWork()).getOrElse(other);</code></pre>
 </div>
 </div>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="java">A result = Try.of(<span class="local-variable">this</span>::bunchOfWork)
-    .recover(x -&gt; Match.of(x)
-        .whenType(Exception_1.class).then(...)
-        .whenType(Exception_2.class).then(...)
-        .whenType(Exception_n.class).then(...)
-        .get())
-    .orElse(other);</code></pre>
+    .recover(x -&gt; Match(x).of(
+        Case(instanceOf(Exception_1.class), ...),
+        Case(instanceOf(Exception_2.class), ...),
+        Case(instanceOf(Exception_n.class), ...)
+    ))
+    .getOrElse(other);</code></pre>
 </div>
 </div>
 </div>
