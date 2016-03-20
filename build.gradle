@@ -28,7 +28,7 @@ repositories {
 }
 
 dependencies {
-    testCompile "com.javaslang:javaslang:${project.version}"
+    testCompile "io.javaslang:javaslang:${project.version}"
     testCompile "junit:junit:4.11"
     testCompile "org.assertj:assertj-core:3.0.0"
     testCompile "ch.qos.logback:logback-classic:0.9.26"

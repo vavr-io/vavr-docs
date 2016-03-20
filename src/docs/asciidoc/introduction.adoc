@@ -6,7 +6,7 @@ Javaslang is a functional library for Java 8+ that provides persistent data type
 
 Java 8’s https://docs.oracle.com/javase/tutorial/java/javaOO/lambdaexpressions.html[lambdas (λ)] empower us to create wonderful API’s. They incredibly increase the expressiveness of the language.
 
-http://javaslang.com/[Javaslang] leveraged lambdas to create various new features based on functional patterns. One of them is a functional collection library that is intended to be a replacement for Java’s standard collections.
+http://javaslang.io/[Javaslang] leveraged lambdas to create various new features based on functional patterns. One of them is a functional collection library that is intended to be a replacement for Java’s standard collections.
 
 image::images/javaslang-collections.png[Javaslang Collections]
 
@@ -70,7 +70,7 @@ Rich Hickey, the creator of Clojure, gave a great talk about https://www.youtube
 *   behave type-safe when used in unchecked covariant casts (Java-specific)
 The key to a better Java is to use __immutable values__ paired with __referential transparent functions__.
 
-Javaslang provides the necessary http://javaslang.com/javadoc/snapshot/javaslang/control/package-summary.html[controls] and http://javaslang.com/javadoc/snapshot/javaslang/collection/package-summary.html[collections] to accomplish this goal in every-day Java programming.
+Javaslang provides the necessary http://static.javadoc.io/io.javaslang/javaslang/2.0.0/javaslang/control/package-summary.html[controls] and http://static.javadoc.io/io.javaslang/javaslang/2.0.0/javaslang/collection/package-summary.html[collections] to accomplish this goal in every-day Java programming.
 
 === Data Structures in a Nutshell
 
@@ -126,7 +126,7 @@ Javaslang features a wide range of the most-commonly used functional data struct
 
 One of the most popular and also simplest functional data structures is the https://en.wikipedia.org/wiki/Linked_list[(singly) linked List]. It has a __head__ element and a __tail__ List. A linked List behaves like a Stack which follows the https://en.wikipedia.org/wiki/Stack_(abstract_data_type)[last in, first out (LIFO)] method.
 
-In http://javaslang.com/[Javaslang] we instantiate a List like this:
+In http://javaslang.io/[Javaslang] we instantiate a List like this:
 
 [source,java]
 ----
