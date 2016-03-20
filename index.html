@@ -515,8 +515,8 @@ table.CodeRay td.code>pre{padding:0}
 <h1>Javaslang User Guide</h1>
 <div class="details">
 <span id="author" class="author">Daniel Dietrich, Robert Winkler</span><br>
-<span id="revnumber">version 2.0.0-RC4,</span>
-<span id="revdate">2016-03-08</span>
+<span id="revnumber">version 2.0.0,</span>
+<span id="revdate">2016-03-20</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -586,8 +586,7 @@ table.CodeRay td.code>pre{padding:0}
 <li><a href="#_lazy">3.3.3. Lazy</a></li>
 <li><a href="#_either">3.3.4. Either</a></li>
 <li><a href="#_future">3.3.5. Future</a></li>
-<li><a href="#_match">3.3.6. Match</a></li>
-<li><a href="#_validation">3.3.7. Validation</a></li>
+<li><a href="#_validation">3.3.6. Validation</a></li>
 </ul>
 </li>
 <li><a href="#_collections">3.4. Collections</a>
@@ -635,7 +634,7 @@ table.CodeRay td.code>pre{padding:0}
 <p>Java 8’s <a href="https://docs.oracle.com/javase/tutorial/java/javaOO/lambdaexpressions.html">lambdas (λ)</a> empower us to create wonderful API’s. They incredibly increase the expressiveness of the language.</p>
 </div>
 <div class="paragraph">
-<p><a href="http://javaslang.com/">Javaslang</a> leveraged lambdas to create various new features based on functional patterns. One of them is a functional collection library that is intended to be a replacement for Java’s standard collections.</p>
+<p><a href="http://javaslang.io/">Javaslang</a> leveraged lambdas to create various new features based on functional patterns. One of them is a functional collection library that is intended to be a replacement for Java’s standard collections.</p>
 </div>
 <div class="imageblock">
 <div class="content">
@@ -723,7 +722,7 @@ The key to a better Java is to use <em>immutable values</em> paired with <em>ref
 </ul>
 </div>
 <div class="paragraph">
-<p>Javaslang provides the necessary <a href="http://javaslang.com/javadoc/snapshot/javaslang/control/package-summary.html">controls</a> and <a href="http://javaslang.com/javadoc/snapshot/javaslang/collection/package-summary.html">collections</a> to accomplish this goal in every-day Java programming.</p>
+<p>Javaslang provides the necessary <a href="http://static.javadoc.io/io.javaslang/javaslang/2.0.0/javaslang/control/package-summary.html">controls</a> and <a href="http://static.javadoc.io/io.javaslang/javaslang/2.0.0/javaslang/collection/package-summary.html">collections</a> to accomplish this goal in every-day Java programming.</p>
 </div>
 </div>
 </div>
@@ -796,7 +795,7 @@ list.add(<span class="string"><span class="delimiter">&quot;</span><span class="
 <p>One of the most popular and also simplest functional data structures is the <a href="https://en.wikipedia.org/wiki/Linked_list">(singly) linked List</a>. It has a <em>head</em> element and a <em>tail</em> List. A linked List behaves like a Stack which follows the <a href="https://en.wikipedia.org/wiki/Stack_(abstract_data_type)">last in, first out (LIFO)</a> method.</p>
 </div>
 <div class="paragraph">
-<p>In <a href="http://javaslang.com/">Javaslang</a> we instantiate a List like this:</p>
+<p>In <a href="http://javaslang.io/">Javaslang</a> we instantiate a List like this:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -1144,7 +1143,7 @@ Tuple2&lt;<span class="predefined-type">Integer</span>, <span class="predefined-
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="groovy">dependencies {
-    compile "com.javaslang:javaslang:2.0.0-RC4"
+    compile "io.javaslang:javaslang:2.0.0"
 }</code></pre>
 </div>
 </div>
@@ -1155,9 +1154,9 @@ Tuple2&lt;<span class="predefined-type">Integer</span>, <span class="predefined-
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="xml"><span class="tag">&lt;dependencies&gt;</span>
     <span class="tag">&lt;dependency&gt;</span>
-        <span class="tag">&lt;groupId&gt;</span>com.javaslang<span class="tag">&lt;/groupId&gt;</span>
+        <span class="tag">&lt;groupId&gt;</span>io.javaslang<span class="tag">&lt;/groupId&gt;</span>
         <span class="tag">&lt;artifactId&gt;</span>javaslang<span class="tag">&lt;/artifactId&gt;</span>
-        <span class="tag">&lt;version&gt;</span>2.0.0-RC4<span class="tag">&lt;/version&gt;</span>
+        <span class="tag">&lt;version&gt;</span>2.0.0<span class="tag">&lt;/version&gt;</span>
     <span class="tag">&lt;/dependency&gt;</span>
 <span class="tag">&lt;/dependencies&gt;</span></code></pre>
 </div>
@@ -1603,215 +1602,7 @@ Callbacks may be registered on a Future at each point of time. These actions are
 </div>
 </div>
 <div class="sect3">
-<h4 id="_match">3.3.6. Match</h4>
-<div class="paragraph">
-<p>Match is a Java switch on steroids (without the negative 'side effects'). Some characteristics of Match are:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>it has a fluent API</p>
-</li>
-<li>
-<p>it can be Function</p>
-</li>
-<li>
-<p>it can be Value</p>
-</li>
-<li>
-<p>it is able to match values, i.e. whenIs(Object) and whenIn(Object&#8230;&#8203;)</p>
-</li>
-<li>
-<p>it is able to match types, i.e. whenType(Class) and whenTypeIn(Class&#8230;&#8203;)</p>
-</li>
-<li>
-<p>it is able to match conditions, i.e. whenTrue(Function1)</p>
-</li>
-<li>
-<p>it is able to match function applicability, i.e. whenApplicable(Function1)</p>
-</li>
-<li>
-<p>results may be specified eagerly, i.e. then(value)</p>
-</li>
-<li>
-<p>results may be obtained lazily, i.e. then(() &#8594; value)</p>
-</li>
-<li>
-<p>results may be derived from the context, i.e. then(object &#8594; f(object))</p>
-</li>
-</ul>
-</div>
-<div class="paragraph">
-<p>The Match API comes in two flavors, the MatchValue and the MatchFunction. Both can be used either as expression or<br>
-as side-effect producing statement.</p>
-</div>
-<div class="paragraph">
-<p>MatchValue is a Value, obtained by <code>Match.of(&#8230;&#8203;)</code>. In this case a Match is terminated with <code>get()</code>, <code>getOrElse()</code>, etc.</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="java">Match.of(<span class="integer">1</span>)
-     .whenType(<span class="predefined-type">String</span>.class).then(s -&gt; <span class="string"><span class="delimiter">&quot;</span><span class="content">String </span><span class="delimiter">&quot;</span></span> + s)
-     .whenType(<span class="predefined-type">Number</span>.class).then(n -&gt; <span class="string"><span class="delimiter">&quot;</span><span class="content">Number </span><span class="delimiter">&quot;</span></span> + n)
-     .whenType(<span class="predefined-type">Integer</span>.class).then(i -&gt; <span class="string"><span class="delimiter">&quot;</span><span class="content">int </span><span class="delimiter">&quot;</span></span> + i)
-     .getOrElse(<span class="string"><span class="delimiter">&quot;</span><span class="content">unknown</span><span class="delimiter">&quot;</span></span>);</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>MatchFunction is a Function, obtained by one of <code>Match.whenXxx(&#8230;&#8203;)</code>. In this case a Match is terminated by applying it to an object, e.g.</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="java">Match.when(...).then(...).otherwise(...).apply(o);</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>A MatchFunction is a reusable Match, i.e. it may be applied to different objects.<br>
-Example of a Match as partial function:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="java">Match&lt;<span class="predefined-type">Number</span>&gt; toNumber = Match.as(<span class="predefined-type">Number</span>.class)
-     .whenType(<span class="predefined-type">Integer</span>.class).then(i -&gt; i)
-     .whenType(<span class="predefined-type">String</span>.class).then(s -&gt; <span class="keyword">new</span> <span class="predefined-type">BigDecimal</span>(s));
-<span class="predefined-type">Number</span> number = toNumber.apply(<span class="float">1.0d</span>); <span class="comment">// throws a MatchError</span></code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Example of a Match as total function:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="java">Match&lt;<span class="predefined-type">Number</span>&gt; toNumber = Match.as(<span class="predefined-type">Number</span>.class)
-     .whenType(<span class="predefined-type">Integer</span>.class).then(i -&gt; i)
-     .whenType(<span class="predefined-type">String</span>.class).then(s -&gt; <span class="keyword">new</span> <span class="predefined-type">BigDecimal</span>(s));
-     .otherwise(-<span class="integer">1</span>)
-     .apply(<span class="float">1.0d</span>); <span class="comment">// result: -1</span></code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Javaslang&#8217;s pattern matching feature goes far beyond Java&#8217;s switch.</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="java">Stream.of(<span class="integer">0</span>, <span class="integer">1</span>, <span class="integer">2</span>, <span class="integer">3</span>, <span class="integer">13</span>, <span class="integer">14</span>, <span class="predefined-constant">null</span>, -<span class="integer">1</span>)
-        .peek(n -&gt; out.print(format(<span class="string"><span class="delimiter">&quot;</span><span class="content">%d -&gt; </span><span class="delimiter">&quot;</span></span>, n)))
-        .map(Match.as(<span class="predefined-type">Object</span>.class) <span class="comment">// Match function (with apply(Object))</span>
-                .when(Objects::isNull).then(<span class="string"><span class="delimiter">&quot;</span><span class="content">!</span><span class="delimiter">&quot;</span></span>)
-                .whenIs(<span class="integer">0</span>).then(<span class="string"><span class="delimiter">&quot;</span><span class="content">zero</span><span class="delimiter">&quot;</span></span>)
-                .whenIsIn(<span class="integer">1</span>, <span class="integer">13</span>, <span class="integer">14</span>).then(i -&gt; <span class="string"><span class="delimiter">&quot;</span><span class="content">first digit 1: </span><span class="delimiter">&quot;</span></span> + i)
-                .whenType(<span class="predefined-type">Double</span>.class).then(d -&gt; <span class="string"><span class="delimiter">&quot;</span><span class="content">Found a double: </span><span class="delimiter">&quot;</span></span> + d)
-                .whenApplicable((<span class="predefined-type">Number</span> num) -&gt; <span class="string"><span class="delimiter">&quot;</span><span class="content">number: </span><span class="delimiter">&quot;</span></span> + num).thenApply()
-                .otherwise(() -&gt; <span class="string"><span class="delimiter">&quot;</span><span class="content">no match</span><span class="delimiter">&quot;</span></span>))
-        .map(MatchingTest::toString)
-        .forEach(out::println);
-out.flush(); <span class="comment">// Avoid mixing sout and serr</span>
-
-<span class="comment">// Match monad (with map(), flatMap(), get(), orElse(), orElseGet(), orElseThrow(), etc.)</span>
-<span class="keyword">for</span> (<span class="predefined-type">String</span> s : Match.of(<span class="integer">0</span>)
-        .whenType(<span class="predefined-type">Number</span>.class).then(<span class="predefined-type">Object</span>::toString)
-        .otherwise(<span class="string"><span class="delimiter">&quot;</span><span class="content">unknown</span><span class="delimiter">&quot;</span></span>)
-        .map(<span class="predefined-type">String</span>::toUpperCase)) {
-    out.println(s);
-}</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Javaslang allows to match more special objects by more general cases:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="java"><span class="comment">// Match as Value</span>
-Match.of(<span class="keyword">new</span> Some&lt;&gt;(<span class="integer">1</span>))
-     .whenApplicable((<span class="predefined-type">Option</span> i) -&gt; <span class="predefined-constant">true</span>).thenApply()
-     .get(); <span class="comment">// = true</span>
-
-Match.of(<span class="keyword">new</span> Some&lt;&gt;(<span class="integer">1</span>))
-     .whenType(<span class="predefined-type">Option</span>.class).then(<span class="predefined-constant">true</span>)
-     .get(); <span class="comment">// = true</span>
-
-<span class="comment">// Match as Function</span>
-Match.whenApplicable((<span class="predefined-type">Option</span> i) -&gt; <span class="predefined-constant">true</span>).thenApply()
-     .apply(<span class="keyword">new</span> Some&lt;&gt;(<span class="integer">1</span>)); <span class="comment">// = true</span>
-
-Match.whenType(<span class="predefined-type">Option</span>.class).then(<span class="predefined-constant">true</span>)
-     .apply(<span class="keyword">new</span> Some&lt;&gt;(<span class="integer">1</span>)); <span class="comment">// = true</span></code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>The opposite is also possible, to match more general objects by more special cases:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="java"><span class="comment">// Match as Value</span>
-Match.of(<span class="predefined-type">Option</span>.of(<span class="integer">1</span>))
-     .whenIs(<span class="keyword">new</span> Some&lt;&gt;(<span class="integer">1</span>)).then(<span class="predefined-constant">true</span>)
-     .get(); <span class="comment">// = true</span>
-
-<span class="comment">// Match as Function</span>
-Match.whenIs(<span class="keyword">new</span> Some&lt;&gt;(<span class="integer">1</span>)).then(<span class="predefined-constant">true</span>)
-     .apply(<span class="predefined-type">Option</span>.of(<span class="integer">1</span>)); <span class="comment">// = true</span></code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Match can be also used to perform side-effects instead of returning values. This is not recommended in general. However, real world Java programs contain side-effects.</p>
-</div>
-<div class="paragraph">
-<p>For example let us consider a method which prints output to the console:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="java"><span class="directive">static</span> <span class="type">void</span> println(<span class="predefined-type">Object</span> o, <span class="predefined-type">String</span> message) {
-    <span class="predefined-type">System</span>.out.println(o + <span class="string"><span class="delimiter">&quot;</span><span class="content"> </span><span class="delimiter">&quot;</span></span> + message);
-}</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Then there are two ways to use <code>Match</code> to print a match result, either as <code>MatchValue</code> effect or as <code>MatchFunction</code> effect.</p>
-</div>
-<div class="paragraph">
-<p>The <code>MatchValue</code> effect is not reusable. A value is matched and at the same time the an effect takes place:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="java"><span class="comment">// 1 is a Number!</span>
-Match.of(<span class="integer">1</span>)
-        .whenType(<span class="predefined-type">String</span>.class).thenRun(s -&gt; println(s, <span class="string"><span class="delimiter">&quot;</span><span class="content">is a String!</span><span class="delimiter">&quot;</span></span>))
-        .whenType(<span class="predefined-type">Number</span>.class).thenRun(n -&gt; println(n, <span class="string"><span class="delimiter">&quot;</span><span class="content">is a Number!</span><span class="delimiter">&quot;</span></span>))
-        .otherwiseRun(o -&gt; println(o, <span class="string"><span class="delimiter">&quot;</span><span class="content">has an unknown type.</span><span class="delimiter">&quot;</span></span>));</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>The <code>MatchFunction</code> effect is reusable. It is a <code>Consumer</code> which performs the effect when applied to an object:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="java">Consumer&lt;<span class="predefined-type">Object</span>&gt; action = Match
-        .whenType(<span class="predefined-type">String</span>.class).thenRun(s -&gt; println(s, <span class="string"><span class="delimiter">&quot;</span><span class="content">is a String!</span><span class="delimiter">&quot;</span></span>))
-        .whenType(<span class="predefined-type">Number</span>.class).thenRun(n -&gt; println(n, <span class="string"><span class="delimiter">&quot;</span><span class="content">is a Number!</span><span class="delimiter">&quot;</span></span>))
-        .otherwiseRun(o -&gt; println(o, <span class="string"><span class="delimiter">&quot;</span><span class="content">has an unknown type.</span><span class="delimiter">&quot;</span></span>));
-
-<span class="comment">// 1 is a Number!</span>
-action.accept(<span class="integer">1</span>);
-
-<span class="comment">// A is a String!</span>
-action.accept(<span class="string"><span class="delimiter">&quot;</span><span class="content">A</span><span class="delimiter">&quot;</span></span>);</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Both versions of effect performing matches result in nothing, i.e. <code>void</code>.</p>
-</div>
-<div class="paragraph">
-<p>Here is a complete overview over the whole Match syntax:</p>
-</div>
-<div class="imageblock">
-<div class="content">
-<img src="images/match.png" alt="Pattern Matching">
-</div>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_validation">3.3.7. Validation</h4>
+<h4 id="_validation">3.3.6. Validation</h4>
 <div class="paragraph">
 <p>The Validation control is an <em>applicative functor</em>, and facilitates accumulating errors. When trying to compose Monads, the combination process will short circuit at the first encountered error. But 'Validation' will continue processing the combining functions, accumulating all errors. This is especially useful when doing validation of multiple fields, say a web form, and you want to know all errors encountered, instead of one at a time.</p>
 </div>
@@ -1956,7 +1747,7 @@ Stream.from(<span class="integer">1</span>).filter(i -&gt; i % <span class="inte
 <div class="sect2">
 <h3 id="_property_checking">3.5. Property Checking</h3>
 <div class="paragraph">
-<p>Property checking (also known as <a href="http://en.wikipedia.org/wiki/Property_testing">property testing</a>) is a truly powerful way to test properties of our code in a functional way. It is based on <em><a href="http://javaslang.com/#">arbitrarily</a></em> generated random data, which is passed to a user defined check function.</p>
+<p>Property checking (also known as <a href="http://en.wikipedia.org/wiki/Property_testing">property testing</a>) is a truly powerful way to test properties of our code in a functional way. It is based on generated random data, which is passed to a user defined check function.</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -2285,7 +2076,7 @@ limitations under the License.</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Version 2.0.0-RC4<br>
+Version 2.0.0<br>
 Last updated 2016-03-08 09:35:13 +01:00
 </div>
 </div>
