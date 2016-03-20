@@ -168,18 +168,18 @@ Try is a monadic container type which represents a computation that may either r
 [source,java,indent=0]
 ----
 // no need to handle exceptions
-Try.of(() -> bunchOfWork()).orElse(other);
+Try.of(() -> bunchOfWork()).getOrElse(other);
 ----
 
 [source,java,indent=0]
 ----
 A result = Try.of(this::bunchOfWork)
-    .recover(x -> Match.of(x)
-        .whenType(Exception_1.class).then(...)
-        .whenType(Exception_2.class).then(...)
-        .whenType(Exception_n.class).then(...)
-        .get())
-    .orElse(other);
+    .recover(x -> Match(x).of(
+        Case(instanceOf(Exception_1.class), ...),
+        Case(instanceOf(Exception_2.class), ...),
+        Case(instanceOf(Exception_n.class), ...)
+    ))
+    .getOrElse(other);
 ----
 
 ==== Lazy
