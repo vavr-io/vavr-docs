@@ -16,6 +16,4 @@ include::getting_started.adoc[]
 
 include::usage_guide.adoc[]
 
-include::contributing.adoc[]
-
 include::license.adoc[]
