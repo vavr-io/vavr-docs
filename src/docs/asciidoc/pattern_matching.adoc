@@ -14,8 +14,8 @@ val s = i match {
 
 Notably __match__ is an expression, it yields a result. Furthermore it offers
 
-*   object deconstruction ``case Some(i) => i``
 *   named parameters ``case i: Int => "Int " + i``
+*   object deconstruction ``case Some(i) => i``
 *   guards ``case Some(i) if i > 0 => "positive " + i``
 *   multiple conditions ``case "-h" | "--help" => displayHelp``
 *   compile-time checks for exhaustiveness
