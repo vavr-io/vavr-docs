@@ -213,7 +213,7 @@ Either<String,Integer> value = compute().right().map(i -> i * 2).toEither();
 ----
 
 If the result of compute() is Right(1), the value is Right(2).
-If the result of compute() is Left("error), the value is Left("error").
+If the result of compute() is Left("error"), the value is Left("error").
 
 ==== Future
 A Future is a computation result that becomes available at some point. All operations provided are non-blocking.
