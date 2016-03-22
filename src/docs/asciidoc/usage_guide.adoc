@@ -3,7 +3,7 @@
 Javaslang comes along with well designed representations of some of the most basic types which apparently are missing or rudimentary in Java: `Tuple`, `Value` and `λ`.
 In Javaslang, all is built upon these three basic building blocks:
 
-image::http://javaslang.com/img/doc-overview.png[]
+image::images/javaslang-overview.png[Javaslang Overview]
 
 === Tuples
 
@@ -21,22 +21,22 @@ include::../../test/java/javaslang/TupleDemo.java[tags=createTuple]
 <2> Get the 1st element of this tuple.
 <3> Get the 2nd element of this tuple.
 
-==== Map a tuple
+==== Map a tuple component-wise
 
-Map evaluates a function per element in the tuple, returning another tuple.
+The component-wise map evaluates a function per element in the tuple, returning another tuple.
+
+[source,java,indent=0]
+----
+include::../../test/java/javaslang/TupleDemo.java[tags=bimapTuple]
+----
+
+==== Map a tuple using one mapper
+
+It is also possible to map a tuple using one mapping function.
 
 [source,java,indent=0]
 ----
 include::../../test/java/javaslang/TupleDemo.java[tags=mapTuple]
-----
-
-==== FlatMap a tuple
-
-FlatMap is a frequently used combinator that combines mapping and flattening.
-
-[source,java,indent=0]
-----
-include::../../test/java/javaslang/TupleDemo.java[tags=flatMapTuple]
 ----
 
 ==== Transform a tuple
@@ -96,7 +96,24 @@ include::../../test/java/javaslang/FunctionsDemo.java[tags=composeFunctions2]
 ----
 
 ==== Lifting
-You can lift a partial function into a total function that returns an `Option` result. The term partial function comes from mathematics. A partial function from X to Y is a function f: X′ → Y, for some subset X′ of X. It generalizes the concept of a function f: X → Y by not forcing f to map every element of X to an element of Y. That means a partial function works properly only for some input values. If the function is called with a disallowed input values, it will typically throw an exception.
+You can lift a partial function into a total function that returns an `Option` result. The term _partial function_ comes from mathematics. A partial function from X to Y is a function f: X′ → Y, for some subset X′ of X. It generalizes the concept of a function f: X → Y by not forcing f to map every element of X to an element of Y. That means a partial function works properly only for some input values. If the function is called with a disallowed input values, it will typically throw an exception.
+
+The following method `divide` is a partial function that only accepts non-zero divisors.
+
+[source,java,indent=0]
+----
+include::../../test/java/javaslang/FunctionsDemo.java[tags=partialDivideFunction]
+----
+
+We use `lift` to turn `divide` into a total function that is defined for all inputs.
+
+[source,java,indent=0]
+----
+include::../../test/java/javaslang/FunctionsDemo.java[tags=liftedDivideFunction]
+----
+
+<1> A lifted function returns `None` instead of throwing an exception, if the function is invoked with disallowed input values.
+<2> A lifted function returns `Some`, if the function is invoked with allowed input values.
 
 The following method `sum` is a partial function that only accepts positive input values.
 
@@ -106,19 +123,11 @@ include::../../test/java/javaslang/FunctionsDemo.java[tags=partialFunctionExampl
 ----
 <1> The function `sum` throws an `IllegalArgumentException` for negative input values.
 
-A lifted function returns `Some`, if the function is invoked with allowed input values.
+We may lift the `sum` method by providing the methods reference.
 
 [source,java,indent=0]
 ----
-include::../../test/java/javaslang/FunctionsDemo.java[tags=liftPartialFunctionShouldReturnSome]
-----
-<1> The lifted function returns `Some(3)`.
-
-A lifted function returns `None` instead of throwing an exception, if the function is invoked with disallowed input values.
-
-[source,java,indent=0]
-----
-include::../../test/java/javaslang/FunctionsDemo.java[tags=liftPartialFunctionShouldReturnNone]
+include::../../test/java/javaslang/FunctionsDemo.java[tags=liftMethodReference]
 ----
 <1> The lifted function catches the `IllegalArgumentException` and maps it to `None`.
 
@@ -150,7 +159,7 @@ Option is a monadic container type which represents an optional value. Instances
 [source,java,indent=0]
 ----
 // optional *value*, no more nulls
-final Option<T> option = Option.of(...);
+Option<T> option = Option.of(...);
 ----
 
 ==== Try
@@ -159,18 +168,18 @@ Try is a monadic container type which represents a computation that may either r
 [source,java,indent=0]
 ----
 // no need to handle exceptions
-Try.of(() -> bunchOfWork()).orElse(other);
+Try.of(() -> bunchOfWork()).getOrElse(other);
 ----
 
 [source,java,indent=0]
 ----
-final A result = Try.of(this::bunchOfWork)
-    .recover(x -> Match.of(x)
-        .whenType(Exception_1.class).then(...)
-        .whenType(Exception_2.class).then(...)
-        .whenType(Exception_n.class).then(...)
-        .get())
-    .orElse(other);
+A result = Try.of(this::bunchOfWork)
+    .recover(x -> Match(x).of(
+        Case(instanceOf(Exception_1.class), ...),
+        Case(instanceOf(Exception_2.class), ...),
+        Case(instanceOf(Exception_n.class), ...)
+    ))
+    .getOrElse(other);
 ----
 
 ==== Lazy
@@ -178,12 +187,20 @@ Lazy is a monadic container type which represents a lazy evaluated value. Compar
 
 [source,java,indent=0]
 ----
+<<<<<<< HEAD
 include::../../test/java/javaslang/LazyDemo.java[tags=createLazy]
+=======
+Lazy<Double> lazy = Lazy.of(Math::random);
+lazy.isEvaluated(); // = false
+lazy.get();         // = 0.123 (random generated)
+lazy.isEvaluated(); // = true
+lazy.get();         // = 0.123 (memoized)
+>>>>>>> a818a75b55c800492902ae8d9946c30c88c3c62a
 ----
 
 Since version 2.0.0 you may also create a real lazy value (works only with interfaces):
 
-`final CharSequence chars = Lazy.of(() -> "Yay!", CharSequence.class);`
+`CharSequence chars = Lazy.of(() -> "Yay!", CharSequence.class);`
 
 ==== Either
 Either represents a value of two possible types. An Either is either a Left or a Right. If the given Either is a Right and projected to a Left, the Left operations have no effect on the Right value. If the given Either is a Left and projected to a Right, the Right operations have no effect on the Left value. If a Left is projected to a Left or a Right is projected to a Right, the operations have an effect.
@@ -211,126 +228,31 @@ Callbacks may be registered on a Future at each point of time. These actions are
 [source,java,indent=0]
 ----
 // future *value*, result of an async calculation
-final Future<T> future = Future.of(...);
+Future<T> future = Future.of(...);
 ----
 
-==== Match
-Match is a Java switch on steroids (without the negative 'side effects'). Some characteristics of Match are:
+==== Validation
+The Validation control is an _applicative functor_, and facilitates accumulating errors. When trying to compose Monads, the combination process will short circuit at the first encountered error. But 'Validation' will continue processing the combining functions, accumulating all errors. This is especially useful when doing validation of multiple fields, say a web form, and you want to know all errors encountered, instead of one at a time.
 
-* it has a fluent API
-* it can be Function
-* it can be Value
-* it is able to match values, i.e. when(Object) and whenIn(Object...)
-* it is able to match types, i.e. whenType(Class) and whenTypeIn(Class...)
-* it is able to match conditions, i.e. whenTrue(Function1)
-* it is able to match function applicability, i.e. whenApplicable(Function1)
-* results may be specified eagerly, i.e. then(value)
-* results may be obtained lazily, i.e. then(() -> value)
-* results may be derived from the context, i.e. then(object -> f(object)
-
-The Match API comes in two flavors, the MatchMonad and the MatchFunction.
-MatchMonad is a Value, obtained by `Match.of(...)`. In this case a Match is terminated `get()`, `orElse()`, etc.
+Example: We get the fields 'name' and 'age' from a web form and want to create either a valid Person instance, or return the list of validation errors.
 
 [source,java,indent=0]
 ----
-Match.of(1)
-      .whenType(String.class).then(s -> "String " + s)
-      .whenType(Number.class).then(n -> "Number " + n)
-      .whenType(Integer.class).then(i -> "int " + i)
-      .orElse("unknown");
+include::../../test/java/javaslang/ValidationDemo.java[tags=validatePerson]
 ----
 
-MatchFunction is a Function, obtained by one of `Match.whenXxx(...)`. In this case a Match is terminated by applying it to an object, e.g.
+A valid value is contained in a `Validation.Valid` instance, a list of validation errors is contained in a `Validation.Invalid` instance.
 
-[source,java,indent=0]
-----
-Match.when(...).then(...).otherwise(...).apply(o);
-----
-
-A MatchFunction is a reusable Match, i.e. it may be applied to different objects.
-Example of a Match as partial function:
-
-[source,java,indent=0]
-----
-Match<Number> toNumber = Match.as(Number.class)
-     .whenType(Integer.class).then(i -> i)
-     .whenType(String.class).then(s -> new BigDecimal(s));
-Number number = toNumber.apply(1.0d); // throws a MatchError
-----
-
-Example of a Match as total function:
-
-[source,java,indent=0]
-----
-Match<Number> toNumber = Match.as(Number.class)
-     .whenType(Integer.class).then(i -> i)
-     .whenType(String.class).then(s -> new BigDecimal(s));
-     .otherwise(-1)
-     .apply(1.0d); // result: -1
-----
-
-Javaslang's pattern matching feature goes far beyond Java's switch.
-
-[source,java]
-----
-Stream.of(0, 1, 2, 3, 13, 14, null, -1)
-        .peek(n -> out.print(format("%d -> ", n)))
-        .map(Match.as(Object.class) // Match function (with apply(Object))
-                .when(Objects::isNull).then("!")
-                .whenIs(0).then("zero")
-                .whenIsIn(1, 13, 14).then(i -> "first digit 1: " + i)
-                .whenType(Double.class).then(d -> "Found a double: " + d)
-                .whenApplicable((Number num) -> "number: " + num).thenApply()
-                .otherwise(() -> "no match"))
-        .map(MatchingTest::toString)
-        .forEach(out::println);
-out.flush(); // Avoid mixing sout and serr
-
-// Match monad (with map(), flatMap(), get(), orElse(), orElseGet(), orElseThrow(), etc.)
-for (String s : Match.of(0)
-        .whenType(Number.class).then(Object::toString)
-        .otherwise("unknown")
-        .map(String::toUpperCase)) {
-    out.println(s);
-}
+The following validator is used to combine different validation results to one `Validation` instance.
 
 ----
-
-Javaslang allows to match more special objects by more general cases:
-
-[source,java]
-----
-// Match as Monad
-Match.of(new Some<>(1))
-     .whenApplicable((Option i) -> true).thenApply()
-     .get(); // = true
-
-Match.of(new Some<>(1))
-     .whenType(Option.class).then(true)
-     .get(); // = true
-
-// Match as Function
-Match.whenApplicable((Option i) -> true).thenApply()
-     .apply(new Some<>(1)); // = true
-
-Match.whenType(Option.class).then(true)
-     .apply(new Some<>(1)); // = true
-
+include::../../test/java/javaslang/ValidationDemo.java[tags=personValidator]
 ----
 
-The opposite is also possible, to match more general objects by more special cases:
+If the validation succeeds, i.e. the input data is valid, then an instance of `Person` is created of the given fields `name` and `age`.
 
-[source,java]
 ----
-// Match as Monad
-Match.of(Option.of(1))
-     .whenIs(new Some<>(1)).then(true)
-     .get(); // = true
-
-// Match as Function
-Match.whenIs(new Some<>(1)).then(true)
-     .apply(Option.of(1)); // = true
-
+include::../../test/java/javaslang/ValidationDemo.java[tags=person]
 ----
 
 === Collections
@@ -360,13 +282,11 @@ Javaslang's `List` is an immutable linked list. Mutations create new instances. 
 [source,java]
 ----
 Arrays.asList(1, 2, 3).stream().reduce((i, j) -> i + j);
-
 ----
 
 [source,java]
 ----
 IntStream.of(1, 2, 3).sum();
-
 ----
 
 ===== Javaslang
@@ -375,7 +295,6 @@ IntStream.of(1, 2, 3).sum();
 ----
 // javaslang.collection.List
 List.of(1, 2, 3).sum();
-
 ----
 
 ==== Stream
@@ -387,26 +306,23 @@ The stunning thing about streams is that we can use them to represent sequences 
 [source,java]
 ----
 // 2, 4, 6, ...
-Stream.gen(1).filter(i -> i % 2 == 0);
-
+Stream.from(1).filter(i -> i % 2 == 0);
 ----
 
 === Property Checking
 
-Property checking (also known as http://en.wikipedia.org/wiki/Property_testing[property testing]) is a truly powerful way to test properties of our code in a functional way. It is based on __http://javaslang.com/#[arbitrarily]__ generated random data, which is passed to a user defined check function.
+Property checking (also known as http://en.wikipedia.org/wiki/Property_testing[property testing]) is a truly powerful way to test properties of our code in a functional way. It is based on generated random data, which is passed to a user defined check function.
 
 [source,java]
 ----
-final Arbitrary ints = Arbitrary.integer();
+Arbitrary ints = Arbitrary.integer();
 
 // square(int) >= 0: OK, passed 1000 tests.
-final CheckResult result = new Property("square(int) >= 0")
+Property.def("square(int) >= 0")
         .forAll(ints)
-        .suchThat(i -> (i * i) >= 0)
-        .check();
+        .suchThat(i -> i * i >= 0)
+        .check()
         .assertIsSatisfied();
-
 ----
 
 Generators of complex data structures are composed of simple generators.
-

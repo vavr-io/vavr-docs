@@ -1,5 +1,14 @@
 = Javaslang Documentation
 
-This is the source of the http://javaslang.github.io/javaslang-docs/2.0.0-RC2/[Javaslang documentation].
+This is the source of the http://docs.javaslang.io/[Javaslang documentation].
 
+=== Performing Updates
 
+* Ensure `~/.gradle/gradle.properties` exists with
+
+  githubUser=<GitHub user>
+  githubPassword=<GitHub password>
+
+* Update the version in `gradle.properties`
+* Write documentation and test results with `./gradlew asciidoc`. If the Javaslang API has changed, some code example tests might fail.
+* Then `git commit`, `git push` and `./gradlew publishGhPages`
