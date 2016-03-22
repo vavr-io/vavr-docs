@@ -515,8 +515,8 @@ table.CodeRay td.code>pre{padding:0}
 <h1>Javaslang User Guide</h1>
 <div class="details">
 <span id="author" class="author">Daniel Dietrich, Robert Winkler</span><br>
-<span id="revnumber">version 2.0.0,</span>
-<span id="revdate">2016-03-20</span>
+<span id="revnumber">version 2.0.1,</span>
+<span id="revdate">2016-03-22</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -551,54 +551,57 @@ table.CodeRay td.code>pre{padding:0}
 <li><a href="#_set_and_map">1.5.2. Set and Map</a></li>
 </ul>
 </li>
+<li><a href="#_gradle">1.6. Gradle</a></li>
+<li><a href="#_maven">1.7. Maven</a></li>
+<li><a href="#_standalone">1.8. Standalone</a></li>
+<li><a href="#_snapshots">1.9. Snapshots</a></li>
 </ul>
 </li>
-<li><a href="#_getting_started">2. Getting started</a>
+<li><a href="#_usage_guide">2. Usage Guide</a>
 <ul class="sectlevel2">
-<li><a href="#_gradle">2.1. Gradle</a></li>
-<li><a href="#_maven">2.2. Maven</a></li>
-<li><a href="#_standalone">2.3. Standalone</a></li>
-<li><a href="#_snapshots">2.4. Snapshots</a></li>
-</ul>
-</li>
-<li><a href="#_usage_guide">3. Usage Guide</a>
-<ul class="sectlevel2">
-<li><a href="#_tuples">3.1. Tuples</a>
+<li><a href="#_tuples">2.1. Tuples</a>
 <ul class="sectlevel3">
-<li><a href="#_create_a_tuple">3.1.1. Create a tuple</a></li>
-<li><a href="#_map_a_tuple_component_wise">3.1.2. Map a tuple component-wise</a></li>
-<li><a href="#_map_a_tuple_using_one_mapper">3.1.3. Map a tuple using one mapper</a></li>
-<li><a href="#_transform_a_tuple">3.1.4. Transform a tuple</a></li>
+<li><a href="#_create_a_tuple">2.1.1. Create a tuple</a></li>
+<li><a href="#_map_a_tuple_component_wise">2.1.2. Map a tuple component-wise</a></li>
+<li><a href="#_map_a_tuple_using_one_mapper">2.1.3. Map a tuple using one mapper</a></li>
+<li><a href="#_transform_a_tuple">2.1.4. Transform a tuple</a></li>
 </ul>
 </li>
-<li><a href="#_functions">3.2. Functions</a>
+<li><a href="#_functions">2.2. Functions</a>
 <ul class="sectlevel3">
-<li><a href="#_composition">3.2.1. Composition</a></li>
-<li><a href="#_lifting">3.2.2. Lifting</a></li>
-<li><a href="#_currying">3.2.3. Currying</a></li>
-<li><a href="#_memoization">3.2.4. Memoization</a></li>
+<li><a href="#_composition">2.2.1. Composition</a></li>
+<li><a href="#_lifting">2.2.2. Lifting</a></li>
+<li><a href="#_currying">2.2.3. Currying</a></li>
+<li><a href="#_memoization">2.2.4. Memoization</a></li>
 </ul>
 </li>
-<li><a href="#_values">3.3. Values</a>
+<li><a href="#_values">2.3. Values</a>
 <ul class="sectlevel3">
-<li><a href="#_option">3.3.1. Option</a></li>
-<li><a href="#_try">3.3.2. Try</a></li>
-<li><a href="#_lazy">3.3.3. Lazy</a></li>
-<li><a href="#_either">3.3.4. Either</a></li>
-<li><a href="#_future">3.3.5. Future</a></li>
-<li><a href="#_validation">3.3.6. Validation</a></li>
+<li><a href="#_option">2.3.1. Option</a></li>
+<li><a href="#_try">2.3.2. Try</a></li>
+<li><a href="#_lazy">2.3.3. Lazy</a></li>
+<li><a href="#_either">2.3.4. Either</a></li>
+<li><a href="#_future">2.3.5. Future</a></li>
+<li><a href="#_validation">2.3.6. Validation</a></li>
 </ul>
 </li>
-<li><a href="#_collections">3.4. Collections</a>
+<li><a href="#_collections">2.4. Collections</a>
 <ul class="sectlevel3">
-<li><a href="#_list">3.4.1. List</a></li>
-<li><a href="#_stream">3.4.2. Stream</a></li>
+<li><a href="#_list">2.4.1. List</a></li>
+<li><a href="#_stream">2.4.2. Stream</a></li>
 </ul>
 </li>
-<li><a href="#_property_checking">3.5. Property Checking</a></li>
+<li><a href="#_property_checking">2.5. Property Checking</a></li>
+<li><a href="#_pattern_matching">2.6. Pattern Matching</a>
+<ul class="sectlevel3">
+<li><a href="#_the_basics_of_match_for_java">2.6.1. The Basics of Match for Java</a></li>
+<li><a href="#_patterns">2.6.2. Patterns</a></li>
+<li><a href="#_sneak_preview">2.6.3. Sneak Preview</a></li>
 </ul>
 </li>
-<li><a href="#_license">4. License</a></li>
+</ul>
+</li>
+<li><a href="#_license">3. License</a></li>
 </ul>
 </div>
 </div>
@@ -1104,33 +1107,29 @@ Tuple2&lt;<span class="predefined-type">Integer</span>, <span class="predefined-
 </div>
 </div>
 <div class="paragraph">
-<p>At Javaslang, we explore and test our library by implementing the <a href="https://projecteuler.net/archives">99 Euler Problems</a>. It is a great proof of concept. Please don’t hesitate to send pull requests.</p>
+<p>At Javaslang, we explore and test our library by implementing the <a href="https://projecteuler.net/archives">99 Euler Problems</a>. It is a great proof of concept. Please don’t hesitate to send pull requests.<br>
+== Getting started</p>
 </div>
-</div>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_getting_started">2. Getting started</h2>
-<div class="sectionbody">
 <div class="paragraph">
 <p>Projects that include Javaslang need to target Java 1.8 at minimum.</p>
 </div>
 <div class="paragraph">
 <p>The .jar is available at <a href="http://search.maven.org/#search%7Cga%7C1%7Ca:%22javaslang%22">Maven Central</a>.</p>
 </div>
+</div>
+</div>
 <div class="sect2">
-<h3 id="_gradle">2.1. Gradle</h3>
+<h3 id="_gradle">1.6. Gradle</h3>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="groovy">dependencies {
-    compile "io.javaslang:javaslang:2.0.0"
+    compile "io.javaslang:javaslang:2.0.1"
 }</code></pre>
 </div>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_maven">2.2. Maven</h3>
+<h3 id="_maven">1.7. Maven</h3>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="xml"><span class="tag">&lt;dependencies&gt;</span>
@@ -1144,13 +1143,13 @@ Tuple2&lt;<span class="predefined-type">Integer</span>, <span class="predefined-
 </div>
 </div>
 <div class="sect2">
-<h3 id="_standalone">2.3. Standalone</h3>
+<h3 id="_standalone">1.8. Standalone</h3>
 <div class="paragraph">
 <p>Because Javaslang does <em>not</em> depend on any libraries (other than the JVM) you can easily add it as standalone .jar to your classpath.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_snapshots">2.4. Snapshots</h3>
+<h3 id="_snapshots">1.9. Snapshots</h3>
 <div class="paragraph">
 <p>Developer versions can be found <a href="https://oss.sonatype.org/content/repositories/snapshots/com/javaslang/javaslang">here</a>.</p>
 </div>
@@ -1185,7 +1184,7 @@ Tuple2&lt;<span class="predefined-type">Integer</span>, <span class="predefined-
 </div>
 </div>
 <div class="sect1">
-<h2 id="_usage_guide">3. Usage Guide</h2>
+<h2 id="_usage_guide">2. Usage Guide</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>Javaslang comes along with well designed representations of some of the most basic types which apparently are missing or rudimentary in Java: <code>Tuple</code>, <code>Value</code> and <code>λ</code>.<br>
@@ -1197,13 +1196,13 @@ In Javaslang, all is built upon these three basic building blocks:</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_tuples">3.1. Tuples</h3>
+<h3 id="_tuples">2.1. Tuples</h3>
 <div class="paragraph">
 <p>Java is missing a general notion of tuples. A Tuple combines a fixed number of elements together so that they can be passed around as a whole. Unlike an array or list, a tuple can hold objects with different types, but they are also immutable.<br>
 Tuples are of type Tuple1, Tuple2, Tuple3 and so on. There currently is an upper limit of 8 elements. To access elements of a tuple <code>t</code>, you can use method <code>t._1</code> to access the first element, <code>t._2</code> to access the second, and so on.</p>
 </div>
 <div class="sect3">
-<h4 id="_create_a_tuple">3.1.1. Create a tuple</h4>
+<h4 id="_create_a_tuple">2.1.1. Create a tuple</h4>
 <div class="paragraph">
 <p>Here is an example of how to create a tuple holding a String and an Integer:</p>
 </div>
@@ -1237,7 +1236,7 @@ Tuple2&lt;<span class="predefined-type">String</span>, <span class="predefined-t
 </div>
 </div>
 <div class="sect3">
-<h4 id="_map_a_tuple_component_wise">3.1.2. Map a tuple component-wise</h4>
+<h4 id="_map_a_tuple_component_wise">2.1.2. Map a tuple component-wise</h4>
 <div class="paragraph">
 <p>The component-wise map evaluates a function per element in the tuple, returning another tuple.</p>
 </div>
@@ -1252,7 +1251,7 @@ Tuple2&lt;<span class="predefined-type">String</span>, <span class="predefined-t
 </div>
 </div>
 <div class="sect3">
-<h4 id="_map_a_tuple_using_one_mapper">3.1.3. Map a tuple using one mapper</h4>
+<h4 id="_map_a_tuple_using_one_mapper">2.1.3. Map a tuple using one mapper</h4>
 <div class="paragraph">
 <p>It is also possible to map a tuple using one mapping function.</p>
 </div>
@@ -1266,7 +1265,7 @@ Tuple2&lt;<span class="predefined-type">String</span>, <span class="predefined-t
 </div>
 </div>
 <div class="sect3">
-<h4 id="_transform_a_tuple">3.1.4. Transform a tuple</h4>
+<h4 id="_transform_a_tuple">2.1.4. Transform a tuple</h4>
 <div class="paragraph">
 <p>Transform creates a new type based on the tuple&#8217;s contents.</p>
 </div>
@@ -1281,7 +1280,7 @@ Tuple2&lt;<span class="predefined-type">String</span>, <span class="predefined-t
 </div>
 </div>
 <div class="sect2">
-<h3 id="_functions">3.2. Functions</h3>
+<h3 id="_functions">2.2. Functions</h3>
 <div class="paragraph">
 <p>Functional programming is all about values and transformation of values using functions. Java 8 just provides a <code>Function</code> which accepts one parameter and a <code>BiFunction</code> which accepts two parameters. Javaslang provides functions up to a limit of 8 parameters. The functional interfaces are of called <code>Function0, Function1, Function2, Function3</code> and so on. If you need a function which throws a checked exception you can use <code>CheckedFunction1, CheckedFunction2</code> and so on.<br>
 The following lambda expression creates a function to sum two integers:</p>
@@ -1334,7 +1333,7 @@ Function2&lt;<span class="predefined-type">Integer</span>, <span class="predefin
 </ul>
 </div>
 <div class="sect3">
-<h4 id="_composition">3.2.1. Composition</h4>
+<h4 id="_composition">2.2.1. Composition</h4>
 <div class="paragraph">
 <p>You can compose functions. In mathematics, function composition is the application of one function to the result of another to produce a third function. For instance, the functions f : X → Y and g : Y → Z can be composed to yield a function <code>h: g(f(x))</code> which maps X &#8594; Z.<br>
 You can use either <code>andThen</code>:</p>
@@ -1361,7 +1360,7 @@ then(add1AndMultiplyBy2.apply(<span class="integer">2</span>)).isEqualTo(<span c
 </div>
 </div>
 <div class="sect3">
-<h4 id="_lifting">3.2.2. Lifting</h4>
+<h4 id="_lifting">2.2.2. Lifting</h4>
 <div class="paragraph">
 <p>You can lift a partial function into a total function that returns an <code>Option</code> result. The term <em>partial function</em> comes from mathematics. A partial function from X to Y is a function f: X′ → Y, for some subset X′ of X. It generalizes the concept of a function f: X → Y by not forcing f to map every element of X to an element of Y. That means a partial function works properly only for some input values. If the function is called with a disallowed input values, it will typically throw an exception.</p>
 </div>
@@ -1441,7 +1440,7 @@ then(add1AndMultiplyBy2.apply(<span class="integer">2</span>)).isEqualTo(<span c
 </div>
 </div>
 <div class="sect3">
-<h4 id="_currying">3.2.3. Currying</h4>
+<h4 id="_currying">2.2.3. Currying</h4>
 <div class="paragraph">
 <p>Currying is a technique to partially apply a function by fixing values for some of the parameters. You can fix one or more parameters, depending on the number of parameters. The parameters are bound from left to right.</p>
 </div>
@@ -1463,7 +1462,7 @@ then(add2.apply(<span class="integer">4</span>)).isEqualTo(<span class="integer"
 </div>
 </div>
 <div class="sect3">
-<h4 id="_memoization">3.2.4. Memoization</h4>
+<h4 id="_memoization">2.2.4. Memoization</h4>
 <div class="paragraph">
 <p>Memoization is a form of caching. A memoized function executes only once and then returns the result from a cache.<br>
 The following example calculates a random number on the first invocation and returns the cached number on the second invocation.</p>
@@ -1482,13 +1481,13 @@ then(randomValue1).isEqualTo(randomValue2);</code></pre>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_values">3.3. Values</h3>
+<h3 id="_values">2.3. Values</h3>
 <div class="paragraph">
 <p>In a functional setting we see a value as a kind of <a href="https://en.wikipedia.org/wiki/Normal_form_(abstract_rewriting)">normal form</a>, it cannot be further evaluated. In Java we express this by making the state of an object final and call it <a href="https://en.wikipedia.org/wiki/Immutable_object">immutable</a>.<br>
 Javaslang&#8217;s functional Value abstracts over immutable objects. Efficient write operations are added by sharing immutable memory between instances. What we get is thread-safety for free!</p>
 </div>
 <div class="sect3">
-<h4 id="_option">3.3.1. Option</h4>
+<h4 id="_option">2.3.1. Option</h4>
 <div class="paragraph">
 <p>Option is a monadic container type which represents an optional value. Instances of Option are either an instance of <code>Some</code> or the <code>None</code>.</p>
 </div>
@@ -1500,7 +1499,7 @@ Javaslang&#8217;s functional Value abstracts over immutable objects. Efficient w
 </div>
 </div>
 <div class="sect3">
-<h4 id="_try">3.3.2. Try</h4>
+<h4 id="_try">2.3.2. Try</h4>
 <div class="paragraph">
 <p>Try is a monadic container type which represents a computation that may either result in an exception, or return a successfully computed value. It&#8217;s similar to, but semantically different from <code>Either</code>. Instances of Try, are either an instance of <code>Success</code> or <code>Failure</code>.</p>
 </div>
@@ -1523,17 +1522,27 @@ Try.of(() -&gt; bunchOfWork()).getOrElse(other);</code></pre>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_lazy">3.3.3. Lazy</h4>
+<h4 id="_lazy">2.3.3. Lazy</h4>
 <div class="paragraph">
 <p>Lazy is a monadic container type which represents a lazy evaluated value. Compared to a Supplier, Lazy is memoizing, i.e. it evaluates only once and therefore is referential transparent.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java">Lazy&lt;<span class="predefined-type">Double</span>&gt; lazy = Lazy.of(<span class="predefined-type">Math</span>::random);
+<pre class="CodeRay highlight"><code data-lang="java">&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD
+        Lazy&lt;<span class="predefined-type">Double</span>&gt; lazy = Lazy.of(<span class="predefined-type">Math</span>::random);
+
+        then(lazy.isEvaluated()).isFalse();
+        <span class="predefined-type">Double</span> value = lazy.get(); <span class="comment">// = 0.123 (random generated)</span>
+        then(lazy.isEvaluated()).isTrue();
+        <span class="predefined-type">Double</span> value2 = lazy.get(); <span class="comment">// = 0.123 (memoized)</span>
+        then(value).isEqualTo(value2);
+=======
+Lazy&lt;<span class="predefined-type">Double</span>&gt; lazy = Lazy.of(<span class="predefined-type">Math</span>::random);
 lazy.isEvaluated(); <span class="comment">// = false</span>
 lazy.get();         <span class="comment">// = 0.123 (random generated)</span>
 lazy.isEvaluated(); <span class="comment">// = true</span>
-lazy.get();         <span class="comment">// = 0.123 (memoized)</span></code></pre>
+lazy.get();         <span class="comment">// = 0.123 (memoized)</span>
+&gt;&gt;&gt;&gt;&gt;&gt;&gt; a818a75b55c800492902ae8d9946c30c88c3c62a</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -1544,7 +1553,7 @@ lazy.get();         <span class="comment">// = 0.123 (memoized)</span></code></p
 </div>
 </div>
 <div class="sect3">
-<h4 id="_either">3.3.4. Either</h4>
+<h4 id="_either">2.3.4. Either</h4>
 <div class="paragraph">
 <p>Either represents a value of two possible types. An Either is either a Left or a Right. If the given Either is a Right and projected to a Left, the Left operations have no effect on the Right value. If the given Either is a Left and projected to a Right, the Right operations have no effect on the Left value. If a Left is projected to a Left or a Right is projected to a Right, the operations have an effect.</p>
 </div>
@@ -1562,7 +1571,7 @@ If the result of compute() is Left("error), the value is Left("error").</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_future">3.3.5. Future</h4>
+<h4 id="_future">2.3.5. Future</h4>
 <div class="paragraph">
 <p>A Future is a computation result that becomes available at some point. All operations provided are non-blocking.<br>
 The underlying ExecutorService is used to execute asynchronous handlers, e.g. via onComplete(&#8230;&#8203;).</p>
@@ -1583,7 +1592,7 @@ Callbacks may be registered on a Future at each point of time. These actions are
 </div>
 </div>
 <div class="sect3">
-<h4 id="_validation">3.3.6. Validation</h4>
+<h4 id="_validation">2.3.6. Validation</h4>
 <div class="paragraph">
 <p>The Validation control is an <em>applicative functor</em>, and facilitates accumulating errors. When trying to compose Monads, the combination process will short circuit at the first encountered error. But 'Validation' will continue processing the combining functions, accumulating all errors. This is especially useful when doing validation of multiple fields, say a web form, and you want to know all errors encountered, instead of one at a time.</p>
 </div>
@@ -1660,7 +1669,7 @@ Validation&lt;<span class="predefined-type">List</span>&lt;<span class="predefin
 </div>
 </div>
 <div class="sect2">
-<h3 id="_collections">3.4. Collections</h3>
+<h3 id="_collections">2.4. Collections</h3>
 <div class="paragraph">
 <p>With Javaslang there has been put much effort into designing an all-new collection library for Java which meets the requirements of functional programming, namely immutability.</p>
 </div>
@@ -1682,7 +1691,7 @@ Validation&lt;<span class="predefined-type">List</span>&lt;<span class="predefin
 <p><code>TraversableOnce</code> has a huge amount of useful functions to operate on the collection. Its API is similar to <a href="http://docs.oracle.com/javase/8/docs/api/java/util/stream/Stream.html">java.util.stream.Stream</a> but more mature.</p>
 </div>
 <div class="sect3">
-<h4 id="_list">3.4.1. List</h4>
+<h4 id="_list">2.4.1. List</h4>
 <div class="paragraph">
 <p>Javaslang&#8217;s <code>List</code> is an immutable linked list. Mutations create new instances. Most operations are performed in linear time. Consequent operations are executed one by one.</p>
 </div>
@@ -1710,7 +1719,7 @@ Validation&lt;<span class="predefined-type">List</span>&lt;<span class="predefin
 </div>
 </div>
 <div class="sect3">
-<h4 id="_stream">3.4.2. Stream</h4>
+<h4 id="_stream">2.4.2. Stream</h4>
 <div class="paragraph">
 <p>The <code>javaslang.collection.Stream</code> implementation is a lazy linked list. Values are computed only when needed. Because of its laziness, most operations are performed in constant time. Operations are intermediate in general and executed in a single pass.</p>
 </div>
@@ -1726,7 +1735,7 @@ Stream.from(<span class="integer">1</span>).filter(i -&gt; i % <span class="inte
 </div>
 </div>
 <div class="sect2">
-<h3 id="_property_checking">3.5. Property Checking</h3>
+<h3 id="_property_checking">2.5. Property Checking</h3>
 <div class="paragraph">
 <p>Property checking (also known as <a href="http://en.wikipedia.org/wiki/Property_testing">property testing</a>) is a truly powerful way to test properties of our code in a functional way. It is based on generated random data, which is passed to a user defined check function.</p>
 </div>
@@ -1746,10 +1755,342 @@ Property.def(<span class="string"><span class="delimiter">&quot;</span><span cla
 <p>Generators of complex data structures are composed of simple generators.</p>
 </div>
 </div>
+<div class="sect2">
+<h3 id="_pattern_matching">2.6. Pattern Matching</h3>
+<div class="paragraph">
+<p>Scala has native pattern matching, one of the advantages over <em>plain</em> Java. The basic syntax is close to Java&#8217;s switch:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">val s = i match {
+  <span class="keyword">case</span> <span class="integer">1</span> =&gt; <span class="string"><span class="delimiter">&quot;</span><span class="content">one</span><span class="delimiter">&quot;</span></span>
+  <span class="keyword">case</span> <span class="integer">2</span> =&gt; <span class="string"><span class="delimiter">&quot;</span><span class="content">two</span><span class="delimiter">&quot;</span></span>
+  <span class="keyword">case</span> _ =&gt; <span class="string"><span class="delimiter">&quot;</span><span class="content">?</span><span class="delimiter">&quot;</span></span>
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Notably <em>match</em> is an expression, it yields a result. Furthermore it offers</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>object deconstruction <code>case Some(1) &#8658; "one"</code></p>
+</li>
+<li>
+<p>named parameters <code>case i: Int &#8658; "Int " + i</code></p>
+</li>
+<li>
+<p>guards <code>case Some(i) if i &gt; 0 &#8658; "positive " + i</code></p>
+</li>
+<li>
+<p>multiple conditions <code>case "-h" | "--help" &#8658; displayHelp</code></p>
+</li>
+<li>
+<p>compile-time checks for exhaustiveness<br>
+Pattern matching is a great feature that saves us from writing stacks of if-then-else branches. It reduces the amount of code while focusing on the relevant parts.</p>
+</li>
+</ul>
+</div>
+<div class="sect3">
+<h4 id="_the_basics_of_match_for_java">2.6.1. The Basics of Match for Java</h4>
+<div class="paragraph">
+<p>With Javaslang 2.0 we introduced a new match API that is close to Scala&#8217;s match. It is enabled by adding the following import to our application:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="keyword">import</span> <span class="include">static</span> <span class="include">javaslang.API</span>.*;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Having the static methods <em>Match</em>, <em>Case</em> and the <em>atomic patterns</em></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>$()</code> - wildcard pattern</p>
+</li>
+<li>
+<p><code>$(value)</code> - equals pattern</p>
+</li>
+<li>
+<p><code>$(predicate)</code> - conditional pattern<br>
+in scope, the initial Scala example can be expressed like this:</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="predefined-type">String</span> s = Match(i).of(
+    Case(<span class="error">$</span>(<span class="integer">1</span>), <span class="string"><span class="delimiter">&quot;</span><span class="content">one</span><span class="delimiter">&quot;</span></span>),
+    Case(<span class="error">$</span>(<span class="integer">2</span>), <span class="string"><span class="delimiter">&quot;</span><span class="content">two</span><span class="delimiter">&quot;</span></span>),
+    Case(<span class="error">$</span>(), <span class="string"><span class="delimiter">&quot;</span><span class="content">?</span><span class="delimiter">&quot;</span></span>)
+);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>⚡ We use uniform upper-case method names because 'case' is a keyword in Java. This makes the API special.</p>
+</div>
+<div class="sect4">
+<h5 id="_exhaustiveness">Exhaustiveness</h5>
+<div class="paragraph">
+<p>The last wildcard pattern <code>$()</code> saves us from a MatchError which is thrown if no case matches.</p>
+</div>
+<div class="paragraph">
+<p>Because we can&#8217;t perform exhaustiveness checks like the Scala compiler, we provide the possibility to return an optional result:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="predefined-type">Option</span>&lt;<span class="predefined-type">String</span>&gt; s = Match(i).option(
+    Case(<span class="error">$</span>(<span class="integer">0</span>), <span class="string"><span class="delimiter">&quot;</span><span class="content">zero</span><span class="delimiter">&quot;</span></span>)
+);</code></pre>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_syntactic_sugar">Syntactic Sugar</h5>
+<div class="paragraph">
+<p>If the first argument of a <code>Case</code> is a conditional pattern <code>$(predicate)</code>, it can be simplified by directly writing</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">Case(predicate, ...)</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>⚡ Please note that this simplification is not possible for <code>$(value)</code> because it would raise ambiguities.</p>
+</div>
+<div class="paragraph">
+<p>Javaslang offers a set of default predicates.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="keyword">import</span> <span class="include">static</span> <span class="include">javaslang.Predicates</span>.*;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>These can be used to express the initial Scala example as follows:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="predefined-type">String</span> s = Match(i).of(
+    Case(is(<span class="integer">1</span>), <span class="string"><span class="delimiter">&quot;</span><span class="content">one</span><span class="delimiter">&quot;</span></span>),
+    Case(is(<span class="integer">2</span>), <span class="string"><span class="delimiter">&quot;</span><span class="content">two</span><span class="delimiter">&quot;</span></span>),
+    Case(<span class="error">$</span>(), <span class="string"><span class="delimiter">&quot;</span><span class="content">?</span><span class="delimiter">&quot;</span></span>)
+);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>Multiple Conditions</strong></p>
+</div>
+<div class="paragraph">
+<p>We use the <code>isIn</code> predicate to check multiple conditions:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">Case(isIn(<span class="string"><span class="delimiter">&quot;</span><span class="content">-h</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">--help</span><span class="delimiter">&quot;</span></span>), ...)</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>Performing Side-Effects</strong></p>
+</div>
+<div class="paragraph">
+<p>Match acts like an expression, it results in a value. In order to perform side-effects we need to use the helper function <code>run</code> which returns <code>Void</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">Match(arg).of(
+    Case(isIn(<span class="string"><span class="delimiter">&quot;</span><span class="content">-h</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">--help</span><span class="delimiter">&quot;</span></span>), run(<span class="local-variable">this</span>::displayHelp)),
+    Case(isIn(<span class="string"><span class="delimiter">&quot;</span><span class="content">-v</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">--version</span><span class="delimiter">&quot;</span></span>), run(<span class="local-variable">this</span>::displayVersion)),
+    Case(<span class="error">$</span>(), run(() -&gt; {
+        <span class="keyword">throw</span> <span class="keyword">new</span> <span class="exception">IllegalArgumentException</span>(arg);
+    }))
+);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>⚡ It is necessary to use <code>run</code> to get around ambiguities and because <code>void</code> isn&#8217;t a valid return value in Java.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_named_parameters">Named Parameters</h5>
+<div class="paragraph">
+<p>Javaslang leverages lambdas to provide named parameters for matched values.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="predefined-type">Number</span> plusOne = Match(obj).of(
+    Case(instanceOf(<span class="predefined-type">Integer</span>.class), i -&gt; i + <span class="integer">1</span>),
+    Case(instanceOf(<span class="predefined-type">Double</span>.class), d -&gt; d + <span class="integer">1</span>),
+    Case(<span class="error">$</span>(), o -&gt; { <span class="keyword">throw</span> <span class="keyword">new</span> <span class="exception">NumberFormatException</span>(); })
+);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>So far we directly matched values using atomic patterns. If an atomic pattern matches, the right type of the matched object is inferred from the context of the pattern.</p>
+</div>
+<div class="paragraph">
+<p>Next, we will take a look at recursive patterns that are able to match object graphs of (theoretically) arbitrary depth.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_object_decomposition">Object Decomposition</h5>
+<div class="paragraph">
+<p>In Java we use constructors to instantiate classes. We understand <em>object decomposition</em> as destruction of objects into their parts.</p>
+</div>
+<div class="paragraph">
+<p>While a constructor is a <em>function</em> which is <em>applied</em> to arguments and returns a new instance, a deconstructor is a function which takes an instance and returns the parts. We say an object is <em>unapplied</em>.</p>
+</div>
+<div class="paragraph">
+<p>Object destruction is not necessarily a unique operation. For example, a LocalDate can be decomposed to</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>the year, month and day components</p>
+</li>
+<li>
+<p>the long value representing the epoch milliseconds of the corresponding Instant</p>
+</li>
+<li>
+<p>etc.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_patterns">2.6.2. Patterns</h4>
+<div class="paragraph">
+<p>In Javaslang we use patterns to define how an instance of a specific type is deconstructed. These patterns can be used in conjunction with the Match API.</p>
+</div>
+<div class="sect4">
+<h5 id="_predefined_patterns">Predefined Patterns</h5>
+<div class="paragraph">
+<p>For many Javaslang types there already exist match patterns. They are imported via</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="keyword">import</span> <span class="include">static</span> <span class="include">javaslang.Patterns</span>.*;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>For example we are now able to match the result of a Try:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">Match(_try).of(
+    Case(Success(<span class="error">$</span>()), value -&gt; ...),
+    Case(Failure(<span class="error">$</span>()), x -&gt; ...)
+);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>⚡ A first prototype of Javaslang&#8217;s Match API allowed to extract a user-defined selection of objects from a match pattern. Without proper compiler support this isn&#8217;t practicable because the number of generated methods exploded exponentially. The current API makes the compromise that all patterns are matched but only the root patterns are <em>decomposed</em>.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">Match(_try).of(
+    Case(Success(Tuple2(<span class="error">$</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">a</span><span class="delimiter">&quot;</span></span>), <span class="error">$</span>())), tuple2 -&gt; ...),
+    Case(Failure(<span class="error">$</span>(instanceOf(<span class="exception">Error</span>.class))), error -&gt; ...)
+);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Here the root patterns are Success and Failure. They are decomposed to Tuple2 and Error, having the correct generic types.</p>
+</div>
+<div class="paragraph">
+<p>⚡ Deeply nested types are inferred according to the Match argument and <em>not</em>according to the matched patterns.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_user_defined_patterns">User-Defined Patterns</h5>
+<div class="paragraph">
+<p>It is essential to be able to unapply arbitrary objects, including instances of final classes. Javaslang does this in a declarative style by providing the compile time annotations <code>@Patterns</code> and <code>@Unapply</code>.</p>
+</div>
+<div class="paragraph">
+<p>To enable the annotation processor the artifact <a href="http://search.maven.org/#search%7Cga%7C1%7Cjavaslang-match">javaslang-match</a> needs to be added as project dependency.</p>
+</div>
+<div class="paragraph">
+<p>⚡ Note: Of course the patterns can be implemented directly without using the code generator. For more information take a look at the generated source.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="keyword">import</span> <span class="include">javaslang.match.annotation</span>.*;
+
+<span class="annotation">@Patterns</span>
+<span class="type">class</span> <span class="class">My</span> {
+
+    <span class="annotation">@Unapply</span>
+    <span class="directive">static</span> &lt;T&gt; Tuple1&lt;T&gt; Optional(java.util.Optional&lt;T&gt; optional) {
+        <span class="keyword">return</span> Tuple.of(optional.orElse(<span class="predefined-constant">null</span>));
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The annotation processor places a file MyPatterns in the same package (by default in target/generated-sources). Inner classes are also supported. Special case: if the class name is $, the generated class name is just Patterns, without prefix.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_guards">Guards</h5>
+<div class="paragraph">
+<p>Now we are able to match Optionals using <em>guards</em>.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">Match(optional).of(
+    Case(Optional(<span class="error">$</span>(v -&gt; v != <span class="predefined-constant">null</span>)), <span class="string"><span class="delimiter">&quot;</span><span class="content">defined</span><span class="delimiter">&quot;</span></span>),
+    Case(Optional(<span class="error">$</span>(v -&gt; v == <span class="predefined-constant">null</span>)), <span class="string"><span class="delimiter">&quot;</span><span class="content">empty</span><span class="delimiter">&quot;</span></span>)
+);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The predicates could be simplified by implementing <code>isNull</code> and <code>isNotNull</code>.</p>
+</div>
+<div class="paragraph">
+<p>⚡ And yes, extracting null is weird. Instead of using Java&#8217;s Optional give Javaslang&#8217;s Option a try!</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">Match(option).of(
+    Case(Some(<span class="error">$</span>()), <span class="string"><span class="delimiter">&quot;</span><span class="content">defined</span><span class="delimiter">&quot;</span></span>),
+    Case(None(), <span class="string"><span class="delimiter">&quot;</span><span class="content">empty</span><span class="delimiter">&quot;</span></span>)
+);</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_sneak_preview">2.6.3. Sneak Preview</h4>
+<div class="paragraph">
+<p>One of the next releases of Javaslang could contain more default predicates, like</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>isNull</code></p>
+</li>
+<li>
+<p><code>isNotNull</code> resp. <code>nonNull</code></p>
+</li>
+<li>
+<p>etc.<br>
+The patterns could have a guard-method 'If' (modulo naming) that is able to check a condition that involves all decomposed values:</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>Case(Pattern(...).If(predicate), function)</pre>
+</div>
+</div>
+</div>
+</div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_license">4. License</h2>
+<h2 id="_license">3. License</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>Copyright 2014-2015 Daniel Dietrich</p>
@@ -1774,8 +2115,8 @@ limitations under the License.</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Version 2.0.0<br>
-Last updated 2016-03-20 23:08:49 +01:00
+Version 2.0.1<br>
+Last updated 2016-03-22 10:11:41 MEZ
 </div>
 </div>
 </body>
