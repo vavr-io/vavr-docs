@@ -19,6 +19,7 @@ Notably __match__ is an expression, it yields a result. Furthermore it offers
 *   guards ``case Some(i) if i > 0 => "positive " + i``
 *   multiple conditions ``case "-h" | "--help" => displayHelp``
 *   compile-time checks for exhaustiveness
+
 Pattern matching is a great feature that saves us from writing stacks of if-then-else branches. It reduces the amount of code while focusing on the relevant parts.
 
 ==== The Basics of Match for Java
@@ -36,6 +37,7 @@ Having the static methods __Match__, __Case__ and the __atomic patterns__
 *   ``$()`` - wildcard pattern
 *   ``$(value)`` - equals pattern
 *   ``$(predicate)`` - conditional pattern
+
 in scope, the initial Scala example can be expressed like this:
 
 [source,java]
@@ -252,6 +254,7 @@ One of the next releases of Javaslang could contain more default predicates, lik
 *   ``isNull``
 *   ``isNotNull`` resp. ``nonNull``
 *   etc.
+
 The patterns could have a guard-method 'If' (modulo naming) that is able to check a condition that involves all decomposed values:
 
 ----
