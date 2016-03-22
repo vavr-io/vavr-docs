@@ -68,7 +68,7 @@ task copyCNAME(type: Copy) {
     into file(asciidoctor.outputDir.path + '/html5')
 }
 
-asciidoctor.dependsOn test
+//asciidoctor.dependsOn test
 copyCNAME.dependsOn asciidoctor
 publishGhPages.dependsOn copyCNAME
 
