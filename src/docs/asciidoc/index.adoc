@@ -13,5 +13,6 @@ Daniel Dietrich, Robert Winkler
 include::introduction.adoc[]
 include::getting_started.adoc[]
 include::usage_guide.adoc[]
+include::pattern_matching.adoc[]
 include::contributing.adoc[]
 include::license.adoc[]
