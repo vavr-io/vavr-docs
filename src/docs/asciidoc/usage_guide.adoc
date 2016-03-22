@@ -178,11 +178,7 @@ Lazy is a monadic container type which represents a lazy evaluated value. Compar
 
 [source,java,indent=0]
 ----
-final Lazy<Double> l = Lazy.of(Math::random);
-l.isDefined(); // = false
-l.get();       // = 0.123 (random generated)
-l.isDefined(); // = true
-l.get();       // = 0.123 (memoized)
+include::../../test/java/javaslang/LazyDemo.java[tags=createLazy]
 ----
 
 Since version 2.0.0 you may also create a real lazy value (works only with interfaces):
@@ -341,7 +337,7 @@ Match.whenIs(new Some<>(1)).then(true)
 
 With Javaslang there has been put much effort into designing an all-new collection library for Java which meets the requirements of functional programming, namely immutability.
 
-Java's Stream lifts a computation to a different layer and links to a specific collection in another explicit step. Whith Javaslang we don't need all this additional boilerplate.
+Java's Stream lifts a computation to a different layer and links to a specific collection in another explicit step. With Javaslang we don't need all this additional boilerplate.
 
 The new collections are based on http://docs.oracle.com/javase/8/docs/api/java/lang/Iterable.html[java.lang.Iterable], so they leverage the sugared iteration style.
 
