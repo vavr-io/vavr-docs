@@ -516,7 +516,7 @@ table.CodeRay td.code>pre{padding:0}
 <div class="details">
 <span id="author" class="author">Daniel Dietrich, Robert Winkler</span><br>
 <span id="revnumber">version 2.0.1,</span>
-<span id="revdate">2016-03-22</span>
+<span id="revdate">2016-03-23</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -1913,7 +1913,28 @@ Property.def(<span class="string"><span class="delimiter">&quot;</span><span cla
 </div>
 </div>
 <div class="paragraph">
-<p>⚡ It is necessary to use <code>run</code> to get around ambiguities and because <code>void</code> isn&#8217;t a valid return value in Java.</p>
+<p>⚡ <code>run</code> is used to get around ambiguities and because <code>void</code> isn&#8217;t a valid return value in Java.</p>
+</div>
+<div class="paragraph">
+<p><strong>Caution:</strong> <code>run</code> must not be used as direct return value, i.e. outside of a lambda body:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="comment">// Wrong!</span>
+Case(isIn(<span class="string"><span class="delimiter">&quot;</span><span class="content">-h</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">--help</span><span class="delimiter">&quot;</span></span>), run(<span class="local-variable">this</span>::displayHelp))</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Otherwise the Cases will be eagerly evaluated <em>before</em> the patterns are matched, which breaks the whole Match expression. Instead we use it within a lambda body:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="comment">// Ok</span>
+Case(isIn(<span class="string"><span class="delimiter">&quot;</span><span class="content">-h</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">--help</span><span class="delimiter">&quot;</span></span>), o -&gt; run(<span class="local-variable">this</span>::displayHelp))</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>As we can see, <code>run</code> is error prone if not used right. Be careful. We consider deprecating it in a future release and maybe we will also provide a better API for performing side-effects.</p>
 </div>
 </div>
 <div class="sect4">
