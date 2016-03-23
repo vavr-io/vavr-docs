@@ -124,7 +124,27 @@ Match(arg).of(
 
 ----
 
-⚡ It is necessary to use ``run`` to get around ambiguities and because ``void`` isn't a valid return value in Java.
+⚡ ``run`` is used to get around ambiguities and because ``void`` isn't a valid return value in Java.
+
+*Caution:* ``run`` must not be used as direct return value, i.e. outside of a lambda body:
+
+[source,java]
+----
+// Wrong!
+Case(isIn("-h", "--help"), run(this::displayHelp))
+
+----
+
+Otherwise the Cases will be eagerly evaluated __before__ the patterns are matched, which breaks the whole Match expression. Instead we use it within a lambda body:
+
+[source,java]
+----
+// Ok
+Case(isIn("-h", "--help"), o -> run(this::displayHelp))
+
+----
+
+As we can see, ``run`` is error prone if not used right. Be careful. We consider deprecating it in a future release and maybe we will also provide a better API for performing side-effects.
 
 ===== Named Parameters
 
