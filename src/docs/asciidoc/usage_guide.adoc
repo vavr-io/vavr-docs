@@ -192,7 +192,10 @@ include::../../test/java/javaslang/LazyDemo.java[tags=createLazy]
 
 Since version 2.0.0 you may also create a real lazy value (works only with interfaces):
 
-`CharSequence chars = Lazy.of(() -> "Yay!", CharSequence.class);`
+[source,java,indent=0]
+----
+CharSequence chars = Lazy.of(() -> "Yay!", CharSequence.class);
+----
 
 ==== Either
 Either represents a value of two possible types. An Either is either a Left or a Right. If the given Either is a Right and projected to a Left, the Left operations have no effect on the Right value. If the given Either is a Left and projected to a Right, the Right operations have no effect on the Left value. If a Left is projected to a Left or a Right is projected to a Right, the operations have an effect.
