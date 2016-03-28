@@ -1537,8 +1537,10 @@ lazy.get();         <span class="comment">// = 0.123 (memoized)</span></code></p
 <div class="paragraph">
 <p>Since version 2.0.0 you may also create a real lazy value (works only with interfaces):</p>
 </div>
-<div class="paragraph">
-<p><code>CharSequence chars = Lazy.of(() &#8594; "Yay!", CharSequence.class);</code></p>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="predefined-type">CharSequence</span> chars = Lazy.of(() -&gt; <span class="string"><span class="delimiter">&quot;</span><span class="content">Yay!</span><span class="delimiter">&quot;</span></span>, <span class="predefined-type">CharSequence</span>.class);</code></pre>
+</div>
 </div>
 </div>
 <div class="sect3">
