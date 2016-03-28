@@ -516,7 +516,7 @@ table.CodeRay td.code>pre{padding:0}
 <div class="details">
 <span id="author" class="author">Daniel Dietrich, Robert Winkler</span><br>
 <span id="revnumber">version 2.0.1,</span>
-<span id="revdate">2016-03-23</span>
+<span id="revdate">2016-03-28</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -591,12 +591,11 @@ table.CodeRay td.code>pre{padding:0}
 <li><a href="#_stream">2.4.2. Stream</a></li>
 </ul>
 </li>
-<li><a href="#_property_checking">2.5. Property Checking</a></li>
-<li><a href="#_pattern_matching">2.6. Pattern Matching</a>
+<li><a href="#_property_checking">2.5. Property Checking</a>
 <ul class="sectlevel3">
-<li><a href="#_the_basics_of_match_for_java">2.6.1. The Basics of Match for Java</a></li>
-<li><a href="#_patterns">2.6.2. Patterns</a></li>
-<li><a href="#_sneak_preview">2.6.3. Sneak Preview</a></li>
+<li><a href="#_the_basics_of_match_for_java">2.5.1. The Basics of Match for Java</a></li>
+<li><a href="#_patterns">2.5.2. Patterns</a></li>
+<li><a href="#_sneak_preview">2.5.3. Sneak Preview</a></li>
 </ul>
 </li>
 </ul>
@@ -1136,7 +1135,7 @@ Tuple2&lt;<span class="predefined-type">Integer</span>, <span class="predefined-
     <span class="tag">&lt;dependency&gt;</span>
         <span class="tag">&lt;groupId&gt;</span>io.javaslang<span class="tag">&lt;/groupId&gt;</span>
         <span class="tag">&lt;artifactId&gt;</span>javaslang<span class="tag">&lt;/artifactId&gt;</span>
-        <span class="tag">&lt;version&gt;</span>2.0.0<span class="tag">&lt;/version&gt;</span>
+        <span class="tag">&lt;version&gt;</span>2.0.1<span class="tag">&lt;/version&gt;</span>
     <span class="tag">&lt;/dependency&gt;</span>
 <span class="tag">&lt;/dependencies&gt;</span></code></pre>
 </div>
@@ -1528,21 +1527,11 @@ Try.of(() -&gt; bunchOfWork()).getOrElse(other);</code></pre>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java">&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD
-        Lazy&lt;<span class="predefined-type">Double</span>&gt; lazy = Lazy.of(<span class="predefined-type">Math</span>::random);
-
-        then(lazy.isEvaluated()).isFalse();
-        <span class="predefined-type">Double</span> value = lazy.get(); <span class="comment">// = 0.123 (random generated)</span>
-        then(lazy.isEvaluated()).isTrue();
-        <span class="predefined-type">Double</span> value2 = lazy.get(); <span class="comment">// = 0.123 (memoized)</span>
-        then(value).isEqualTo(value2);
-=======
-Lazy&lt;<span class="predefined-type">Double</span>&gt; lazy = Lazy.of(<span class="predefined-type">Math</span>::random);
+<pre class="CodeRay highlight"><code data-lang="java">Lazy&lt;<span class="predefined-type">Double</span>&gt; lazy = Lazy.of(<span class="predefined-type">Math</span>::random);
 lazy.isEvaluated(); <span class="comment">// = false</span>
 lazy.get();         <span class="comment">// = 0.123 (random generated)</span>
 lazy.isEvaluated(); <span class="comment">// = true</span>
-lazy.get();         <span class="comment">// = 0.123 (memoized)</span>
-&gt;&gt;&gt;&gt;&gt;&gt;&gt; a818a75b55c800492902ae8d9946c30c88c3c62a</code></pre>
+lazy.get();         <span class="comment">// = 0.123 (memoized)</span></code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -1741,7 +1730,7 @@ Stream.from(<span class="integer">1</span>).filter(i -&gt; i % <span class="inte
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java">Arbitrary ints = Arbitrary.integer();
+<pre class="CodeRay highlight"><code data-lang="java">Arbitrary&lt;<span class="predefined-type">Integer</span>&gt; ints = Arbitrary.integer();
 
 <span class="comment">// square(int) &gt;= 0: OK, passed 1000 tests.</span>
 Property.def(<span class="string"><span class="delimiter">&quot;</span><span class="content">square(int) &gt;= 0</span><span class="delimiter">&quot;</span></span>)
@@ -1752,11 +1741,9 @@ Property.def(<span class="string"><span class="delimiter">&quot;</span><span cla
 </div>
 </div>
 <div class="paragraph">
-<p>Generators of complex data structures are composed of simple generators.</p>
+<p>Generators of complex data structures are composed of simple generators.<br>
+=== Pattern Matching</p>
 </div>
-</div>
-<div class="sect2">
-<h3 id="_pattern_matching">2.6. Pattern Matching</h3>
 <div class="paragraph">
 <p>Scala has native pattern matching, one of the advantages over <em>plain</em> Java. The basic syntax is close to Java&#8217;s switch:</p>
 </div>
@@ -1795,7 +1782,7 @@ Property.def(<span class="string"><span class="delimiter">&quot;</span><span cla
 <p>Pattern matching is a great feature that saves us from writing stacks of if-then-else branches. It reduces the amount of code while focusing on the relevant parts.</p>
 </div>
 <div class="sect3">
-<h4 id="_the_basics_of_match_for_java">2.6.1. The Basics of Match for Java</h4>
+<h4 id="_the_basics_of_match_for_java">2.5.1. The Basics of Match for Java</h4>
 <div class="paragraph">
 <p>With Javaslang 2.0 we introduced a new match API that is close to Scala&#8217;s match. It is enabled by adding the following import to our application:</p>
 </div>
@@ -1985,7 +1972,7 @@ Case(isIn(<span class="string"><span class="delimiter">&quot;</span><span class=
 </div>
 </div>
 <div class="sect3">
-<h4 id="_patterns">2.6.2. Patterns</h4>
+<h4 id="_patterns">2.5.2. Patterns</h4>
 <div class="paragraph">
 <p>In Javaslang we use patterns to define how an instance of a specific type is deconstructed. These patterns can be used in conjunction with the Match API.</p>
 </div>
@@ -2087,7 +2074,7 @@ Case(isIn(<span class="string"><span class="delimiter">&quot;</span><span class=
 </div>
 </div>
 <div class="sect3">
-<h4 id="_sneak_preview">2.6.3. Sneak Preview</h4>
+<h4 id="_sneak_preview">2.5.3. Sneak Preview</h4>
 <div class="paragraph">
 <p>One of the next releases of Javaslang could contain more default predicates, like</p>
 </div>
