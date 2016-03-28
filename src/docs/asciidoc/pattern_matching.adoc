@@ -9,7 +9,6 @@ val s = i match {
   case 2 => "two"
   case _ => "?"
 }
-
 ----
 
 Notably __match__ is an expression, it yields a result. Furthermore it offers
@@ -28,8 +27,7 @@ With Javaslang 2.0 we introduced a new match API that is close to Scala's match.
 
 [source,java]
 ----
-import static javaslang.API.*;  
-
+import static javaslang.API.*;
 ----
 
 Having the static methods __Match__, __Case__ and the __atomic patterns__
@@ -47,7 +45,6 @@ String s = Match(i).of(
     Case($(2), "two"),
     Case($(), "?")
 );
-
 ----
 
 ⚡ We use uniform upper-case method names because 'case' is a keyword in Java. This makes the API special.
@@ -63,7 +60,6 @@ Because we can't perform exhaustiveness checks like the Scala compiler, we provi
 Option<String> s = Match(i).option(  
     Case($(0), "zero")
 );
-
 ----
 
 ===== Syntactic Sugar
@@ -72,8 +68,7 @@ If the first argument of a ``Case`` is a conditional pattern ``$(predicate)``, i
 
 [source,java]
 ----
-Case(predicate, ...)  
-
+Case(predicate, ...)
 ----
 
 ⚡ Please note that this simplification is not possible for ``$(value)`` because it would raise ambiguities.
@@ -82,8 +77,7 @@ Javaslang offers a set of default predicates.
 
 [source,java]
 ----
-import static javaslang.Predicates.*;  
-
+import static javaslang.Predicates.*;
 ----
 
 These can be used to express the initial Scala example as follows:
@@ -95,7 +89,6 @@ String s = Match(i).of(
     Case(is(2), "two"),
     Case($(), "?")
 );
-
 ----
 
 **Multiple Conditions**
@@ -104,8 +97,7 @@ We use the ``isIn`` predicate to check multiple conditions:
 
 [source,java]
 ----
-Case(isIn("-h", "--help"), ...)  
-
+Case(isIn("-h", "--help"), ...)
 ----
 
 **Performing Side-Effects**
@@ -121,7 +113,6 @@ Match(arg).of(
         throw new IllegalArgumentException(arg);
     }))
 );
-
 ----
 
 ⚡ ``run`` is used to get around ambiguities and because ``void`` isn't a valid return value in Java.
@@ -132,7 +123,6 @@ Match(arg).of(
 ----
 // Wrong!
 Case(isIn("-h", "--help"), run(this::displayHelp))
-
 ----
 
 Otherwise the Cases will be eagerly evaluated __before__ the patterns are matched, which breaks the whole Match expression. Instead we use it within a lambda body:
@@ -141,7 +131,6 @@ Otherwise the Cases will be eagerly evaluated __before__ the patterns are matche
 ----
 // Ok
 Case(isIn("-h", "--help"), o -> run(this::displayHelp))
-
 ----
 
 As we can see, ``run`` is error prone if not used right. Be careful. We consider deprecating it in a future release and maybe we will also provide a better API for performing side-effects.
@@ -157,7 +146,6 @@ Number plusOne = Match(obj).of(
     Case(instanceOf(Double.class), d -> d + 1),
     Case($(), o -> { throw new NumberFormatException(); })
 );
-
 ----
 
 So far we directly matched values using atomic patterns. If an atomic pattern matches, the right type of the matched object is inferred from the context of the pattern.
@@ -186,8 +174,7 @@ For many Javaslang types there already exist match patterns. They are imported v
 
 [source,java]
 ----
-import static javaslang.Patterns.*;  
-
+import static javaslang.Patterns.*;
 ----
 
 For example we are now able to match the result of a Try:
@@ -198,7 +185,6 @@ Match(_try).of(
     Case(Success($()), value -> ...),
     Case(Failure($()), x -> ...)
 );
-
 ----
 
 ⚡ A first prototype of Javaslang's Match API allowed to extract a user-defined selection of objects from a match pattern. Without proper compiler support this isn't practicable because the number of generated methods exploded exponentially. The current API makes the compromise that all patterns are matched but only the root patterns are __decomposed__.
@@ -209,7 +195,6 @@ Match(_try).of(
     Case(Success(Tuple2($("a"), $())), tuple2 -> ...),
     Case(Failure($(instanceOf(Error.class))), error -> ...)
 );
-
 ----
 
 Here the root patterns are Success and Failure. They are decomposed to Tuple2 and Error, having the correct generic types.
@@ -236,7 +221,6 @@ class My {
         return Tuple.of(optional.orElse(null));
     }
 }
-
 ----
 
 The annotation processor places a file MyPatterns in the same package (by default in target/generated-sources). Inner classes are also supported. Special case: if the class name is $, the generated class name is just Patterns, without prefix.
@@ -251,7 +235,6 @@ Match(optional).of(
     Case(Optional($(v -> v != null)), "defined"),
     Case(Optional($(v -> v == null)), "empty")
 );
-
 ----
 
 The predicates could be simplified by implementing ``isNull`` and ``isNotNull``.
@@ -264,7 +247,6 @@ Match(option).of(
     Case(Some($()), "defined"),
     Case(None(), "empty")
 );
-
 ----
 
 ==== Sneak Preview

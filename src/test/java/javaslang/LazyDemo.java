@@ -15,12 +15,15 @@ public class LazyDemo {
     public void createLazy(){
         // tag::createLazy[]
         Lazy<Double> lazy = Lazy.of(Math::random);
-
-        then(lazy.isEvaluated()).isFalse();
-        Double value = lazy.get(); // = 0.123 (random generated)
-        then(lazy.isEvaluated()).isTrue();
-        Double value2 = lazy.get(); // = 0.123 (memoized)
-        then(value).isEqualTo(value2);
+        lazy.isEvaluated(); // = false
+        lazy.get();         // = 0.123 (random generated)
+        lazy.isEvaluated(); // = true
+        lazy.get();         // = 0.123 (memoized)
         // end::createLazy[]
+        then(lazy.isEvaluated()).isFalse();
+        Double value = lazy.get();
+        then(lazy.isEvaluated()).isTrue();
+        Double value2 = lazy.get();
+        then(value).isEqualTo(value2);
     }
 }

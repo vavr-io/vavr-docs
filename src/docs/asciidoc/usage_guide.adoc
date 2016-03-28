@@ -187,15 +187,7 @@ Lazy is a monadic container type which represents a lazy evaluated value. Compar
 
 [source,java,indent=0]
 ----
-<<<<<<< HEAD
 include::../../test/java/javaslang/LazyDemo.java[tags=createLazy]
-=======
-Lazy<Double> lazy = Lazy.of(Math::random);
-lazy.isEvaluated(); // = false
-lazy.get();         // = 0.123 (random generated)
-lazy.isEvaluated(); // = true
-lazy.get();         // = 0.123 (memoized)
->>>>>>> a818a75b55c800492902ae8d9946c30c88c3c62a
 ----
 
 Since version 2.0.0 you may also create a real lazy value (works only with interfaces):
@@ -315,7 +307,7 @@ Property checking (also known as http://en.wikipedia.org/wiki/Property_testing[p
 
 [source,java]
 ----
-Arbitrary ints = Arbitrary.integer();
+Arbitrary<Integer> ints = Arbitrary.integer();
 
 // square(int) >= 0: OK, passed 1000 tests.
 Property.def("square(int) >= 0")
@@ -326,4 +318,3 @@ Property.def("square(int) >= 0")
 ----
 
 Generators of complex data structures are composed of simple generators.
-
