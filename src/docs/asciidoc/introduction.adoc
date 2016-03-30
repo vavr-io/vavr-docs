@@ -388,3 +388,4 @@ List.of('a', 'b', 'c').zipWithIndex();
 ----
 
 At Javaslang, we explore and test our library by implementing the https://projecteuler.net/archives[99 Euler Problems]. It is a great proof of concept. Please don’t hesitate to send pull requests.
+
