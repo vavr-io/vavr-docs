@@ -35,6 +35,20 @@ Because Javaslang does __not__ depend on any libraries (other than the JVM) you 
 
 Developer versions can be found https://oss.sonatype.org/content/repositories/snapshots/com/javaslang/javaslang[here].
 
+==== Gradle
+
+Add the additional snapshot repository to your `build.gradle`:
+
+[source,groovy]
+----
+repositories {
+    (...)
+    maven { url "https://oss.sonatype.org/content/repositories/snapshots" }
+}
+----
+
+==== Maven
+
 Ensure that your ``~/.m2/settings.xml`` contains the following:
 
 [source,xml]
