@@ -118,7 +118,7 @@ This model does not impose any implementation details. Here come functional data
 
 === Functional Data Structures
 
-Also known as https://en.wikipedia.org/wiki/Purely_functional[__purely__ functional data structures], these are __immutable__and __persistent__. The methods of functional data structures are __referential transparent__.
+Also known as https://en.wikipedia.org/wiki/Purely_functional[__purely__ functional data structures], these are __immutable__ and __persistent__. The methods of functional data structures are __referential transparent__.
 
 Javaslang features a wide range of the most-commonly used functional data structures. The following examples are explained in-depth.
 
