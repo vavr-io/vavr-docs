@@ -516,7 +516,7 @@ table.CodeRay td.code>pre{padding:0}
 <div class="details">
 <span id="author" class="author">Daniel Dietrich, Robert Winkler</span><br>
 <span id="revnumber">version 2.0.1,</span>
-<span id="revdate">2016-03-31</span>
+<span id="revdate">2016-04-20</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -600,11 +600,12 @@ table.CodeRay td.code>pre{padding:0}
 <li><a href="#_stream">3.4.2. Stream</a></li>
 </ul>
 </li>
-<li><a href="#_property_checking">3.5. Property Checking</a>
+<li><a href="#_property_checking">3.5. Property Checking</a></li>
+<li><a href="#_pattern_matching">3.6. Pattern Matching</a>
 <ul class="sectlevel3">
-<li><a href="#_the_basics_of_match_for_java">3.5.1. The Basics of Match for Java</a></li>
-<li><a href="#_patterns">3.5.2. Patterns</a></li>
-<li><a href="#_sneak_preview">3.5.3. Sneak Preview</a></li>
+<li><a href="#_the_basics_of_match_for_java">3.6.1. The Basics of Match for Java</a></li>
+<li><a href="#_patterns">3.6.2. Patterns</a></li>
+<li><a href="#_sneak_preview">3.6.3. Sneak Preview</a></li>
 </ul>
 </li>
 </ul>
@@ -776,7 +777,7 @@ list.add(<span class="string"><span class="delimiter">&quot;</span><span class="
 <div class="sect2">
 <h3 id="_functional_data_structures">1.4. Functional Data Structures</h3>
 <div class="paragraph">
-<p>Also known as <a href="https://en.wikipedia.org/wiki/Purely_functional"><em>purely</em> functional data structures</a>, these are <em>immutable</em>and <em>persistent</em>. The methods of functional data structures are <em>referential transparent</em>.</p>
+<p>Also known as <a href="https://en.wikipedia.org/wiki/Purely_functional"><em>purely</em> functional data structures</a>, these are <em>immutable</em> and <em>persistent</em>. The methods of functional data structures are <em>referential transparent</em>.</p>
 </div>
 <div class="paragraph">
 <p>Javaslang features a wide range of the most-commonly used functional data structures. The following examples are explained in-depth.</p>
@@ -1773,9 +1774,11 @@ Property.def(<span class="string"><span class="delimiter">&quot;</span><span cla
 </div>
 </div>
 <div class="paragraph">
-<p>Generators of complex data structures are composed of simple generators.<br>
-=== Pattern Matching</p>
+<p>Generators of complex data structures are composed of simple generators.</p>
 </div>
+</div>
+<div class="sect2">
+<h3 id="_pattern_matching">3.6. Pattern Matching</h3>
 <div class="paragraph">
 <p>Scala has native pattern matching, one of the advantages over <em>plain</em> Java. The basic syntax is close to Java&#8217;s switch:</p>
 </div>
@@ -1814,7 +1817,7 @@ Property.def(<span class="string"><span class="delimiter">&quot;</span><span cla
 <p>Pattern matching is a great feature that saves us from writing stacks of if-then-else branches. It reduces the amount of code while focusing on the relevant parts.</p>
 </div>
 <div class="sect3">
-<h4 id="_the_basics_of_match_for_java">3.5.1. The Basics of Match for Java</h4>
+<h4 id="_the_basics_of_match_for_java">3.6.1. The Basics of Match for Java</h4>
 <div class="paragraph">
 <p>With Javaslang 2.0 we introduced a new match API that is close to Scala&#8217;s match. It is enabled by adding the following import to our application:</p>
 </div>
@@ -2004,7 +2007,7 @@ Case(isIn(<span class="string"><span class="delimiter">&quot;</span><span class=
 </div>
 </div>
 <div class="sect3">
-<h4 id="_patterns">3.5.2. Patterns</h4>
+<h4 id="_patterns">3.6.2. Patterns</h4>
 <div class="paragraph">
 <p>In Javaslang we use patterns to define how an instance of a specific type is deconstructed. These patterns can be used in conjunction with the Match API.</p>
 </div>
@@ -2106,7 +2109,7 @@ Case(isIn(<span class="string"><span class="delimiter">&quot;</span><span class=
 </div>
 </div>
 <div class="sect3">
-<h4 id="_sneak_preview">3.5.3. Sneak Preview</h4>
+<h4 id="_sneak_preview">3.6.3. Sneak Preview</h4>
 <div class="paragraph">
 <p>One of the next releases of Javaslang could contain more default predicates, like</p>
 </div>
