@@ -33,7 +33,7 @@ Because Javaslang does __not__ depend on any libraries (other than the JVM) you 
 
 === Snapshots
 
-Developer versions can be found https://oss.sonatype.org/content/repositories/snapshots/com/javaslang/javaslang[here].
+Developer versions can be found https://oss.sonatype.org/content/repositories/snapshots/io/javaslang/javaslang[here].
 
 ==== Gradle
 
