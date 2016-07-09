@@ -9,6 +9,6 @@ This is the source of the http://docs.javaslang.io/[Javaslang documentation].
   githubUser=<GitHub user>
   githubPassword=<GitHub password>
 
-* Update the version in `gradle.properties`
+* Update the version in `gradle.properties`. Please note that the version in the Maven section of `getting_started.adoc` currently has to be updated manually.
 * Write documentation and test results with `./gradlew asciidoc`. If the Javaslang API has changed, some code example tests might fail.
 * Then `git commit`, `git push` and `./gradlew publishGhPages`

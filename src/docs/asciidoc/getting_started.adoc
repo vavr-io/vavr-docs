@@ -2,7 +2,7 @@
 
 Projects that include Javaslang need to target Java 1.8 at minimum.
 
-The .jar is available at http://search.maven.org/#search%7Cga%7C1%7Ca:%22javaslang%22[Maven Central].
+The .jar is available at http://search.maven.org/#search%7Cga%7C1%7Ca%3A%22javaslang%22%20g%3A%22io.javaslang%22[Maven Central].
 
 === Gradle
 
@@ -22,7 +22,7 @@ dependencies {
     <dependency>
         <groupId>io.javaslang</groupId>
         <artifactId>javaslang</artifactId>
-        <version>2.0.1</version>
+        <version>2.0.2</version>
     </dependency>
 </dependencies>
 ----
@@ -74,4 +74,3 @@ Ensure that your ``~/.m2/settings.xml`` contains the following:
     </profile>
 </profiles>
 ----
-
