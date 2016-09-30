@@ -194,7 +194,7 @@ Since version 2.0.0 you may also create a real lazy value (works only with inter
 
 [source,java,indent=0]
 ----
-CharSequence chars = Lazy.of(() -> "Yay!", CharSequence.class);
+CharSequence chars = Lazy.val(() -> "Yay!", CharSequence.class);
 ----
 
 ==== Either
