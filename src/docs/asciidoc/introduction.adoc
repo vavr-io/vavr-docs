@@ -42,11 +42,11 @@ Try<Integer> divide(Integer dividend, Integer divisor) {
 
 ----
 
-This version of divide does not throw any more. We made the possible failure explicit by using the type Try.
+This version of divide does not throw any exception anymore. We made the possible failure explicit by using the type Try.
 
 ==== Referential Transparency
 
-A function, or more general an expression, is called https://en.wikipedia.org/wiki/Referential_transparency[referential transparent] if a call can be replaced by its value without affecting the behavior of the program. Simply spoken, given the same input the output is always the same.
+A function, or more generally an expression, is called https://en.wikipedia.org/wiki/Referential_transparency[referential transparent] if a call can be replaced by its value without affecting the behavior of the program. Simply spoken, given the same input the output is always the same.
 
 [source,java]
 ----
