@@ -516,7 +516,7 @@ table.CodeRay td.code>pre{padding:0}
 <div class="details">
 <span id="author" class="author">Daniel Dietrich, Robert Winkler</span><br>
 <span id="revnumber">version 2.0.5,</span>
-<span id="revdate">2016-11-22</span>
+<span id="revdate">2016-11-30</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -1661,7 +1661,7 @@ Validation&lt;<span class="predefined-type">List</span>&lt;<span class="predefin
 
     private Validation&lt;String, Integer&gt; validateAge(int age) {
         return age &lt; MIN_AGE
-                ? Validation.invalid("Age must be greater than " + MIN_AGE)
+                ? Validation.invalid("Age must be at least " + MIN_AGE)
                 : Validation.valid(age);
     }
 
@@ -1929,9 +1929,9 @@ Property.def(<span class="string"><span class="delimiter">&quot;</span><span cla
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="java">Match(arg).of(
-    Case(isIn(<span class="string"><span class="delimiter">&quot;</span><span class="content">-h</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">--help</span><span class="delimiter">&quot;</span></span>), run(<span class="local-variable">this</span>::displayHelp)),
-    Case(isIn(<span class="string"><span class="delimiter">&quot;</span><span class="content">-v</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">--version</span><span class="delimiter">&quot;</span></span>), run(<span class="local-variable">this</span>::displayVersion)),
-    Case(<span class="error">$</span>(), run(() -&gt; {
+    Case(isIn(<span class="string"><span class="delimiter">&quot;</span><span class="content">-h</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">--help</span><span class="delimiter">&quot;</span></span>), o -&gt; run(<span class="local-variable">this</span>::displayHelp)),
+    Case(isIn(<span class="string"><span class="delimiter">&quot;</span><span class="content">-v</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">--version</span><span class="delimiter">&quot;</span></span>), o -&gt; run(<span class="local-variable">this</span>::displayVersion)),
+    Case(<span class="error">$</span>(), o -&gt; run(() -&gt; {
         <span class="keyword">throw</span> <span class="keyword">new</span> <span class="exception">IllegalArgumentException</span>(arg);
     }))
 );</code></pre>
