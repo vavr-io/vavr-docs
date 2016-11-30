@@ -107,9 +107,9 @@ Match acts like an expression, it results in a value. In order to perform side-e
 [source,java]
 ----
 Match(arg).of(  
-    Case(isIn("-h", "--help"), run(this::displayHelp)),
-    Case(isIn("-v", "--version"), run(this::displayVersion)),
-    Case($(), run(() -> {
+    Case(isIn("-h", "--help"), o -> run(this::displayHelp)),
+    Case(isIn("-v", "--version"), o -> run(this::displayVersion)),
+    Case($(), o -> run(() -> {
         throw new IllegalArgumentException(arg);
     }))
 );

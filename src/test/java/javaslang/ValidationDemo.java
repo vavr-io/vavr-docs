@@ -46,7 +46,7 @@ class PersonValidator {
 
     private Validation<String, Integer> validateAge(int age) {
         return age < MIN_AGE
-                ? Validation.invalid("Age must be greater than " + MIN_AGE)
+                ? Validation.invalid("Age must be at least " + MIN_AGE)
                 : Validation.valid(age);
     }
 
