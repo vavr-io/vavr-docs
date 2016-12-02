@@ -305,6 +305,44 @@ The stunning thing about streams is that we can use them to represent sequences 
 Stream.from(1).filter(i -> i % 2 == 0);
 ----
 
+==== Performance Characteristics
+
+.Time Complexity of Sequential Operations
+[width="100%",frame="topbot",options="header"]
+|====================================================================================================
+|               | head()     | tail()     | get(int)    | update(int, T) | prepend(T)  | append(T)
+| Array         | const      | linear     | const       | const          | linear      | linear
+| CharSeq       | const      | linear     | const       | linear         | linear      | linear
+| Iterator      | const      | const      | &mdash;     | &mdash;        | &mdash;     | &mdash;
+| List          | const      | const      | linear      | linear         | const       | linear
+| Queue         | const      | const^a^   | linear      | linear         | const       | const
+| PriorityQueue | log        | log        | &mdash;     | &mdash;        | log         | log
+| Stream        | const      | const      | linear      | linear         | const^lazy^ | const^lazy^
+| Vector        | const^eff^ | const^eff^ | const ^eff^ | const ^eff^    | const ^eff^ | const ^eff^
+|====================================================================================================
+
+.Time Complexity of Map/Set Operations
+[width="100%",frame="topbot",options="header"]
+|=================================================================
+|               | contains/Key | add/put    | remove     | min
+| HashMap       | const^eff^   | const^eff^ | const^eff^ | linear
+| HashSet       | const^eff^   | const^eff^ | const^eff^ | linear
+| LinkedHashMap | const^eff^   | const^eff^ | linear     | linear
+| LinkedHashSet | const^eff^   | const^eff^ | linear     | linear
+| Tree          | log          | log        | log        | log
+| TreeMap       | log          | log        | log        | log
+| TreeSet       | log          | log        | log        | log
+|=================================================================
+
+Legend:
+
+* const &mdash; constant time
+* const^a^ &mdash; amotized constant time, few operations may take longer
+* const^eff^ &mdash; effectively constant time, depending on assumptions like distribution of hash keys
+* const^lazy^ &mdash; lazy constant time, the operation is deferred
+* log &mdash; logarithmic time
+* linear &mdash; linear time
+
 === Property Checking
 
 Property checking (also known as http://en.wikipedia.org/wiki/Property_testing[property testing]) is a truly powerful way to test properties of our code in a functional way. It is based on generated random data, which is passed to a user defined check function.
