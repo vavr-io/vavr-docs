@@ -516,7 +516,7 @@ table.CodeRay td.code>pre{padding:0}
 <div class="details">
 <span id="author" class="author">Daniel Dietrich, Robert Winkler</span><br>
 <span id="revnumber">version 2.0.5,</span>
-<span id="revdate">2016-11-30</span>
+<span id="revdate">2016-12-02</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -598,6 +598,7 @@ table.CodeRay td.code>pre{padding:0}
 <ul class="sectlevel3">
 <li><a href="#_list">3.4.1. List</a></li>
 <li><a href="#_stream">3.4.2. Stream</a></li>
+<li><a href="#_performance_characteristics">3.4.3. Performance Characteristics</a></li>
 </ul>
 </li>
 <li><a href="#_property_checking">3.5. Property Checking</a></li>
@@ -1758,6 +1759,201 @@ Stream.from(<span class="integer">1</span>).filter(i -&gt; i % <span class="inte
 </div>
 </div>
 </div>
+<div class="sect3">
+<h4 id="_performance_characteristics">3.4.3. Performance Characteristics</h4>
+<table class="tableblock frame-topbot grid-all spread">
+<caption class="title">Table 1. Time Complexity of Sequential Operations</caption>
+<colgroup>
+<col style="width: 14%;">
+<col style="width: 14%;">
+<col style="width: 14%;">
+<col style="width: 14%;">
+<col style="width: 14%;">
+<col style="width: 14%;">
+<col style="width: 14%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top"></th>
+<th class="tableblock halign-left valign-top">head()</th>
+<th class="tableblock halign-left valign-top">tail()</th>
+<th class="tableblock halign-left valign-top">get(int)</th>
+<th class="tableblock halign-left valign-top">update(int, T)</th>
+<th class="tableblock halign-left valign-top">prepend(T)</th>
+<th class="tableblock halign-left valign-top">append(T)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Array</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">const</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">linear</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">const</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">const</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">linear</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">linear</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">CharSeq</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">const</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">linear</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">const</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">linear</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">linear</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">linear</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Iterator</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">const</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">const</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">&mdash;</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">&mdash;</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">&mdash;</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">&mdash;</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">List</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">const</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">const</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">linear</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">linear</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">const</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">linear</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Queue</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">const</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">const<sup>a</sup></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">linear</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">linear</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">const</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">const</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">PriorityQueue</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">log</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">log</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">&mdash;</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">&mdash;</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">log</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">log</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Stream</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">const</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">const</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">linear</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">linear</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">const<sup>lazy</sup></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">const<sup>lazy</sup></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Vector</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">const<sup>eff</sup></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">const<sup>eff</sup></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">const <sup>eff</sup></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">const <sup>eff</sup></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">const <sup>eff</sup></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">const <sup>eff</sup></p></td>
+</tr>
+</tbody>
+</table>
+<table class="tableblock frame-topbot grid-all spread">
+<caption class="title">Table 2. Time Complexity of Map/Set Operations</caption>
+<colgroup>
+<col style="width: 20%;">
+<col style="width: 20%;">
+<col style="width: 20%;">
+<col style="width: 20%;">
+<col style="width: 20%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top"></th>
+<th class="tableblock halign-left valign-top">contains/Key</th>
+<th class="tableblock halign-left valign-top">add/put</th>
+<th class="tableblock halign-left valign-top">remove</th>
+<th class="tableblock halign-left valign-top">min</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">HashMap</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"> const<sup>eff</sup></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">const<sup>eff</sup></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">const<sup>eff</sup></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">linear</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">HashSet</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">const<sup>eff</sup></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">const<sup>eff</sup></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">const<sup>eff</sup></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">linear</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">LinkedHashMap</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">const<sup>eff</sup></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">const<sup>eff</sup></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">linear</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">linear</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">LinkedHashSet</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">const<sup>eff</sup></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">const<sup>eff</sup></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">linear</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">linear</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Tree</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">log</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">log</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">log</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">log</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">TreeMap</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"> log</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">log</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">log</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">log</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">TreeSet</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"> log</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">log</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">log</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">log</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>Legend:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>const &mdash; constant time</p>
+</li>
+<li>
+<p>const<sup>a</sup> &mdash; amotized constant time, few operations may take longer</p>
+</li>
+<li>
+<p>const<sup>eff</sup> &mdash; effectively constant time, depending on assumptions like distribution of hash keys</p>
+</li>
+<li>
+<p>const<sup>lazy</sup> &mdash; lazy constant time, the operation is deferred</p>
+</li>
+<li>
+<p>log &mdash; logarithmic time</p>
+</li>
+<li>
+<p>linear &mdash; linear time</p>
+</li>
+</ul>
+</div>
+</div>
 </div>
 <div class="sect2">
 <h3 id="_property_checking">3.5. Property Checking</h3>
@@ -2168,7 +2364,7 @@ limitations under the License.</p>
 <div id="footer">
 <div id="footer-text">
 Version 2.0.5<br>
-Last updated 2016-08-20 23:16:12 +02:00
+Last updated 2016-12-02 23:57:22 +01:00
 </div>
 </div>
 </body>
