@@ -111,6 +111,26 @@ public class FunctionsDemo {
     }
 
     @Test
+    public void partialApplicationFunction() {
+        // tag::partialApplicationFunction[]
+        Function2<Integer, Integer, Integer> sum = (a, b) -> a + b;
+        Function1<Integer, Integer> add2 = sum.apply(2); //<1>
+
+        then(add2.apply(4)).isEqualTo(6);
+        // end::partialApplicationFunction[]
+    }
+
+    @Test
+    public void partialApplicationFunctionArity5() {
+        // tag::partialApplicationFunctionArity5[]
+        Function5<Integer, Integer, Integer, Integer, Integer, Integer> sum = (a, b, c, d, e) -> a + b + c + d + e;
+        Function2<Integer, Integer, Integer> add6 = sum.apply(2, 3, 1); //<1>
+
+        then(add6.apply(4, 3)).isEqualTo(13);
+        // end::partialApplicationFunctionArity5[]
+    }
+
+    @Test
     public void curryingFunction() {
         // tag::curryingFunction[]
         Function2<Integer, Integer, Integer> sum = (a, b) -> a + b;
@@ -118,6 +138,16 @@ public class FunctionsDemo {
 
         then(add2.apply(4)).isEqualTo(6);
         // end::curryingFunction[]
+    }
+
+    @Test
+    public void curryingFunctionArity3() {
+        // tag::curryingFunctionArity3[]
+        Function3<Integer, Integer, Integer, Integer> sum = (a, b, c) -> a + b + c;
+        final Function1<Integer, Function1<Integer, Integer>> add2 = sum.curried().apply(2);//<1>
+
+        then(add2.apply(4).apply(3)).isEqualTo(9);//<2>
+        // end::curryingFunctionArity3[]
     }
 
     String methodWhichAccepts3Parameters(String one, String two, String three) {
