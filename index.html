@@ -516,7 +516,7 @@ table.CodeRay td.code>pre{padding:0}
 <div class="details">
 <span id="author" class="author">Daniel Dietrich, Robert Winkler</span><br>
 <span id="revnumber">version 2.0.5,</span>
-<span id="revdate">2016-12-03</span>
+<span id="revdate">2017-02-05</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -580,8 +580,9 @@ table.CodeRay td.code>pre{padding:0}
 <ul class="sectlevel3">
 <li><a href="#_composition">3.2.1. Composition</a></li>
 <li><a href="#_lifting">3.2.2. Lifting</a></li>
-<li><a href="#_currying">3.2.3. Currying</a></li>
-<li><a href="#_memoization">3.2.4. Memoization</a></li>
+<li><a href="#_partial_application">3.2.3. Partial application</a></li>
+<li><a href="#_currying">3.2.4. Currying</a></li>
+<li><a href="#_memoization">3.2.5. Memoization</a></li>
 </ul>
 </li>
 <li><a href="#_values">3.3. Values</a>
@@ -1471,9 +1472,56 @@ then(add1AndMultiplyBy2.apply(<span class="integer">2</span>)).isEqualTo(<span c
 </div>
 </div>
 <div class="sect3">
-<h4 id="_currying">3.2.3. Currying</h4>
+<h4 id="_partial_application">3.2.3. Partial application</h4>
 <div class="paragraph">
-<p>Currying is a technique to partially apply a function by fixing values for some of the parameters. You can fix one or more parameters, depending on the number of parameters. The parameters are bound from left to right.</p>
+<p>Partial application allows you to derive a new function from an existing one by fixing some values.  You can fix one or more parameters, and the number of fixed parameters defines the arity of the new function such that <code>new arity = (original arity - fixed parameters)</code>.  The parameters are bound from left to right.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">Function2&lt;<span class="predefined-type">Integer</span>, <span class="predefined-type">Integer</span>, <span class="predefined-type">Integer</span>&gt; sum = (a, b) -&gt; a + b;
+Function1&lt;<span class="predefined-type">Integer</span>, <span class="predefined-type">Integer</span>&gt; add2 = sum.apply(<span class="integer">2</span>); <i class="conum" data-value="1"></i><b>(1)</b>
+
+then(add2.apply(<span class="integer">4</span>)).isEqualTo(<span class="integer">6</span>);</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>The first parameter <code>a</code> is fixed to the value 2.</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>This can be demonstrated by fixing the first three parameters of a <code>Function5</code>, resulting in a <code>Function2</code>.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">Function5&lt;<span class="predefined-type">Integer</span>, <span class="predefined-type">Integer</span>, <span class="predefined-type">Integer</span>, <span class="predefined-type">Integer</span>, <span class="predefined-type">Integer</span>, <span class="predefined-type">Integer</span>&gt; sum = (a, b, c, d, e) -&gt; a + b + c + d + e;
+Function2&lt;<span class="predefined-type">Integer</span>, <span class="predefined-type">Integer</span>, <span class="predefined-type">Integer</span>&gt; add6 = sum.apply(<span class="integer">2</span>, <span class="integer">3</span>, <span class="integer">1</span>); <i class="conum" data-value="1"></i><b>(1)</b>
+
+then(add6.apply(<span class="integer">4</span>, <span class="integer">3</span>)).isEqualTo(<span class="integer">13</span>);</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>The <code>a</code>, <code>b</code> and <code>c</code> parameters are fixed to the values 2, 3 and 1 respectively.</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Partial application differs from <a href="#_currying">Currying</a>, as will be explored in the relevant section.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_currying">3.2.4. Currying</h4>
+<div class="paragraph">
+<p>Currying is a technique to partially apply a function by fixing a value for one of the parameters, resulting in a <code>Function1</code> function that returns a <code>Function1</code>.</p>
+</div>
+<div class="paragraph">
+<p>When a <code>Function2</code> is <em>curried</em>, the result is indistinguishable from the <em>partial application</em> of a <code>Function2</code> because both result in a 1-arity function.</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -1491,9 +1539,32 @@ then(add2.apply(<span class="integer">4</span>)).isEqualTo(<span class="integer"
 </tr>
 </table>
 </div>
+<div class="paragraph">
+<p>You might notice that, apart from the use of <code>.curried()</code>, this code is identical to the 2-arity given example in <a href="#_partial_application">Partial application</a>.  With higher-arity functions, the difference becomes clear.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">Function3&lt;<span class="predefined-type">Integer</span>, <span class="predefined-type">Integer</span>, <span class="predefined-type">Integer</span>, <span class="predefined-type">Integer</span>&gt; sum = (a, b, c) -&gt; a + b + c;
+<span class="directive">final</span> Function1&lt;<span class="predefined-type">Integer</span>, Function1&lt;<span class="predefined-type">Integer</span>, <span class="predefined-type">Integer</span>&gt;&gt; add2 = sum.curried().apply(<span class="integer">2</span>);<i class="conum" data-value="1"></i><b>(1)</b>
+
+then(add2.apply(<span class="integer">4</span>).apply(<span class="integer">3</span>)).isEqualTo(<span class="integer">9</span>); <i class="conum" data-value="2"></i><b>(2)</b></code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Note the presence of additional functions in the parameters.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>Further calls to <code>apply</code> returns another <code>Function1</code>, apart from the final call.</td>
+</tr>
+</table>
+</div>
 </div>
 <div class="sect3">
-<h4 id="_memoization">3.2.4. Memoization</h4>
+<h4 id="_memoization">3.2.5. Memoization</h4>
 <div class="paragraph">
 <p>Memoization is a form of caching. A memoized function executes only once and then returns the result from a cache.<br>
 The following example calculates a random number on the first invocation and returns the cached number on the second invocation.</p>
@@ -2364,7 +2435,7 @@ limitations under the License.</p>
 <div id="footer">
 <div id="footer-text">
 Version 2.0.5<br>
-Last updated 2016-12-02 23:57:22 +01:00
+Last updated 2016-12-12 23:48:01 +01:00
 </div>
 </div>
 </body>
