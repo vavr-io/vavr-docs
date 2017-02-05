@@ -131,14 +131,43 @@ include::../../test/java/javaslang/FunctionsDemo.java[tags=liftMethodReference]
 ----
 <1> The lifted function catches the `IllegalArgumentException` and maps it to `None`.
 
+==== Partial application
+Partial application allows you to derive a new function from an existing one by fixing some values.  You can fix one or more parameters, and the number of fixed parameters defines the arity of the new function such that `new arity = (original arity - fixed parameters)`.  The parameters are bound from left to right.
+
+[source,java,indent=0]
+----
+include::../../test/java/javaslang/FunctionsDemo.java[tags=partialApplicationFunction]
+----
+<1> The first parameter `a` is fixed to the value 2.
+
+This can be demonstrated by fixing the first three parameters of a `Function5`, resulting in a `Function2`.
+[source,java,indent=0]
+----
+include::../../test/java/javaslang/FunctionsDemo.java[tags=partialApplicationFunctionArity5]
+----
+<1> The `a`, `b` and `c` parameters are fixed to the values 2, 3 and 1 respectively.
+
+Partial application differs from <<Currying>>, as will be explored in the relevant section.
+
 ==== Currying
-Currying is a technique to partially apply a function by fixing values for some of the parameters. You can fix one or more parameters, depending on the number of parameters. The parameters are bound from left to right.
+Currying is a technique to partially apply a function by fixing a value for one of the parameters, resulting in a `Function1` function that returns a `Function1`.
+
+When a `Function2` is _curried_, the result is indistinguishable from the _partial application_ of a `Function2` because both result in a 1-arity function.
 
 [source,java,indent=0]
 ----
 include::../../test/java/javaslang/FunctionsDemo.java[tags=curryingFunction]
 ----
 <1> The first parameter `a` is fixed to the value 2.
+
+You might notice that, apart from the use of `.curried()`, this code is identical to the 2-arity given example in <<Partial application>>.  With higher-arity functions, the difference becomes clear.
+
+[source,java,indent=0]
+----
+include::../../test/java/javaslang/FunctionsDemo.java[tags=curryingFunctionArity3]
+----
+<1> Note the presence of additional functions in the parameters.
+<2> Further calls to `apply` returns another `Function1`, apart from the final call.
 
 ==== Memoization
 Memoization is a form of caching. A memoized function executes only once and then returns the result from a cache.
