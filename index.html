@@ -516,7 +516,7 @@ table.CodeRay td.code>pre{padding:0}
 <div class="details">
 <span id="author" class="author">Daniel Dietrich, Robert Winkler</span><br>
 <span id="revnumber">version 2.0.5,</span>
-<span id="revdate">2017-02-05</span>
+<span id="revdate">2017-02-06</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -1598,6 +1598,128 @@ Javaslang&#8217;s functional Value abstracts over immutable objects. Efficient w
 <pre class="CodeRay highlight"><code data-lang="java"><span class="comment">// optional *value*, no more nulls</span>
 <span class="predefined-type">Option</span>&lt;T&gt; option = <span class="predefined-type">Option</span>.of(...);</code></pre>
 </div>
+</div>
+<div class="paragraph">
+<p>If you&#8217;re coming to Javaslang after using Java&#8217;s <code>Optional</code> class, there is a crucial difference.  In <code>Optional</code>, a call to <code>.map</code> that results in a null will result in an empty <code>Optional</code>.  In Javaslang, it would result in a <code>Some(null)</code> that can then lead to a <code>NullPointerException</code>.</p>
+</div>
+<div class="paragraph">
+<p>Using <code>Optional</code>, this scenario is valid.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">Optional&lt;<span class="predefined-type">String</span>&gt; maybeFoo = Optional.of(<span class="string"><span class="delimiter">&quot;</span><span class="content">foo</span><span class="delimiter">&quot;</span></span>); <i class="conum" data-value="1"></i><b>(1)</b>
+then(maybeFoo.get()).isEqualTo(<span class="string"><span class="delimiter">&quot;</span><span class="content">foo</span><span class="delimiter">&quot;</span></span>);
+Optional&lt;<span class="predefined-type">String</span>&gt; maybeFooBar = maybeFoo.map(s -&gt; (<span class="predefined-type">String</span>)<span class="predefined-constant">null</span>)  <i class="conum" data-value="2"></i><b>(2)</b>
+                                       .map(s -&gt; s.toUpperCase() + <span class="string"><span class="delimiter">&quot;</span><span class="content">bar</span><span class="delimiter">&quot;</span></span>);
+then(maybeFooBar.isPresent()).isFalse();</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>The option is <code>Some("foo")</code></td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>The resulting option becomes empty here</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Using Javaslang&#8217;s <code>Option</code>, the same scenario will result in a <code>NullPointerException</code>.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="predefined-type">Option</span>&lt;<span class="predefined-type">String</span>&gt; maybeFoo = <span class="predefined-type">Option</span>.of(<span class="string"><span class="delimiter">&quot;</span><span class="content">foo</span><span class="delimiter">&quot;</span></span>); <i class="conum" data-value="1"></i><b>(1)</b>
+then(maybeFoo.get()).isEqualTo(<span class="string"><span class="delimiter">&quot;</span><span class="content">foo</span><span class="delimiter">&quot;</span></span>);
+<span class="keyword">try</span> {
+    maybeFoo.map(s -&gt; (<span class="predefined-type">String</span>)<span class="predefined-constant">null</span>) <i class="conum" data-value="2"></i><b>(2)</b>
+            .map(s -&gt; s.toUpperCase() + <span class="string"><span class="delimiter">&quot;</span><span class="content">bar</span><span class="delimiter">&quot;</span></span>); <i class="conum" data-value="3"></i><b>(3)</b>
+    Assert.fail();
+} <span class="keyword">catch</span> (<span class="exception">NullPointerException</span> e) {
+    <span class="comment">// this is clearly not the correct approach</span>
+}</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>The option is <code>Some("foo")</code></td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>The resulting option is <code>Some(null)</code></td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>The call to <code>s.toUpperCase()</code> is invoked on a <code>null</code></td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>This seems like Javaslang&#8217;s implementation is broken, but in fact it&#8217;s not - rather, it adheres to the requirement of a monad to maintain computational context when calling <code>.map</code>.  In terms of an <code>Option</code>, this means that calling <code>.map</code> on a <code>Some</code> will result in a <code>Some</code>, and calling <code>.map</code> on a <code>None</code> will result in a <code>None</code>.  In the Java <code>Optional</code> example above, that context changed from a <code>Some</code> to a <code>None</code>.</p>
+</div>
+<div class="paragraph">
+<p>This may seem to make <code>Option</code> useless, but it actually forces you to pay attention to possible occurrences of <code>null</code> and deal with them accordingly instead of unknowingly accepting them.  The correct way to deal with occurrences of <code>null</code> is to use <code>flatMap</code>.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="predefined-type">Option</span>&lt;<span class="predefined-type">String</span>&gt; maybeFoo = <span class="predefined-type">Option</span>.of(<span class="string"><span class="delimiter">&quot;</span><span class="content">foo</span><span class="delimiter">&quot;</span></span>); <i class="conum" data-value="1"></i><b>(1)</b>
+then(maybeFoo.get()).isEqualTo(<span class="string"><span class="delimiter">&quot;</span><span class="content">foo</span><span class="delimiter">&quot;</span></span>);
+<span class="predefined-type">Option</span>&lt;<span class="predefined-type">String</span>&gt; maybeFooBar = maybeFoo.map(s -&gt; (<span class="predefined-type">String</span>)<span class="predefined-constant">null</span>) <i class="conum" data-value="2"></i><b>(2)</b>
+                                     .flatMap(s -&gt; <span class="predefined-type">Option</span>.of(s) <i class="conum" data-value="3"></i><b>(3)</b>
+                                                         .map(t -&gt; t.toUpperCase() + <span class="string"><span class="delimiter">&quot;</span><span class="content">bar</span><span class="delimiter">&quot;</span></span>));
+then(maybeFooBar.isEmpty()).isTrue();</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>The option is <code>Some("foo")</code></td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>The resulting option is <code>Some(null)</code></td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td><code>s</code>, which is <code>null</code>, becomes <code>None</code></td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Alternatively, move the <code>.flatMap</code> to be co-located with the the possibly <code>null</code> value.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="predefined-type">Option</span>&lt;<span class="predefined-type">String</span>&gt; maybeFoo = <span class="predefined-type">Option</span>.of(<span class="string"><span class="delimiter">&quot;</span><span class="content">foo</span><span class="delimiter">&quot;</span></span>); <i class="conum" data-value="1"></i><b>(1)</b>
+then(maybeFoo.get()).isEqualTo(<span class="string"><span class="delimiter">&quot;</span><span class="content">foo</span><span class="delimiter">&quot;</span></span>);
+<span class="predefined-type">Option</span>&lt;<span class="predefined-type">String</span>&gt; maybeFooBar = maybeFoo.flatMap(s -&gt; <span class="predefined-type">Option</span>.of((<span class="predefined-type">String</span>)<span class="predefined-constant">null</span>)) <i class="conum" data-value="2"></i><b>(2)</b>
+                                     .map(s -&gt; s.toUpperCase() + <span class="string"><span class="delimiter">&quot;</span><span class="content">bar</span><span class="delimiter">&quot;</span></span>);
+then(maybeFooBar.isEmpty()).isTrue();</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>The option is <code>Some("foo")</code></td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>The resulting option is <code>None</code></td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>This step never occurs because the option is a <code>None</code></td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>This is explored in more detail on the <a href="http://blog.javaslang.io/the-agonizing-death-of-an-astronaut/">Javaslang blog</a>.</p>
 </div>
 </div>
 <div class="sect3">
