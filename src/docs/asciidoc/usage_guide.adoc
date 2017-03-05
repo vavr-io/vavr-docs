@@ -257,7 +257,7 @@ A result = Try.of(this::bunchOfWork)
 ----
 
 ==== Lazy
-Lazy is a monadic container type which represents a lazy evaluated value. Compared to a Supplier, Lazy is memoizing, i.e. it evaluates only once and therefore is referential transparent.
+Lazy is a monadic container type which represents a lazy evaluated value. Compared to a Supplier, Lazy is memoizing, i.e. it evaluates only once and therefore is referentially transparent.
 
 [source,java,indent=0]
 ----

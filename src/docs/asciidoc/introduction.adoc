@@ -46,19 +46,19 @@ This version of divide does not throw any exception anymore. We made the possibl
 
 ==== Referential Transparency
 
-A function, or more generally an expression, is called https://en.wikipedia.org/wiki/Referential_transparency[referential transparent] if a call can be replaced by its value without affecting the behavior of the program. Simply spoken, given the same input the output is always the same.
+A function, or more generally an expression, is called https://en.wikipedia.org/wiki/Referential_transparency[referentially transparent] if a call can be replaced by its value without affecting the behavior of the program. Simply spoken, given the same input the output is always the same.
 
 [source,java]
 ----
-// not referential transparent
+// not referentially transparent
 Math.random();
 
-// referential transparent
+// referentially transparent
 Math.max(1, 2);
 
 ----
 
-A function is called https://en.wikipedia.org/wiki/Pure_function[pure] if all expressions involved are referential transparent. An application composed of pure functions will most probably __just work__ if it compiles. We are able to reason about it. Unit tests are easy to write and debugging becomes a relict of the past.
+A function is called https://en.wikipedia.org/wiki/Pure_function[pure] if all expressions involved are referentially transparent. An application composed of pure functions will most probably __just work__ if it compiles. We are able to reason about it. Unit tests are easy to write and debugging becomes a relict of the past.
 
 ==== Thinking in Values
 
@@ -68,7 +68,7 @@ Rich Hickey, the creator of Clojure, gave a great talk about https://www.youtube
 *   are stable regarding __equals__ and __hashCode__ and thus are reliable hash keys
 *   do not need to be cloned
 *   behave type-safe when used in unchecked covariant casts (Java-specific)
-The key to a better Java is to use __immutable values__ paired with __referential transparent functions__.
+The key to a better Java is to use __immutable values__ paired with __referentially transparent functions__.
 
 Javaslang provides the necessary http://static.javadoc.io/io.javaslang/javaslang/2.0.0/javaslang/control/package-summary.html[controls] and http://static.javadoc.io/io.javaslang/javaslang/2.0.0/javaslang/collection/package-summary.html[collections] to accomplish this goal in every-day Java programming.
 
@@ -118,7 +118,7 @@ This model does not impose any implementation details. Here come functional data
 
 === Functional Data Structures
 
-Also known as https://en.wikipedia.org/wiki/Purely_functional[__purely__ functional data structures], these are __immutable__ and __persistent__. The methods of functional data structures are __referential transparent__.
+Also known as https://en.wikipedia.org/wiki/Purely_functional[__purely__ functional data structures], these are __immutable__ and __persistent__. The methods of functional data structures are __referentially transparent__.
 
 Javaslang features a wide range of the most-commonly used functional data structures. The following examples are explained in-depth.
 
@@ -244,7 +244,7 @@ Comparator<Integer> c = (a, b) -> b - a;
 SortedSet<Integer> reversed = TreeSet.of(c, 2, 3, 1, 2);
 ----
 
-Most tree operations are inherently https://en.wikipedia.org/wiki/Recursion[recursive]. The insert function behaves similar to the search function. When the end of a search path is reached, a new node is created and the whole path is reconstructed up to the root. Existing child nodes are referenced whenever possible. Hence the insert operation takes O(log n) time and space.
+Most tree operations are inherently https://en.wikipedia.org/wiki/Recursion[recursive]. The insert function behaves similarly to the search function. When the end of a search path is reached, a new node is created and the whole path is reconstructed up to the root. Existing child nodes are referenced whenever possible. Hence the insert operation takes O(log n) time and space.
 
 [source,java]
 ----
