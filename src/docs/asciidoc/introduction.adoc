@@ -1,6 +1,6 @@
 == Introduction
 
-Vavr is a functional library for Java 8+ that provides persistent data types and functional control structures.
+Vavr (formerly called Javaslang) is a functional library for Java 8+ that provides persistent data types and functional control structures.
 
 === Functional Data Structures in Java 8 with Vavr
 
