@@ -1,9 +1,10 @@
-/*     / \____  _    _  ____   ______  / \ ____  __    _ _____
- *    /  /    \/ \  / \/    \ /  /\__\/  //    \/  \  / /  _  \   Javaslang
- *  _/  /  /\  \  \/  /  /\  \\__\\  \  //  /\  \ /\\/  \__/  /   Copyright 2014-now Daniel Dietrich
- * /___/\_/  \_/\____/\_/  \_/\__\/__/___\_/  \_//  \__/_____/    Licensed under the Apache License, Version 2.0
+/*                        __    __  __  __    __  ___
+ *                       \  \  /  /    \  \  /  /  __/
+ *                        \  \/  /  /\  \  \/  /  /
+ *                         \____/__/  \__\____/__/.ɪᴏ
+ * ᶜᵒᵖʸʳᶦᵍʰᵗ ᵇʸ ᵛᵃᵛʳ ⁻ ˡᶦᶜᵉⁿˢᵉᵈ ᵘⁿᵈᵉʳ ᵗʰᵉ ᵃᵖᵃᶜʰᵉ ˡᶦᶜᵉⁿˢᵉ ᵛᵉʳˢᶦᵒⁿ ᵗʷᵒ ᵈᵒᵗ ᶻᵉʳᵒ
  */
-package javaslang;
+package io.vavr;
 
 import org.junit.Test;
 
@@ -31,39 +32,39 @@ public class TupleDemo {
     public void bimapTuple() {
         Tuple2<String, Integer> java8 = Tuple.of("Java", 8);
         // tag::bimapTuple[]
-        // (Javaslang, 2)
+        // (vavr, 1)
         Tuple2<String, Integer> that = java8.map(
-                s -> s + "slang",
-                i -> i / 4
+                s -> s.substring(2) + "vr",
+                i -> i / 8
         );
         // end::bimapTuple[]
-        then(that._1).isEqualTo("Javaslang");
-        then(that._2).isEqualTo(2);
+        then(that._1).isEqualTo("vavr");
+        then(that._2).isEqualTo(1);
     }
 
     @Test
     public void mapTuple() {
         Tuple2<String, Integer> java8 = Tuple.of("Java", 8);
         // tag::mapTuple[]
-        // (Javaslang, 2)
+        // (vavr, 1)
         Tuple2<String, Integer> that = java8.map(
-                (s, i) -> Tuple.of(s + "slang", i / 4)
+                (s, i) -> Tuple.of(s.substring(2) + "vr", i / 8)
         );
         // end::mapTuple[]
-        then(that._1).isEqualTo("Javaslang");
-        then(that._2).isEqualTo(2);
+        then(that._1).isEqualTo("vavr");
+        then(that._2).isEqualTo(1);
     }
 
     @Test
-    public void transformTuple() {
+    public void applyTuple() {
         Tuple2<String, Integer> java8 = Tuple.of("Java", 8);
         // tag::transformTuple[]
-        // "Javaslang 2"
-        String that = java8.transform(
-                (s, i) -> s + "slang " + i / 4
+        // "vavr 1"
+        String that = java8.apply(
+                (s, i) -> s.substring(2) + "vr " + i / 8
         );
         // end::transformTuple[]
-        then(that).isEqualTo("Javaslang 2");
+        then(that).isEqualTo("vavr 1");
     }
 
     @Test

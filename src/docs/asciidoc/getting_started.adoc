@@ -1,8 +1,8 @@
 == Getting started
 
-Projects that include Javaslang need to target Java 1.8 at minimum.
+Projects that include Vavr need to target Java 1.8 at minimum.
 
-The .jar is available at http://search.maven.org/#search%7Cga%7C1%7Ca%3A%22javaslang%22%20g%3A%22io.javaslang%22[Maven Central].
+The .jar is available at http://search.maven.org/#search%7Cga%7C1%7Cg%3A%22io.vavr%22%20a%3A%22vavr%22[Maven Central].
 
 === Gradle
 
@@ -10,7 +10,7 @@ The .jar is available at http://search.maven.org/#search%7Cga%7C1%7Ca%3A%22javas
 [subs="attributes"]
 ----
 dependencies {
-    compile "io.javaslang:javaslang:{project-version}"
+    compile "io.vavr:vavr:{project-version}"
 }
 ----
 
@@ -20,20 +20,20 @@ dependencies {
 ----
 <dependencies>
     <dependency>
-        <groupId>io.javaslang</groupId>
-        <artifactId>javaslang</artifactId>
-        <version>2.0.5</version>
+        <groupId>io.vavr</groupId>
+        <artifactId>vavr</artifactId>
+        <version>0.9.0</version>
     </dependency>
 </dependencies>
 ----
 
 === Standalone
 
-Because Javaslang does __not__ depend on any libraries (other than the JVM) you can easily add it as standalone .jar to your classpath.
+Because Vavr does __not__ depend on any libraries (other than the JVM) you can easily add it as standalone .jar to your classpath.
 
 === Snapshots
 
-Developer versions can be found https://oss.sonatype.org/content/repositories/snapshots/io/javaslang/javaslang[here].
+Developer versions can be found https://oss.sonatype.org/content/repositories/snapshots/io/vavr/vavr[here].
 
 ==== Gradle
 

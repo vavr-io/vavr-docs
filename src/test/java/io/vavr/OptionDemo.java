@@ -1,11 +1,12 @@
-/*     / \____  _    _  ____   ______  / \ ____  __    _ _____
- *    /  /    \/ \  / \/    \ /  /\__\/  //    \/  \  / /  _  \   Javaslang
- *  _/  /  /\  \  \/  /  /\  \\__\\  \  //  /\  \ /\\/  \__/  /   Copyright 2014-now Daniel Dietrich
- * /___/\_/  \_/\____/\_/  \_/\__\/__/___\_/  \_//  \__/_____/    Licensed under the Apache License, Version 2.0
+/*                        __    __  __  __    __  ___
+ *                       \  \  /  /    \  \  /  /  __/
+ *                        \  \/  /  /\  \  \/  /  /
+ *                         \____/__/  \__\____/__/.ɪᴏ
+ * ᶜᵒᵖʸʳᶦᵍʰᵗ ᵇʸ ᵛᵃᵛʳ ⁻ ˡᶦᶜᵉⁿˢᵉᵈ ᵘⁿᵈᵉʳ ᵗʰᵉ ᵃᵖᵃᶜʰᵉ ˡᶦᶜᵉⁿˢᵉ ᵛᵉʳˢᶦᵒⁿ ᵗʷᵒ ᵈᵒᵗ ᶻᵉʳᵒ
  */
-package javaslang;
+package io.vavr;
 
-import javaslang.control.Option;
+import io.vavr.control.Option;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -31,8 +32,8 @@ public class OptionDemo {
     }
 
     @Test
-    public void javaslangOptionWithMappedNull() {
-        // tag::javaslangOptionWithMappedNull[]
+    public void vavrOptionWithMappedNull() {
+        // tag::vavrOptionWithMappedNull[]
         Option<String> maybeFoo = Option.of("foo"); //<1>
         then(maybeFoo.get()).isEqualTo("foo");
         try {
@@ -42,7 +43,7 @@ public class OptionDemo {
         } catch (NullPointerException e) {
             // this is clearly not the correct approach
         }
-        // end::javaslangOptionWithMappedNull[]
+        // end::vavrOptionWithMappedNull[]
     }
 
     @Test

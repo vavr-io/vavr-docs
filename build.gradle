@@ -28,7 +28,7 @@ repositories {
 }
 
 dependencies {
-    testCompile "io.javaslang:javaslang:${project.version}"
+    testCompile "io.vavr:vavr:${project.version}"
     testCompile "junit:junit:4.11"
     testCompile "org.assertj:assertj-core:3.0.0"
     testCompile "ch.qos.logback:logback-classic:0.9.26"
@@ -73,7 +73,7 @@ copyCNAME.dependsOn asciidoctor
 publishGhPages.dependsOn copyCNAME
 
 githubPages {
-    repoUri = 'https://github.com/javaslang/javaslang-docs.git'
+    repoUri = 'https://github.com/vavr-io/vavr-docs.git'
 
     credentials {
         username = project.githubUser

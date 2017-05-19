@@ -1,4 +1,4 @@
-= Javaslang User Guide
+= Vavr User Guide
 Daniel Dietrich, Robert Winkler
 :toc: left
 :toclevels: 3

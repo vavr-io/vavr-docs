@@ -1,20 +1,20 @@
 == Introduction
 
-Javaslang is a functional library for Java 8+ that provides persistent data types and functional control structures.
+Vavr is a functional library for Java 8+ that provides persistent data types and functional control structures.
 
-=== Functional Data Structures in Java 8 with Javaslang
+=== Functional Data Structures in Java 8 with Vavr
 
 Java 8’s https://docs.oracle.com/javase/tutorial/java/javaOO/lambdaexpressions.html[lambdas (λ)] empower us to create wonderful API’s. They incredibly increase the expressiveness of the language.
 
-http://javaslang.io/[Javaslang] leveraged lambdas to create various new features based on functional patterns. One of them is a functional collection library that is intended to be a replacement for Java’s standard collections.
+http://vavr.io/[Vavr] leveraged lambdas to create various new features based on functional patterns. One of them is a functional collection library that is intended to be a replacement for Java’s standard collections.
 
-image::images/javaslang-collections.png[Javaslang Collections]
+image::images/vavr-collections.png[Vavr Collections]
 
 __(This is just a bird’s view, you will find a human-readable version below.)__
 
 === Functional Programming
 
-Before we deep-dive into the details about the data structures I want to talk about some basics. This will make it clear why I created Javaslang and specifically new Java collections.
+Before we deep-dive into the details about the data structures I want to talk about some basics. This will make it clear why I created Vavr and specifically new Java collections.
 
 ==== Side-Effects
 
@@ -70,11 +70,11 @@ Rich Hickey, the creator of Clojure, gave a great talk about https://www.youtube
 *   behave type-safe when used in unchecked covariant casts (Java-specific)
 The key to a better Java is to use __immutable values__ paired with __referentially transparent functions__.
 
-Javaslang provides the necessary http://static.javadoc.io/io.javaslang/javaslang/2.0.0/javaslang/control/package-summary.html[controls] and http://static.javadoc.io/io.javaslang/javaslang/2.0.0/javaslang/collection/package-summary.html[collections] to accomplish this goal in every-day Java programming.
+Vavr provides the necessary http://static.javadoc.io/io.vavr/vavr/0.9.0/io/vavr/control/package-summary.html[controls] and https://static.javadoc.io/io.vavr/vavr/0.9.0/io/vavr/collection/package-summary.html[collections] to accomplish this goal in every-day Java programming.
 
 === Data Structures in a Nutshell
 
-Javaslang’s collection library comprises of a rich set of functional data structures built on top of lambdas. The only interface they share with Java’s original collections is Iterable. The main reason is that the mutator methods of Java’s collection interfaces do not return an object of the underlying collection type.
+Vavr’s collection library comprises of a rich set of functional data structures built on top of lambdas. The only interface they share with Java’s original collections is Iterable. The main reason is that the mutator methods of Java’s collection interfaces do not return an object of the underlying collection type.
 
 We will see why this is so essential by taking a look at the different types of data structures.
 
@@ -120,13 +120,13 @@ This model does not impose any implementation details. Here come functional data
 
 Also known as https://en.wikipedia.org/wiki/Purely_functional[__purely__ functional data structures], these are __immutable__ and __persistent__. The methods of functional data structures are __referentially transparent__.
 
-Javaslang features a wide range of the most-commonly used functional data structures. The following examples are explained in-depth.
+Vavr features a wide range of the most-commonly used functional data structures. The following examples are explained in-depth.
 
 ==== Linked List
 
 One of the most popular and also simplest functional data structures is the https://en.wikipedia.org/wiki/Linked_list[(singly) linked List]. It has a __head__ element and a __tail__ List. A linked List behaves like a Stack which follows the https://en.wikipedia.org/wiki/Stack_(abstract_data_type)[last in, first out (LIFO)] method.
 
-In http://javaslang.io/[Javaslang] we instantiate a List like this:
+In http://vavr.io/[Vavr] we instantiate a List like this:
 
 [source,java]
 ----
@@ -150,9 +150,9 @@ The new head element 0 is __linked__ to the tail of the original List. The origi
 
 image::images/list2.png?w=660[List 2]
 
-These operations take place in constant time, in other words they are independent of the List size. Most of the other operations take linear time. In Javaslang this is expressed by the interface LinearSeq, which we may already know from Scala.
+These operations take place in constant time, in other words they are independent of the List size. Most of the other operations take linear time. In Vavr this is expressed by the interface LinearSeq, which we may already know from Scala.
 
-If we need data structures that are queryable in constant time, Javaslang offers Array and Vector. Both have https://en.wikipedia.org/wiki/Random_access[random access] capabilities.
+If we need data structures that are queryable in constant time, Vavr offers Array and Vector. Both have https://en.wikipedia.org/wiki/Random_access[random access] capabilities.
 
 The Array type is backed by a Java array of objects. Insert and remove operations take linear time. Vector is in-between Array and List. It performs well in both areas, random access and modification.
 
@@ -256,7 +256,7 @@ image::images/binarytree2.png?w=660[Binary Tree 2]
 
 In order to maintain the performance characteristics of a binary search tree it needs to be kept balanced. All paths from the root to a leaf need to have roughly the same length.
 
-In Javaslang we implemented a binary search tree based on a https://en.wikipedia.org/wiki/Red%E2%80%93black_tree[Red/Black Tree]. It uses a specific coloring strategy to keep the tree balanced on inserts and deletes. To read more about this topic please refer to the book http://www.amazon.com/Purely-Functional-Structures-Chris-Okasaki/dp/0521663504[Purely Functional Data Structures] by Chris Okasaki.
+In Vavr we implemented a binary search tree based on a https://en.wikipedia.org/wiki/Red%E2%80%93black_tree[Red/Black Tree]. It uses a specific coloring strategy to keep the tree balanced on inserts and deletes. To read more about this topic please refer to the book http://www.amazon.com/Purely-Functional-Structures-Chris-Okasaki/dp/0521663504[Purely Functional Data Structures] by Chris Okasaki.
 
 === State of the Collections
 
@@ -285,15 +285,15 @@ Arrays.asList(1, 2, 3)
       .collect(Collectors.toList())
 ----
 
-Javaslang is greatly inspired by Scala. This is how the above example should have been in Java 8.
+Vavr is greatly inspired by Scala. This is how the above example should have been in Java 8.
 
 [source,java]
 ----
-// = Stream("1", "2", "3") in Javaslang
+// = Stream("1", "2", "3") in Vavr
 Stream.of(1, 2, 3).map(Object::toString)
 ----
 
-Within the last year we put much effort into implementing the Javaslang collection library. It comprises the most widely used collection types.
+Within the last year we put much effort into implementing the Vavr collection library. It comprises the most widely used collection types.
 
 ==== Seq
 
@@ -335,7 +335,7 @@ String join(String... words) {
 }
 ----
 
-The Javaslang collections provide us with many functions to operate on the underlying elements. This allows us to express things in a very concise way.
+The Vavr collections provide us with many functions to operate on the underlying elements. This allows us to express things in a very concise way.
 
 [source,java]
 ----
@@ -346,7 +346,7 @@ String join(String... words) {
 }
 ----
 
-Most goals can be accomplished in various ways using Javaslang. Here we reduced the whole method body to fluent function calls on a List instance. We could even remove the whole method and directly use our List to obtain the computation result.
+Most goals can be accomplished in various ways using Vavr. Here we reduced the whole method body to fluent function calls on a List instance. We could even remove the whole method and directly use our List to obtain the computation result.
 
 [source,java]
 ----
@@ -365,7 +365,7 @@ We described how to model sorted Sets with binary tree structures. A sorted Map 
 
 The HashMap implementation is backed by a http://lampwww.epfl.ch/papers/idealhashtrees.pdf[Hash Array Mapped Trie (HAMT)]. Accordingly the HashSet is backed by a HAMT containing key-key pairs.
 
-Our Map does __not__ have a special Entry type to represent key-value pairs. Instead we use Tuple2 which is already part of Javaslang. The fields of a Tuple are enumerated.
+Our Map does __not__ have a special Entry type to represent key-value pairs. Instead we use Tuple2 which is already part of Vavr. The fields of a Tuple are enumerated.
 
 [source,java]
 ----
@@ -376,7 +376,7 @@ Integer key = entry._1;
 String value = entry._2;
 ----
 
-Maps and Tuples are used throughout Javaslang. Tuples are inevitable to handle multi-valued return types in a general way.
+Maps and Tuples are used throughout Vavr. Tuples are inevitable to handle multi-valued return types in a general way.
 
 [source,java]
 ----
@@ -387,4 +387,4 @@ List.of(1, 2, 3, 4).groupBy(i -> i % 2);
 List.of('a', 'b', 'c').zipWithIndex();
 ----
 
-At Javaslang, we explore and test our library by implementing the https://projecteuler.net/archives[99 Euler Problems]. It is a great proof of concept. Please don’t hesitate to send pull requests.
+At Vavr, we explore and test our library by implementing the https://projecteuler.net/archives[99 Euler Problems]. It is a great proof of concept. Please don’t hesitate to send pull requests.
