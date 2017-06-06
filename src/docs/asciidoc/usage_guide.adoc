@@ -1,7 +1,7 @@
 == Usage Guide
 
-Vavr comes along with well designed representations of some of the most basic types which apparently are missing or rudimentary in Java: `Tuple`, `Value` and `λ`.
-In Vavr, all is built upon these three basic building blocks:
+Vavr comes along with well-designed representations of some of the most basic types which apparently are missing or rudimentary in Java: `Tuple`, `Value` and `λ`.
+In Vavr, everything is built upon these three basic building blocks:
 
 image::images/vavr-overview.png[Vavr Overview]
 
@@ -179,7 +179,7 @@ include::../../test/java/io/vavr/FunctionsDemo.java[tags=memoizedFunction]
 ----
 
 === Values
-In a functional setting we see a value as a kind of https://en.wikipedia.org/wiki/Normal_form_(abstract_rewriting)[normal form], it cannot be further evaluated. In Java we express this by making the state of an object final and call it https://en.wikipedia.org/wiki/Immutable_object[immutable].
+In a functional setting we see a value as a kind of https://en.wikipedia.org/wiki/Normal_form_(abstract_rewriting)[normal form], an expression which cannot be further evaluated. In Java we express this by making the state of an object final and call it https://en.wikipedia.org/wiki/Immutable_object[immutable].
 Vavr's functional Value abstracts over immutable objects. Efficient write operations are added by sharing immutable memory between instances. What we get is thread-safety for free!
 
 ==== Option
@@ -329,7 +329,7 @@ include::../../test/java/io/vavr/ValidationDemo.java[tags=person]
 
 === Collections
 
-With Vavr there has been put much effort into designing an all-new collection library for Java which meets the requirements of functional programming, namely immutability.
+Much effort has been put into designing an all-new collection library for Java which meets the requirements of functional programming, namely immutability.
 
 Java's Stream lifts a computation to a different layer and links to a specific collection in another explicit step. With Vavr we don't need all this additional boilerplate.
 
