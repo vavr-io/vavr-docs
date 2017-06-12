@@ -413,7 +413,7 @@ Stream.from(1).filter(i -> i % 2 == 0);
 Legend:
 
 * const &mdash; constant time
-* const^a^ &mdash; amotized constant time, few operations may take longer
+* const^a^ &mdash; amortized constant time, few operations may take longer
 * const^eff^ &mdash; effectively constant time, depending on assumptions like distribution of hash keys
 * const^lazy^ &mdash; lazy constant time, the operation is deferred
 * log &mdash; logarithmic time
