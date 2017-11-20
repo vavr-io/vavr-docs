@@ -342,7 +342,8 @@ The Vavr collections provide us with many functions to operate on the underlying
 String join(String... words) {
     return List.of(words)
                .intersperse(", ")
-               .fold("", String::concat);
+               .foldLeft(new StringBuilder(), StringBuilder::append)
+               .toString();
 }
 ----
 
