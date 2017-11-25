@@ -516,7 +516,7 @@ table.CodeRay td.code>pre{padding:0}
 <div class="details">
 <span id="author" class="author">Daniel Dietrich, Robert Winkler</span><br>
 <span id="revnumber">version 0.9.0,</span>
-<span id="revdate">2017-05-19</span>
+<span id="revdate">2017-11-25</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -1060,7 +1060,8 @@ Stream.of(<span class="integer">1</span>, <span class="integer">2</span>, <span 
 <pre class="CodeRay highlight"><code data-lang="java"><span class="predefined-type">String</span> join(<span class="predefined-type">String</span>... words) {
     <span class="keyword">return</span> <span class="predefined-type">List</span>.of(words)
                .intersperse(<span class="string"><span class="delimiter">&quot;</span><span class="content">, </span><span class="delimiter">&quot;</span></span>)
-               .fold(<span class="string"><span class="delimiter">&quot;</span><span class="delimiter">&quot;</span></span>, <span class="predefined-type">String</span>::concat);
+               .foldLeft(<span class="keyword">new</span> <span class="predefined-type">StringBuilder</span>(), <span class="predefined-type">StringBuilder</span>::append)
+               .toString();
 }</code></pre>
 </div>
 </div>
@@ -1218,8 +1219,8 @@ Tuple2&lt;<span class="predefined-type">Integer</span>, <span class="predefined-
 <h2 id="_usage_guide">3. Usage Guide</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Vavr comes along with well designed representations of some of the most basic types which apparently are missing or rudimentary in Java: <code>Tuple</code>, <code>Value</code> and <code>λ</code>.<br>
-In Vavr, all is built upon these three basic building blocks:</p>
+<p>Vavr comes along with well-designed representations of some of the most basic types which apparently are missing or rudimentary in Java: <code>Tuple</code>, <code>Value</code> and <code>λ</code>.<br>
+In Vavr, everything is built upon these three basic building blocks:</p>
 </div>
 <div class="imageblock">
 <div class="content">
@@ -1584,7 +1585,7 @@ then(randomValue1).isEqualTo(randomValue2);</code></pre>
 <div class="sect2">
 <h3 id="_values">3.3. Values</h3>
 <div class="paragraph">
-<p>In a functional setting we see a value as a kind of <a href="https://en.wikipedia.org/wiki/Normal_form_(abstract_rewriting)">normal form</a>, it cannot be further evaluated. In Java we express this by making the state of an object final and call it <a href="https://en.wikipedia.org/wiki/Immutable_object">immutable</a>.<br>
+<p>In a functional setting we see a value as a kind of <a href="https://en.wikipedia.org/wiki/Normal_form_(abstract_rewriting)">normal form</a>, an expression which cannot be further evaluated. In Java we express this by making the state of an object final and call it <a href="https://en.wikipedia.org/wiki/Immutable_object">immutable</a>.<br>
 Vavr&#8217;s functional Value abstracts over immutable objects. Efficient write operations are added by sharing immutable memory between instances. What we get is thread-safety for free!</p>
 </div>
 <div class="sect3">
@@ -1888,7 +1889,7 @@ Validation&lt;Seq&lt;<span class="predefined-type">String</span>&gt;, Person&gt;
 <div class="sect2">
 <h3 id="_collections">3.4. Collections</h3>
 <div class="paragraph">
-<p>With Vavr there has been put much effort into designing an all-new collection library for Java which meets the requirements of functional programming, namely immutability.</p>
+<p>Much effort has been put into designing an all-new collection library for Java which meets the requirements of functional programming, namely immutability.</p>
 </div>
 <div class="paragraph">
 <p>Java&#8217;s Stream lifts a computation to a different layer and links to a specific collection in another explicit step. With Vavr we don&#8217;t need all this additional boilerplate.</p>
@@ -2128,7 +2129,7 @@ Stream.from(<span class="integer">1</span>).filter(i -&gt; i % <span class="inte
 <p>const &mdash; constant time</p>
 </li>
 <li>
-<p>const<sup>a</sup> &mdash; amotized constant time, few operations may take longer</p>
+<p>const<sup>a</sup> &mdash; amortized constant time, few operations may take longer</p>
 </li>
 <li>
 <p>const<sup>eff</sup> &mdash; effectively constant time, depending on assumptions like distribution of hash keys</p>
