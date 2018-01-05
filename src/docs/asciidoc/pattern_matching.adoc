@@ -197,7 +197,7 @@ Match(_try).of(
 
 Here the root patterns are Success and Failure. They are decomposed to Tuple2 and Error, having the correct generic types.
 
-⚡ Deeply nested types are inferred according to the Match argument and __not__according to the matched patterns.
+⚡ Deeply nested types are inferred according to the Match argument and __not__ according to the matched patterns.
 
 ===== User-Defined Patterns
 
