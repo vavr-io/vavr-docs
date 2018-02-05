@@ -338,7 +338,7 @@ The new collections are based on http://docs.oracle.com/javase/8/docs/api/java/l
 [source,java]
 ----
 // 1000 random numbers
-for (double random : Stream.gen(Math::random).take(1000)) {
+for (double random : Stream.continually(Math::random).take(1000)) {
     ...
 }
 ----
