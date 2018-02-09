@@ -516,7 +516,7 @@ table.CodeRay td.code>pre{padding:0}
 <div class="details">
 <span id="author" class="author">Daniel Dietrich, Robert Winkler</span><br>
 <span id="revnumber">version 0.9.0,</span>
-<span id="revdate">2018-02-06</span>
+<span id="revdate">2018-02-09</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -1900,7 +1900,7 @@ Validation&lt;Seq&lt;<span class="predefined-type">String</span>&gt;, Person&gt;
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="java"><span class="comment">// 1000 random numbers</span>
-<span class="keyword">for</span> (<span class="type">double</span> random : Stream.gen(<span class="predefined-type">Math</span>::random).take(<span class="integer">1000</span>)) {
+<span class="keyword">for</span> (<span class="type">double</span> random : Stream.continually(<span class="predefined-type">Math</span>::random).take(<span class="integer">1000</span>)) {
     ...
 }</code></pre>
 </div>
@@ -2151,6 +2151,9 @@ Stream.from(<span class="integer">1</span>).filter(i -&gt; i % <span class="inte
 <h3 id="_property_checking">3.5. Property Checking</h3>
 <div class="paragraph">
 <p>Property checking (also known as <a href="http://en.wikipedia.org/wiki/Property_testing">property testing</a>) is a truly powerful way to test properties of our code in a functional way. It is based on generated random data, which is passed to a user defined check function.</p>
+</div>
+<div class="paragraph">
+<p>Vavr has property testing support in its <code>io.vavr:vavr-test</code> module, so make sure to include that in order to use it in your tests.</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -2526,7 +2529,7 @@ limitations under the License.</p>
 <div id="footer">
 <div id="footer-text">
 Version 0.9.0<br>
-Last updated 2017-05-19 19:01:36 +02:00
+Last updated 2018-02-09 06:51:07 +03:00
 </div>
 </div>
 </body>
