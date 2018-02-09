@@ -421,7 +421,9 @@ Legend:
 
 === Property Checking
 
-Property checking (also known as http://en.wikipedia.org/wiki/Property_testing[property testing]) is a truly powerful way to test properties of our code in a functional way. It is based on generated random data, which is passed to a user defined check function.
+Property checking (also known as http://en.wikipedia.org/wiki/Property_testing[property testing]) is a truly powerful way to test properties of our code in a functional way. It is based on generated random data, which is passed to a user defined check function. 
+
+Vavr has property testing support in its `io.vavr:vavr-test` module, so make sure to include that in order to use it in your tests.
 
 [source,java]
 ----
