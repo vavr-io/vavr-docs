@@ -96,7 +96,3 @@ watch {
 liveReload {
     docRoot asciidoctor.outputDir.canonicalPath
 }
-
-task wrapper(type: Wrapper) {
-    gradleVersion = '4.5'
-}
