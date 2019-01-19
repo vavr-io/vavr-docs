@@ -70,7 +70,7 @@ Rich Hickey, the creator of Clojure, gave a great talk about https://www.youtube
 *   behave type-safe when used in unchecked covariant casts (Java-specific)
 The key to a better Java is to use __immutable values__ paired with __referentially transparent functions__.
 
-Vavr provides the necessary http://static.javadoc.io/io.vavr/vavr/0.9.2/io/vavr/control/package-summary.html[controls] and https://static.javadoc.io/io.vavr/vavr/0.9.2/io/vavr/collection/package-summary.html[collections] to accomplish this goal in every-day Java programming.
+Vavr provides the necessary http://static.javadoc.io/io.vavr/vavr/0.9.3/io/vavr/control/package-summary.html[controls] and https://static.javadoc.io/io.vavr/vavr/0.9.3/io/vavr/collection/package-summary.html[collections] to accomplish this goal in every-day Java programming.
 
 === Data Structures in a Nutshell
 
