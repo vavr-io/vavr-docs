@@ -403,8 +403,8 @@ Stream.from(1).filter(i -> i % 2 == 0);
 |               | contains/Key | add/put    | remove     | min
 | HashMap       | const^eff^   | const^eff^ | const^eff^ | linear
 | HashSet       | const^eff^   | const^eff^ | const^eff^ | linear
-| LinkedHashMap | const^eff^   | const^eff^ | linear     | linear
-| LinkedHashSet | const^eff^   | const^eff^ | linear     | linear
+| LinkedHashMap | const^eff^   | linear     | linear     | linear
+| LinkedHashSet | const^eff^   | linear     | linear     | linear
 | Tree          | log          | log        | log        | log
 | TreeMap       | log          | log        | log        | log
 | TreeSet       | log          | log        | log        | log

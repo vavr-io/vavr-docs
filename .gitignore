@@ -27,6 +27,7 @@ private
 #idea project
 *.iws
 *.ipr
+/bin
 
 # OS generated files #
 .DS_Store
