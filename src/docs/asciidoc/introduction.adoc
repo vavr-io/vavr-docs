@@ -264,7 +264,8 @@ Generally we are observing a convergence of programming languages. Good features
 
 Lambda brought Java and Scala closer together, yet they are still so different. Martin Odersky, the creator of Scala, recently mentioned in his https://www.youtube.com/watch?v=NW5h8d_ZyOs[BDSBTB 2015 keynote] the state of the Java 8 collections.
 
-He described Java’s Stream as a fancy form of an Iterator. The Java 8 Stream API is an example of a __lifted__ collection. What it does is to __define__ a computation and __link__ it to a specific collection in another excplicit step.
+He described Java’s Stream as a fancy form of an Iterator. The Java 8 Stream API is an example of a __lifted__ collection. What it does is to __define__ a computation and __link__ it to a specific collection in another explicit step.
+
 
 [source,java]
 ----
