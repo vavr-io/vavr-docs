@@ -14,6 +14,16 @@ dependencies {
 }
 ----
 
+Gradle 7+
+
+[source,groovy]
+[subs="attributes"]
+----
+dependencies {
+    implementation "io.vavr:vavr:{project-version}"
+}
+----
+
 === Maven
 
 [source,xml]
@@ -22,7 +32,7 @@ dependencies {
     <dependency>
         <groupId>io.vavr</groupId>
         <artifactId>vavr</artifactId>
-        <version>0.10.3</version>
+        <version>0.10.4</version>
     </dependency>
 </dependencies>
 ----
