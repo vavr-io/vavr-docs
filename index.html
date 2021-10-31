@@ -515,8 +515,8 @@ table.CodeRay td.code>pre{padding:0}
 <h1>Vavr User Guide</h1>
 <div class="details">
 <span id="author" class="author">Daniel Dietrich, Robert Winkler</span><br>
-<span id="revnumber">version 0.10.3,</span>
-<span id="revdate">2020-11-04</span>
+<span id="revnumber">version 0.10.4,</span>
+<span id="revdate">2021-10-31</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -716,7 +716,7 @@ The key to a better Java is to use <em>immutable values</em> paired with <em>ref
 </ul>
 </div>
 <div class="paragraph">
-<p>Vavr provides the necessary <a href="http://static.javadoc.io/io.vavr/vavr/0.10.3/io/vavr/control/package-summary.html">controls</a> and <a href="https://static.javadoc.io/io.vavr/vavr/0.10.3/io/vavr/collection/package-summary.html">collections</a> to accomplish this goal in every-day Java programming.</p>
+<p>Vavr provides the necessary <a href="http://static.javadoc.io/io.vavr/vavr/0.10.4/io/vavr/control/package-summary.html">controls</a> and <a href="https://static.javadoc.io/io.vavr/vavr/0.10.4/io/vavr/collection/package-summary.html">collections</a> to accomplish this goal in every-day Java programming.</p>
 </div>
 </div>
 </div>
@@ -1138,7 +1138,17 @@ Tuple2&lt;<span class="predefined-type">Integer</span>, <span class="predefined-
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="groovy">dependencies {
-    compile "io.vavr:vavr:0.10.3"
+    compile "io.vavr:vavr:0.10.4"
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Gradle 7+</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="groovy">dependencies {
+    implementation "io.vavr:vavr:0.10.4"
 }</code></pre>
 </div>
 </div>
@@ -1151,7 +1161,7 @@ Tuple2&lt;<span class="predefined-type">Integer</span>, <span class="predefined-
     <span class="tag">&lt;dependency&gt;</span>
         <span class="tag">&lt;groupId&gt;</span>io.vavr<span class="tag">&lt;/groupId&gt;</span>
         <span class="tag">&lt;artifactId&gt;</span>vavr<span class="tag">&lt;/artifactId&gt;</span>
-        <span class="tag">&lt;version&gt;</span>0.10.3<span class="tag">&lt;/version&gt;</span>
+        <span class="tag">&lt;version&gt;</span>0.10.4<span class="tag">&lt;/version&gt;</span>
     <span class="tag">&lt;/dependency&gt;</span>
 <span class="tag">&lt;/dependencies&gt;</span></code></pre>
 </div>
@@ -1759,7 +1769,7 @@ lazy.get();         <span class="comment">// = 0.123 (memoized)</span></code></p
 </div>
 </div>
 <div class="paragraph">
-<p>Since version 2.0.0 you may also create a real lazy value (works only with interfaces):</p>
+<p>You may also create a real lazy value (works only with interfaces):</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -2429,7 +2439,7 @@ Case(<span class="error">$</span>(isIn(<span class="string"><span class="delimit
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="java">Match(_try).of(
-    Case(<span class="error">$</span>Success(Tuple2(<span class="error">$</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">a</span><span class="delimiter">&quot;</span></span>), <span class="error">$</span>())), tuple2 -&gt; ...),
+    Case(<span class="error">$</span>Success(<span class="error">$</span>Tuple2(<span class="error">$</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">a</span><span class="delimiter">&quot;</span></span>), <span class="error">$</span>())), tuple2 -&gt; ...),
     Case(<span class="error">$</span>Failure(<span class="error">$</span>(instanceOf(<span class="exception">Error</span>.class))), error -&gt; ...)
 );</code></pre>
 </div>
@@ -2528,7 +2538,7 @@ limitations under the License.</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Version 0.10.3<br>
+Version 0.10.4<br>
 Last updated 2017-05-19 19:01:36 +02:00
 </div>
 </div>
