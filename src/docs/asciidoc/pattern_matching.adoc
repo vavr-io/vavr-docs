@@ -190,7 +190,7 @@ Match(_try).of(
 [source,java]
 ----
 Match(_try).of(  
-    Case($Success(Tuple2($("a"), $())), tuple2 -> ...),
+    Case($Success($Tuple2($("a"), $())), tuple2 -> ...),
     Case($Failure($(instanceOf(Error.class))), error -> ...)
 );
 ----
