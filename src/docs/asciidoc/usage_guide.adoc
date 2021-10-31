@@ -266,7 +266,7 @@ Lazy is a monadic container type which represents a lazy evaluated value. Compar
 include::../../test/java/io/vavr/LazyDemo.java[tags=createLazy]
 ----
 
-Since version 2.0.0 you may also create a real lazy value (works only with interfaces):
+You may also create a real lazy value (works only with interfaces):
 
 [source,java,indent=0]
 ----
