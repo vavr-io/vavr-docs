@@ -9,6 +9,10 @@ Daniel Dietrich, Robert Winkler
 :revdate: {localdate}
 :icons: font
 :pagenums:
+:webfonts!: 
+:iconfont-remote!:
+:iconfont-name: css/font-awesome-4.7.0/css/font-awesome
+
 
 include::introduction.adoc[]
 
