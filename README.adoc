@@ -4,7 +4,7 @@ This is the source of the http://docs.vavr.io/[Vavr documentation].
 
 === Performing Updates
 
-* Ensure `~/.gradle/gradle.properties` exists with
+* Ensure `~/.gradle/gradle.properties` exists with:
 
   githubUser=<GitHub user>
   githubPassword=<GitHub password>
@@ -12,3 +12,4 @@ This is the source of the http://docs.vavr.io/[Vavr documentation].
 * Update the version in `gradle.properties`. Please note that the version in the Maven section of `getting_started.adoc` currently has to be updated manually.
 * Write documentation and test results with `./gradlew asciidoc`. If the Vavr API has changed, some code example tests might fail.
 * Then `git commit`, `git push` and `./gradlew publishGhPages`
+* Nowadays, `githubPassword` effectively means a token and not the actual password!
