@@ -1,0 +1,86 @@
+== Comenzando
+
+Los proyectos que incluyan Vavr deben apuntar como mínimo a Java 1.8.
+
+El archivo `.jar` está disponible en http://search.maven.org/#search%7Cga%7C1%7Cg%3A%22io.vavr%22%20a%3A%22vavr%22[Maven Central].
+
+=== Gradle
+
+[source,groovy]
+[subs="attributes"]
+----
+dependencies {
+    compile "io.vavr:vavr:{project-version}"
+}
+----
+
+Gradle 7+
+
+[source,groovy]
+[subs="attributes"]
+----
+dependencies {
+    implementation "io.vavr:vavr:{project-version}"
+}
+----
+
+=== Maven
+
+[source,xml]
+----
+<dependencies>
+    <dependency>
+        <groupId>io.vavr</groupId>
+        <artifactId>vavr</artifactId>
+        <version>0.10.4</version>
+    </dependency>
+</dependencies>
+----
+
+=== Independiente
+
+Debido a que Vavr __no__ depende de ninguna biblioteca (aparte de la JVM), puedes agregarlo fácilmente como un archivo `.jar` independiente a tu __classpath__.
+
+=== Snapshots
+
+Las versiones en desarrollo se pueden encontrar https://oss.sonatype.org/content/repositories/snapshots/io/vavr/vavr[aquí].
+
+==== Gradle
+
+Agrega el repositorio adicional de snapshots en tu archivo `build.gradle`:
+
+[source,groovy]
+----
+repositories {
+    (...)
+    maven { url "https://oss.sonatype.org/content/repositories/snapshots" }
+}
+----
+
+==== Maven
+
+Asegúrate de que tu archivo ``~/.m2/settings.xml`` contenga lo siguiente:
+
+[source,xml]
+----
+<profiles>
+    <profile>
+        <id>allow-snapshots</id>
+        <activation>
+            <activeByDefault>true</activeByDefault>
+        </activation>
+        <repositories>
+            <repository>
+                <id>snapshots-repo</id>
+                <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+                <releases>
+                    <enabled>false</enabled>
+                </releases>
+                <snapshots>
+                    <enabled>true</enabled>
+                </snapshots>
+            </repository>
+        </repositories>
+    </profile>
+</profiles>
+----

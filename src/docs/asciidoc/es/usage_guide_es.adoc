@@ -1,0 +1,440 @@
+== Usage Guide
+
+Vavr comes along with well-designed representations of some of the most basic types which apparently are missing or rudimentary in Java: `Tuple`, `Value` and `λ`.
+In Vavr, everything is built upon these three basic building blocks:
+
+image::images/vavr-overview.png[Vavr Overview]
+
+=== Tuples
+
+Java is missing a general notion of tuples. A Tuple combines a fixed number of elements together so that they can be passed around as a whole. Unlike an array or list, a tuple can hold objects with different types, but they are also immutable.
+Tuples are of type Tuple1, Tuple2, Tuple3 and so on. There currently is an upper limit of 8 elements. To access elements of a tuple `t`, you can use method `t._1` to access the first element, `t._2` to access the second, and so on.
+
+==== Create a tuple
+Here is an example of how to create a tuple holding a String and an Integer:
+
+[source,java,indent=0]
+----
+include::../../test/java/io/vavr/TupleDemo.java[tags=createTuple]
+----
+<1> A tuple is created via the static factory method `Tuple.of()`
+<2> Get the 1st element of this tuple.
+<3> Get the 2nd element of this tuple.
+
+==== Map a tuple component-wise
+
+The component-wise map evaluates a function per element in the tuple, returning another tuple.
+
+[source,java,indent=0]
+----
+include::../../test/java/io/vavr/TupleDemo.java[tags=bimapTuple]
+----
+
+==== Map a tuple using one mapper
+
+It is also possible to map a tuple using one mapping function.
+
+[source,java,indent=0]
+----
+include::../../test/java/io/vavr/TupleDemo.java[tags=mapTuple]
+----
+
+==== Transform a tuple
+
+Transform creates a new type based on the tuple's contents.
+
+[source,java,indent=0]
+----
+include::../../test/java/io/vavr/TupleDemo.java[tags=transformTuple]
+----
+
+=== Functions
+
+Functional programming is all about values and transformation of values using functions. Java 8 just provides a `Function` which accepts one parameter and a `BiFunction` which accepts two parameters. Vavr provides functions up to a limit of 8 parameters. The functional interfaces are of called `Function0, Function1, Function2, Function3` and so on. If you need a function which throws a checked exception you can use `CheckedFunction1, CheckedFunction2` and so on.
+The following lambda expression creates a function to sum two integers:
+
+[source,java,indent=0]
+----
+include::../../test/java/io/vavr/FunctionsDemo.java[tags=createFunctionWithLambda]
+----
+
+This is a shorthand for the following anonymous class definition:
+
+[source,java,indent=0]
+----
+include::../../test/java/io/vavr/FunctionsDemo.java[tags=createFunctionWithAnonymousClass]
+----
+
+You can also use the static factory method `Function3.of(...)` to a create a function from any method reference.
+
+[source,java,indent=0]
+----
+include::../../test/java/io/vavr/FunctionsDemo.java[tags=createFunctionWithFactoryMethod]
+----
+
+In fact Vavr functional interfaces are Java 8 functional interfaces on steroids. They also provide features like:
+
+* Composition
+* Lifting
+* Currying
+* Memoization
+
+==== Composition
+You can compose functions. In mathematics, function composition is the application of one function to the result of another to produce a third function. For instance, the functions f : X → Y and g : Y → Z can be composed to yield a function `h: g(f(x))` which maps X -> Z.
+You can use either `andThen`:
+
+[source,java,indent=0]
+----
+include::../../test/java/io/vavr/FunctionsDemo.java[tags=composeFunctions1]
+----
+
+or `compose`:
+
+[source,java,indent=0]
+----
+include::../../test/java/io/vavr/FunctionsDemo.java[tags=composeFunctions2]
+----
+
+==== Lifting
+You can lift a partial function into a total function that returns an `Option` result. The term _partial function_ comes from mathematics. A partial function from X to Y is a function f: X′ → Y, for some subset X′ of X. It generalizes the concept of a function f: X → Y by not forcing f to map every element of X to an element of Y. That means a partial function works properly only for some input values. If the function is called with a disallowed input value, it will typically throw an exception.
+
+The following method `divide` is a partial function that only accepts non-zero divisors.
+
+[source,java,indent=0]
+----
+include::../../test/java/io/vavr/FunctionsDemo.java[tags=partialDivideFunction]
+----
+
+We use `lift` to turn `divide` into a total function that is defined for all inputs.
+
+[source,java,indent=0]
+----
+include::../../test/java/io/vavr/FunctionsDemo.java[tags=liftedDivideFunction]
+----
+
+<1> A lifted function returns `None` instead of throwing an exception, if the function is invoked with disallowed input values.
+<2> A lifted function returns `Some`, if the function is invoked with allowed input values.
+
+The following method `sum` is a partial function that only accepts positive input values.
+
+[source,java,indent=0]
+----
+include::../../test/java/io/vavr/FunctionsDemo.java[tags=partialFunctionExample]
+----
+<1> The function `sum` throws an `IllegalArgumentException` for negative input values.
+
+We may lift the `sum` method by providing the methods reference.
+
+[source,java,indent=0]
+----
+include::../../test/java/io/vavr/FunctionsDemo.java[tags=liftMethodReference]
+----
+<1> The lifted function catches the `IllegalArgumentException` and maps it to `None`.
+
+==== Partial application
+Partial application allows you to derive a new function from an existing one by fixing some values.  You can fix one or more parameters, and the number of fixed parameters defines the arity of the new function such that `new arity = (original arity - fixed parameters)`.  The parameters are bound from left to right.
+
+[source,java,indent=0]
+----
+include::../../test/java/io/vavr/FunctionsDemo.java[tags=partialApplicationFunction]
+----
+<1> The first parameter `a` is fixed to the value 2.
+
+This can be demonstrated by fixing the first three parameters of a `Function5`, resulting in a `Function2`.
+[source,java,indent=0]
+----
+include::../../test/java/io/vavr/FunctionsDemo.java[tags=partialApplicationFunctionArity5]
+----
+<1> The `a`, `b` and `c` parameters are fixed to the values 2, 3 and 1 respectively.
+
+Partial application differs from <<Currying>>, as will be explored in the relevant section.
+
+==== Currying
+Currying is a technique to partially apply a function by fixing a value for one of the parameters, resulting in a `Function1` function that returns a `Function1`.
+
+When a `Function2` is _curried_, the result is indistinguishable from the _partial application_ of a `Function2` because both result in a 1-arity function.
+
+[source,java,indent=0]
+----
+include::../../test/java/io/vavr/FunctionsDemo.java[tags=curryingFunction]
+----
+<1> The first parameter `a` is fixed to the value 2.
+
+You might notice that, apart from the use of `.curried()`, this code is identical to the 2-arity given example in <<Partial application>>.  With higher-arity functions, the difference becomes clear.
+
+[source,java,indent=0]
+----
+include::../../test/java/io/vavr/FunctionsDemo.java[tags=curryingFunctionArity3]
+----
+<1> Note the presence of additional functions in the parameters.
+<2> Further calls to `apply` returns another `Function1`, apart from the final call.
+
+==== Memoization
+Memoization is a form of caching. A memoized function executes only once and then returns the result from a cache.
+The following example calculates a random number on the first invocation and returns the cached number on the second invocation.
+
+[source,java,indent=0]
+----
+include::../../test/java/io/vavr/FunctionsDemo.java[tags=memoizedFunction]
+----
+
+=== Values
+In a functional setting we see a value as a kind of https://en.wikipedia.org/wiki/Normal_form_(abstract_rewriting)[normal form], an expression which cannot be further evaluated. In Java we express this by making the state of an object final and call it https://en.wikipedia.org/wiki/Immutable_object[immutable].
+Vavr's functional Value abstracts over immutable objects. Efficient write operations are added by sharing immutable memory between instances. What we get is thread-safety for free!
+
+==== Option
+Option is a monadic container type which represents an optional value. Instances of Option are either an instance of `Some` or the `None`.
+
+[source,java,indent=0]
+----
+// optional *value*, no more nulls
+Option<T> option = Option.of(...);
+----
+
+If you're coming to Vavr after using Java's `Optional` class, there is a crucial difference.  In `Optional`, a call to `.map` that results in a null will result in an empty `Optional`.  In Vavr, it would result in a `Some(null)` that can then lead to a `NullPointerException`.
+
+Using `Optional`, this scenario is valid.
+
+[source,java,indent=0]
+----
+include::../../test/java/io/vavr/OptionDemo.java[tags=javaOptionalWithMappedNull]
+----
+<1> The option is `Some("foo")`
+<2> The resulting option becomes empty here
+
+Using Vavr's `Option`, the same scenario will result in a `NullPointerException`.
+
+[source,java,indent=0]
+----
+include::../../test/java/io/vavr/OptionDemo.java[tags=vavrOptionWithMappedNull]
+----
+<1> The option is `Some("foo")`
+<2> The resulting option is `Some(null)`
+<3> The call to `s.toUpperCase()` is invoked on a `null`
+
+This seems like Vavr's implementation is broken, but in fact it's not - rather, it adheres to the requirement of a monad to maintain computational context when calling `.map`.  In terms of an `Option`, this means that calling `.map` on a `Some` will result in a `Some`, and calling `.map` on a `None` will result in a `None`.  In the Java `Optional` example above, that context changed from a `Some` to a `None`.
+
+This may seem to make `Option` useless, but it actually forces you to pay attention to possible occurrences of `null` and deal with them accordingly instead of unknowingly accepting them.  The correct way to deal with occurrences of `null` is to use `flatMap`.
+
+[source,java,indent=0]
+----
+include::../../test/java/io/vavr/OptionDemo.java[tags=flatMapNullParameter]
+----
+<1> The option is `Some("foo")`
+<2> The resulting option is `Some(null)`
+<3> `s`, which is `null`, becomes `None`
+
+Alternatively, move the `.flatMap` to be co-located with the the possibly `null` value.
+
+[source,java,indent=0]
+----
+include::../../test/java/io/vavr/OptionDemo.java[tags=mapOptionParameter]
+----
+<1> The option is `Some("foo")`
+<2> The resulting option is `None`
+
+This is explored in more detail on the http://blog.vavr.io/the-agonizing-death-of-an-astronaut/[Vavr blog].
+
+==== Try
+Try is a monadic container type which represents a computation that may either result in an exception, or return a successfully computed value. It's similar to, but semantically different from `Either`. Instances of Try, are either an instance of `Success` or `Failure`.
+
+[source,java,indent=0]
+----
+// no need to handle exceptions
+Try.of(() -> bunchOfWork()).getOrElse(other);
+----
+
+[source,java,indent=0]
+----
+import static io.vavr.API.*;        // $, Case, Match
+import static io.vavr.Predicates.*; // instanceOf
+
+A result = Try.of(this::bunchOfWork)
+    .recover(x -> Match(x).of(
+        Case($(instanceOf(Exception_1.class)), t -> somethingWithException(t)),
+        Case($(instanceOf(Exception_2.class)), t -> somethingWithException(t)),
+        Case($(instanceOf(Exception_n.class)), t -> somethingWithException(t))
+    ))
+    .getOrElse(other);
+----
+
+==== Lazy
+Lazy is a monadic container type which represents a lazy evaluated value. Compared to a Supplier, Lazy is memoizing, i.e. it evaluates only once and therefore is referentially transparent.
+
+[source,java,indent=0]
+----
+include::../../test/java/io/vavr/LazyDemo.java[tags=createLazy]
+----
+
+You may also create a real lazy value (works only with interfaces):
+
+[source,java,indent=0]
+----
+CharSequence chars = Lazy.val(() -> "Yay!", CharSequence.class);
+----
+
+==== Either
+Either represents a value of two possible types. An Either is either a Left or a Right. If the given Either is a Right and projected to a Left, the Left operations have no effect on the Right value. If the given Either is a Left and projected to a Right, the Right operations have no effect on the Left value. If a Left is projected to a Left or a Right is projected to a Right, the operations have an effect.
+
+Example: A compute() function, which results either in an Integer value (in the case of success) or in an error message of type String (in the case of failure). By convention the success case is Right and the failure is Left.
+
+[source,java,indent=0]
+----
+Either<String,Integer> value = compute().right().map(i -> i * 2).toEither();
+----
+
+If the result of compute() is Right(1), the value is Right(2).
+If the result of compute() is Left("error"), the value is Left("error").
+
+==== Future
+A Future is a computation result that becomes available at some point. All operations provided are non-blocking. The underlying ExecutorService is used to execute asynchronous handlers, e.g. via onComplete(...).
+
+A Future has two states: pending and completed.
+
+*Pending:* The computation is ongoing. Only a pending future may be completed or cancelled.
+
+*Completed:* The computation finished successfully with a result, failed with an exception or was cancelled.
+
+Callbacks may be registered on a Future at each point of time. These actions are performed as soon as the Future is completed. An action which is registered on a completed Future is immediately performed. The action may run on a separate Thread, depending on the underlying ExecutorService. Actions which are registered on a cancelled Future are performed with the failed result.
+
+[source,java,indent=0]
+----
+// future *value*, result of an async calculation
+Future<T> future = Future.of(...);
+----
+
+==== Validation
+The Validation control is an _applicative functor_ and facilitates accumulating errors. When trying to compose Monads, the combination process will short circuit at the first encountered error. But 'Validation' will continue processing the combining functions, accumulating all errors. This is especially useful when doing validation of multiple fields, say a web form, and you want to know all errors encountered, instead of one at a time.
+
+Example: We get the fields 'name' and 'age' from a web form and want to create either a valid Person instance, or return the list of validation errors.
+
+[source,java,indent=0]
+----
+include::../../test/java/io/vavr/ValidationDemo.java[tags=validatePerson]
+----
+
+A valid value is contained in a `Validation.Valid` instance, a list of validation errors is contained in a `Validation.Invalid` instance.
+
+The following validator is used to combine different validation results to one `Validation` instance.
+
+----
+include::../../test/java/io/vavr/ValidationDemo.java[tags=personValidator]
+----
+
+If the validation succeeds, i.e. the input data is valid, then an instance of `Person` is created of the given fields `name` and `age`.
+
+----
+include::../../test/java/io/vavr/ValidationDemo.java[tags=person]
+----
+
+=== Collections
+
+Much effort has been put into designing an all-new collection library for Java which meets the requirements of functional programming, namely immutability.
+
+Java's Stream lifts a computation to a different layer and links to a specific collection in another explicit step. With Vavr we don't need all this additional boilerplate.
+
+The new collections are based on http://docs.oracle.com/javase/8/docs/api/java/lang/Iterable.html[java.lang.Iterable], so they leverage the sugared iteration style.
+
+[source,java]
+----
+// 1000 random numbers
+for (double random : Stream.continually(Math::random).take(1000)) {
+    ...
+}
+----
+
+`TraversableOnce` has a huge amount of useful functions to operate on the collection. Its API is similar to http://docs.oracle.com/javase/8/docs/api/java/util/stream/Stream.html[java.util.stream.Stream] but more mature.
+
+==== List
+
+Vavr's `List` is an immutable linked list. Mutations create new instances. Most operations are performed in linear time. Consequent operations are executed one by one.
+
+===== Java 8
+
+[source,java]
+----
+Arrays.asList(1, 2, 3).stream().reduce((i, j) -> i + j);
+----
+
+[source,java]
+----
+IntStream.of(1, 2, 3).sum();
+----
+
+===== Vavr
+
+[source,java]
+----
+// io.vavr.collection.List
+List.of(1, 2, 3).sum();
+----
+
+==== Stream
+
+The `io.vavr.collection.Stream` implementation is a lazy linked list. Values are computed only when needed. Because of its laziness, most operations are performed in constant time. Operations are intermediate in general and executed in a single pass.
+
+The stunning thing about streams is that we can use them to represent sequences that are (theoretically) infinitely long.
+
+[source,java]
+----
+// 2, 4, 6, ...
+Stream.from(1).filter(i -> i % 2 == 0);
+----
+
+==== Performance Characteristics
+
+.Time Complexity of Sequential Operations
+[width="100%",frame="topbot",options="header"]
+|====================================================================================================
+|               | head()     | tail()     | get(int)    | update(int, T) | prepend(T)  | append(T)
+| Array         | const      | linear     | const       | const          | linear      | linear
+| CharSeq       | const      | linear     | const       | linear         | linear      | linear
+| Iterator      | const      | const      | &mdash;     | &mdash;        | &mdash;     | &mdash;
+| List          | const      | const      | linear      | linear         | const       | linear
+| Queue         | const      | const^a^   | linear      | linear         | const       | const
+| PriorityQueue | log        | log        | &mdash;     | &mdash;        | log         | log
+| Stream        | const      | const      | linear      | linear         | const^lazy^ | const^lazy^
+| Vector        | const^eff^ | const^eff^ | const ^eff^ | const ^eff^    | const ^eff^ | const ^eff^
+|====================================================================================================
+
+.Time Complexity of Map/Set Operations
+[width="100%",frame="topbot",options="header"]
+|=================================================================
+|               | contains/Key | add/put    | remove     | min
+| HashMap       | const^eff^   | const^eff^ | const^eff^ | linear
+| HashSet       | const^eff^   | const^eff^ | const^eff^ | linear
+| LinkedHashMap | const^eff^   | linear     | linear     | linear
+| LinkedHashSet | const^eff^   | linear     | linear     | linear
+| Tree          | log          | log        | log        | log
+| TreeMap       | log          | log        | log        | log
+| TreeSet       | log          | log        | log        | log
+|=================================================================
+
+Legend:
+
+* const &mdash; constant time
+* const^a^ &mdash; amortized constant time, few operations may take longer
+* const^eff^ &mdash; effectively constant time, depending on assumptions like distribution of hash keys
+* const^lazy^ &mdash; lazy constant time, the operation is deferred
+* log &mdash; logarithmic time
+* linear &mdash; linear time
+
+=== Property Checking
+
+Property checking (also known as http://en.wikipedia.org/wiki/Property_testing[property testing]) is a truly powerful way to test properties of our code in a functional way. It is based on generated random data, which is passed to a user defined check function. 
+
+Vavr has property testing support in its `io.vavr:vavr-test` module, so make sure to include that in order to use it in your tests.
+
+[source,java]
+----
+Arbitrary<Integer> ints = Arbitrary.integer();
+
+// square(int) >= 0: OK, passed 1000 tests.
+Property.def("square(int) >= 0")
+        .forAll(ints)
+        .suchThat(i -> i * i >= 0)
+        .check()
+        .assertIsSatisfied();
+----
+
+Generators of complex data structures are composed of simple generators.
