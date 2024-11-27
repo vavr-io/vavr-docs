@@ -16,6 +16,6 @@ include::getting_started_es.adoc[]
 
 include::usage_guide_es.adoc[]
 
-#include::pattern_matching.adoc[]
+include::pattern_matching_es.adoc[]
 
-#include::license.adoc[]
+include::license_es.adoc[]

@@ -315,27 +315,27 @@ Ejemplo: Obtenemos los campos `name` y `age` de un formulario web y queremos cre
 include::../../../test/java/io/vavr/ValidationDemo.java[tags=validatePerson]
 ----
 
-A valid value is contained in a `Validation.Valid` instance, a list of validation errors is contained in a `Validation.Invalid` instance.
+Un valor válido está contenido en una instancia de `Validation.Valid`, mientras que una lista de errores de validación está contenida en una instancia de `Validation.Invalid`.
 
-The following validator is used to combine different validation results to one `Validation` instance.
+El siguiente validador se utiliza para combinar diferentes resultados de validación en una sola instancia de `Validation`.
 
 ----
 include::../../../test/java/io/vavr/ValidationDemo.java[tags=personValidator]
 ----
 
-If the validation succeeds, i.e. the input data is valid, then an instance of `Person` is created of the given fields `name` and `age`.
+Si la validación tiene éxito, es decir, si los datos de entrada son válidos, entonces se crea una instancia de `Person` con los campos `name` y `age` proporcionados.
 
 ----
-include::../../test/java/io/vavr/ValidationDemo.java[tags=person]
+include::../../../test/java/io/vavr/ValidationDemo.java[tags=person]
 ----
 
-=== Collections
+=== Colecciones
 
-Much effort has been put into designing an all-new collection library for Java which meets the requirements of functional programming, namely immutability.
+Se ha dedicado mucho esfuerzo a diseñar una biblioteca de colecciones completamente nueva para Java que cumpla con los requisitos de la programación funcional, especialmente la inmutabilidad.
 
-Java's Stream lifts a computation to a different layer and links to a specific collection in another explicit step. With Vavr we don't need all this additional boilerplate.
+El `Stream` de Java eleva una computación a una capa diferente y se vincula a una colección específica en otro paso explícito. Con Vavr, no necesitamos todo este código adicional repetitivo (__boilerplate__).
 
-The new collections are based on http://docs.oracle.com/javase/8/docs/api/java/lang/Iterable.html[java.lang.Iterable], so they leverage the sugared iteration style.
+Las nuevas colecciones están basadas en http://docs.oracle.com/javase/8/docs/api/java/lang/Iterable.html[java.lang.Iterable], lo que permite aprovechar un estilo de iteración simplificado.
 
 [source,java]
 ----
@@ -345,11 +345,11 @@ for (double random : Stream.continually(Math::random).take(1000)) {
 }
 ----
 
-`TraversableOnce` has a huge amount of useful functions to operate on the collection. Its API is similar to http://docs.oracle.com/javase/8/docs/api/java/util/stream/Stream.html[java.util.stream.Stream] but more mature.
+`TraversableOnce` tiene una gran cantidad de funciones útiles para operar en la colección. Su API es similar a http://docs.oracle.com/javase/8/docs/api/java/util/stream/Stream.html[java.util.stream.Stream], pero es más madura.
 
 ==== List
 
-Vavr's `List` is an immutable linked list. Mutations create new instances. Most operations are performed in linear time. Consequent operations are executed one by one.
+La `List` de Vavr es una lista enlazada inmutable. Las mutaciones crean nuevas instancias. La mayoría de las operaciones se realizan en tiempo lineal. Las operaciones consecutivas se ejecutan una por una.
 
 ===== Java 8
 
@@ -373,9 +373,9 @@ List.of(1, 2, 3).sum();
 
 ==== Stream
 
-The `io.vavr.collection.Stream` implementation is a lazy linked list. Values are computed only when needed. Because of its laziness, most operations are performed in constant time. Operations are intermediate in general and executed in a single pass.
+La implementación de `io.vavr.collection.Stream` es una lista enlazada perezosa (lazy). Los valores se calculan solo cuando se necesitan. Debido a su naturaleza perezosa, la mayoría de las operaciones se realizan en tiempo constante. En general, las operaciones son intermedias y se ejecutan en una sola pasada.
 
-The stunning thing about streams is that we can use them to represent sequences that are (theoretically) infinitely long.
+Lo sorprendente de los streams es que podemos usarlos para representar secuencias que son (teóricamente) infinitamente largas.
 
 [source,java]
 ----
@@ -383,9 +383,9 @@ The stunning thing about streams is that we can use them to represent sequences 
 Stream.from(1).filter(i -> i % 2 == 0);
 ----
 
-==== Performance Characteristics
+==== Características de Rendimiento
 
-.Time Complexity of Sequential Operations
+.Complejidad Temporal de las Operaciones Secuenciales
 [width="100%",frame="topbot",options="header"]
 |====================================================================================================
 |               | head()     | tail()     | get(int)    | update(int, T) | prepend(T)  | append(T)
@@ -399,7 +399,7 @@ Stream.from(1).filter(i -> i % 2 == 0);
 | Vector        | const^eff^ | const^eff^ | const ^eff^ | const ^eff^    | const ^eff^ | const ^eff^
 |====================================================================================================
 
-.Time Complexity of Map/Set Operations
+.Complejidad Temporal de las Operaciones en Map/Set
 [width="100%",frame="topbot",options="header"]
 |=================================================================
 |               | contains/Key | add/put    | remove     | min
@@ -412,20 +412,20 @@ Stream.from(1).filter(i -> i % 2 == 0);
 | TreeSet       | log          | log        | log        | log
 |=================================================================
 
-Legend:
+Leyenda:
 
-* const &mdash; constant time
-* const^a^ &mdash; amortized constant time, few operations may take longer
-* const^eff^ &mdash; effectively constant time, depending on assumptions like distribution of hash keys
-* const^lazy^ &mdash; lazy constant time, the operation is deferred
-* log &mdash; logarithmic time
-* linear &mdash; linear time
+* const &mdash; tiempo constante.
+* const^a^ &mdash; tiempo constante amortizado, algunas operaciones pueden tomar más tiempo.
+* const^eff^ &mdash; tiempo efectivamente constante, dependiendo de suposiciones como la distribución de claves hash.
+* const^lazy^ &mdash; tiempo constante perezoso (__lazy__), la operación se difiere.
+* log &mdash; tiempo logarítmico.
+* linear &mdash; tiempo lineal.
 
-=== Property Checking
+=== Verificación de Propiedades
 
-Property checking (also known as http://en.wikipedia.org/wiki/Property_testing[property testing]) is a truly powerful way to test properties of our code in a functional way. It is based on generated random data, which is passed to a user defined check function. 
+La verificación de propiedades (también conocida como  http://en.wikipedia.org/wiki/Property_testing[pruebas de propiedades]) es una forma realmente poderosa de probar propiedades de nuestro código de manera funcional. Se basa en la generación de datos aleatorios, que se pasan a una función de verificación definida por el usuario.
 
-Vavr has property testing support in its `io.vavr:vavr-test` module, so make sure to include that in order to use it in your tests.
+Vavr admite pruebas de propiedades en su módulo `io.vavr:vavr-test`, por lo que asegúrate de incluirlo para usarlo en tus pruebas.
 
 [source,java]
 ----
@@ -439,4 +439,4 @@ Property.def("square(int) >= 0")
         .assertIsSatisfied();
 ----
 
-Generators of complex data structures are composed of simple generators.
+Los generadores de estructuras de datos complejas se componen de generadores simples.
