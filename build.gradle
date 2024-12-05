@@ -94,8 +94,8 @@ githubPages {
     repoUri = 'https://github.com/vavr-io/vavr-docs.git'
 
     credentials {
-        username = project.githubUser
-        password = project.githubPassword
+        username = System.getenv('GITHUB_USER') ?: ''
+        password = System.getenv('GITHUB_TOKEN') ?: ''
     }
 
     pages {
