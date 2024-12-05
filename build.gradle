@@ -1,7 +1,13 @@
 buildscript {
     repositories {
         mavenCentral()
-        maven { url "https://plugins.gradle.org/m2/" }
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
+        maven {
+            name = 'ajoberstar-backup'
+            url = 'https://ajoberstar.org/bintray-backup/'
+        }
     }
     dependencies {
         classpath "org.asciidoctor:asciidoctor-maven-plugin:${project.asciiDoctorMavenPluginVersion}"
@@ -25,14 +31,15 @@ repositories {
     maven {
         url "https://oss.sonatype.org/content/repositories/snapshots"
     }
+    maven { url 'https://jitpack.io' }
 }
 
 dependencies {
-    testCompile "io.vavr:vavr:${project.version}"
-    testCompile "junit:junit:4.11"
-    testCompile "org.assertj:assertj-core:3.0.0"
-    testCompile "ch.qos.logback:logback-classic:0.9.26"
-    testCompile "org.mockito:mockito-core:1.10.19"
+    testImplementation "io.vavr:vavr:${project.version}"
+    testImplementation "junit:junit:4.11"
+    testImplementation "org.assertj:assertj-core:3.0.0"
+    testImplementation "ch.qos.logback:logback-classic:0.9.26"
+    testImplementation "org.mockito:mockito-core:1.10.19"
 }
 
 compileJava {
@@ -51,14 +58,18 @@ asciidoctor {
     sourceDir = file('src/docs/asciidoc')
     outputDir = file("$buildDir/docs/asciidoc")
 
+    options backend: 'html5'
+
     baseDirFollowsSourceDir()
+
+    attributes(
+            'project-version': project.version
+    )
 
     sources {
         include 'index.adoc'
     }
-    outputOptions {
-        backends = ['html5']
-    }
+
     resources {
         from(sourceDir) {
             include 'images/**'
@@ -72,7 +83,7 @@ tasks.withType(Copy).configureEach {
 
 tasks.register('copyCNAME', Copy) {
     from 'CNAME'
-    into file(asciidoctor.outputDir.path + '/html5')
+    into file(asciidoctor.outputDir.path)
 }
 
 //asciidoctor.dependsOn test
@@ -88,7 +99,7 @@ githubPages {
     }
 
     pages {
-        from file(asciidoctor.outputDir.path + '/html5')
+        from file(asciidoctor.outputDir.path)
         // into project.version
     }
 }
