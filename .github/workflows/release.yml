@@ -1,0 +1,30 @@
+name: release
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        java: [ '8' ]
+        architecture: [ 'x64' ]
+    name: Build with JDK ${{ matrix.java }} on ${{ matrix.architecture }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup JDK
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: ${{ matrix.java }}
+          architecture: ${{ matrix.architecture }}
+          cache: 'gradle'
+
+      - name: Build with Gradle
+        run: ./gradlew asciidoc
+
+      - name: GitHub Pages Publish
+        run: ./gradlew publishGhPages
+        env:
+          GITHUB_USER: ${{ secrets.GH_DEPLOY_USER }}
+          GITHUB_TOKEN: ${{ secrets.GH_DEPLOY_TOKEN }}
