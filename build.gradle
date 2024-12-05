@@ -48,13 +48,17 @@ idea {
 }
 
 asciidoctor {
+    sourceDir = file('src/docs/asciidoc')
+    outputDir = file("$buildDir/docs/asciidoc")
+
+    baseDirFollowsSourceDir()
+
     sources {
         include 'index.adoc'
     }
     outputOptions {
         backends = ['html5']
     }
-    outputDir = file("$buildDir/docs/asciidoc")
     resources {
         from(sourceDir) {
             include 'images/**'
