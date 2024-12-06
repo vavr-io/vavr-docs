@@ -1,3 +1,5 @@
+import org.asciidoctor.gradle.jvm.AsciidoctorTask
+
 buildscript {
     repositories {
         mavenCentral()
@@ -77,6 +79,32 @@ asciidoctor {
     }
 }
 
+tasks.register('asciidoc_pl', AsciidoctorTask) {
+    group = 'documentation'
+    description = 'Generates documentation for the "pl" directory.'
+
+    sourceDir = file('src/docs/asciidoc/pl')
+    outputDir = file("$buildDir/docs/asciidoc/pl")
+
+    options backend: 'html5'
+
+    baseDirFollowsSourceDir()
+
+    attributes(
+            'project-version': project.version
+    )
+
+    sources {
+        include '**/*.adoc'
+    }
+
+    resources {
+        from(sourceDir) {
+            include 'images/**'
+        }
+    }
+}
+
 tasks.withType(Copy).configureEach {
     eachFile { println it.file }
 }
@@ -86,7 +114,7 @@ tasks.register('copyCNAME', Copy) {
     into file(asciidoctor.outputDir.path)
 }
 
-//asciidoctor.dependsOn test
+asciidoctor.dependsOn asciidoc_pl
 copyCNAME.dependsOn asciidoctor
 publishGhPages.dependsOn copyCNAME
 
