@@ -43,14 +43,14 @@ dependencies {
 }
 
 compileJava {
-    sourceCompatibility = 1.8
-    targetCompatibility = 1.8
+    sourceCompatibility = 11
+    targetCompatibility = 11
 }
 
 idea {
     project {
-        jdkName = 1.8
-        languageLevel = 1.8
+        jdkName = 11
+        languageLevel = 11
     }
 }
 
