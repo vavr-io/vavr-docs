@@ -15,7 +15,7 @@ Here is an example of how to create a tuple holding a String and an Integer:
 
 [source,java,indent=0]
 ----
-include::../../test/java/io/vavr/TupleDemo.java[tags=createTuple]
+include::../../../test/java/io/vavr/TupleDemo.java[tags=createTuple]
 ----
 <1> A tuple is created via the static factory method `Tuple.of()`
 <2> Get the 1st element of this tuple.
@@ -27,7 +27,7 @@ The component-wise map evaluates a function per element in the tuple, returning 
 
 [source,java,indent=0]
 ----
-include::../../test/java/io/vavr/TupleDemo.java[tags=bimapTuple]
+include::../../../test/java/io/vavr/TupleDemo.java[tags=bimapTuple]
 ----
 
 ==== Map a tuple using one mapper
@@ -36,7 +36,7 @@ It is also possible to map a tuple using one mapping function.
 
 [source,java,indent=0]
 ----
-include::../../test/java/io/vavr/TupleDemo.java[tags=mapTuple]
+include::../../../test/java/io/vavr/TupleDemo.java[tags=mapTuple]
 ----
 
 ==== Transform a tuple
@@ -45,7 +45,7 @@ Transform creates a new type based on the tuple's contents.
 
 [source,java,indent=0]
 ----
-include::../../test/java/io/vavr/TupleDemo.java[tags=transformTuple]
+include::../../../test/java/io/vavr/TupleDemo.java[tags=transformTuple]
 ----
 
 === Functions
@@ -55,21 +55,21 @@ The following lambda expression creates a function to sum two integers:
 
 [source,java,indent=0]
 ----
-include::../../test/java/io/vavr/FunctionsDemo.java[tags=createFunctionWithLambda]
+include::../../../test/java/io/vavr/FunctionsDemo.java[tags=createFunctionWithLambda]
 ----
 
 This is a shorthand for the following anonymous class definition:
 
 [source,java,indent=0]
 ----
-include::../../test/java/io/vavr/FunctionsDemo.java[tags=createFunctionWithAnonymousClass]
+include::../../../test/java/io/vavr/FunctionsDemo.java[tags=createFunctionWithAnonymousClass]
 ----
 
 You can also use the static factory method `Function3.of(...)` to a create a function from any method reference.
 
 [source,java,indent=0]
 ----
-include::../../test/java/io/vavr/FunctionsDemo.java[tags=createFunctionWithFactoryMethod]
+include::../../../test/java/io/vavr/FunctionsDemo.java[tags=createFunctionWithFactoryMethod]
 ----
 
 In fact Vavr functional interfaces are Java 8 functional interfaces on steroids. They also provide features like:
@@ -85,14 +85,14 @@ You can use either `andThen`:
 
 [source,java,indent=0]
 ----
-include::../../test/java/io/vavr/FunctionsDemo.java[tags=composeFunctions1]
+include::../../../test/java/io/vavr/FunctionsDemo.java[tags=composeFunctions1]
 ----
 
 or `compose`:
 
 [source,java,indent=0]
 ----
-include::../../test/java/io/vavr/FunctionsDemo.java[tags=composeFunctions2]
+include::../../../test/java/io/vavr/FunctionsDemo.java[tags=composeFunctions2]
 ----
 
 ==== Lifting
@@ -102,14 +102,14 @@ The following method `divide` is a partial function that only accepts non-zero d
 
 [source,java,indent=0]
 ----
-include::../../test/java/io/vavr/FunctionsDemo.java[tags=partialDivideFunction]
+include::../../../test/java/io/vavr/FunctionsDemo.java[tags=partialDivideFunction]
 ----
 
 We use `lift` to turn `divide` into a total function that is defined for all inputs.
 
 [source,java,indent=0]
 ----
-include::../../test/java/io/vavr/FunctionsDemo.java[tags=liftedDivideFunction]
+include::../../../test/java/io/vavr/FunctionsDemo.java[tags=liftedDivideFunction]
 ----
 
 <1> A lifted function returns `None` instead of throwing an exception, if the function is invoked with disallowed input values.
@@ -119,7 +119,7 @@ The following method `sum` is a partial function that only accepts positive inpu
 
 [source,java,indent=0]
 ----
-include::../../test/java/io/vavr/FunctionsDemo.java[tags=partialFunctionExample]
+include::../../../test/java/io/vavr/FunctionsDemo.java[tags=partialFunctionExample]
 ----
 <1> The function `sum` throws an `IllegalArgumentException` for negative input values.
 
@@ -127,7 +127,7 @@ We may lift the `sum` method by providing the methods reference.
 
 [source,java,indent=0]
 ----
-include::../../test/java/io/vavr/FunctionsDemo.java[tags=liftMethodReference]
+include::../../../test/java/io/vavr/FunctionsDemo.java[tags=liftMethodReference]
 ----
 <1> The lifted function catches the `IllegalArgumentException` and maps it to `None`.
 
@@ -136,14 +136,14 @@ Partial application allows you to derive a new function from an existing one by 
 
 [source,java,indent=0]
 ----
-include::../../test/java/io/vavr/FunctionsDemo.java[tags=partialApplicationFunction]
+include::../../../test/java/io/vavr/FunctionsDemo.java[tags=partialApplicationFunction]
 ----
 <1> The first parameter `a` is fixed to the value 2.
 
 This can be demonstrated by fixing the first three parameters of a `Function5`, resulting in a `Function2`.
 [source,java,indent=0]
 ----
-include::../../test/java/io/vavr/FunctionsDemo.java[tags=partialApplicationFunctionArity5]
+include::../../../test/java/io/vavr/FunctionsDemo.java[tags=partialApplicationFunctionArity5]
 ----
 <1> The `a`, `b` and `c` parameters are fixed to the values 2, 3 and 1 respectively.
 
@@ -156,7 +156,7 @@ When a `Function2` is _curried_, the result is indistinguishable from the _parti
 
 [source,java,indent=0]
 ----
-include::../../test/java/io/vavr/FunctionsDemo.java[tags=curryingFunction]
+include::../../../test/java/io/vavr/FunctionsDemo.java[tags=curryingFunction]
 ----
 <1> The first parameter `a` is fixed to the value 2.
 
@@ -164,7 +164,7 @@ You might notice that, apart from the use of `.curried()`, this code is identica
 
 [source,java,indent=0]
 ----
-include::../../test/java/io/vavr/FunctionsDemo.java[tags=curryingFunctionArity3]
+include::../../../test/java/io/vavr/FunctionsDemo.java[tags=curryingFunctionArity3]
 ----
 <1> Note the presence of additional functions in the parameters.
 <2> Further calls to `apply` returns another `Function1`, apart from the final call.
@@ -175,7 +175,7 @@ The following example calculates a random number on the first invocation and ret
 
 [source,java,indent=0]
 ----
-include::../../test/java/io/vavr/FunctionsDemo.java[tags=memoizedFunction]
+include::../../../test/java/io/vavr/FunctionsDemo.java[tags=memoizedFunction]
 ----
 
 === Values
@@ -197,7 +197,7 @@ Using `Optional`, this scenario is valid.
 
 [source,java,indent=0]
 ----
-include::../../test/java/io/vavr/OptionDemo.java[tags=javaOptionalWithMappedNull]
+include::../../../test/java/io/vavr/OptionDemo.java[tags=javaOptionalWithMappedNull]
 ----
 <1> The option is `Some("foo")`
 <2> The resulting option becomes empty here
@@ -206,7 +206,7 @@ Using Vavr's `Option`, the same scenario will result in a `NullPointerException`
 
 [source,java,indent=0]
 ----
-include::../../test/java/io/vavr/OptionDemo.java[tags=vavrOptionWithMappedNull]
+include::../../../test/java/io/vavr/OptionDemo.java[tags=vavrOptionWithMappedNull]
 ----
 <1> The option is `Some("foo")`
 <2> The resulting option is `Some(null)`
@@ -218,7 +218,7 @@ This may seem to make `Option` useless, but it actually forces you to pay attent
 
 [source,java,indent=0]
 ----
-include::../../test/java/io/vavr/OptionDemo.java[tags=flatMapNullParameter]
+include::../../../test/java/io/vavr/OptionDemo.java[tags=flatMapNullParameter]
 ----
 <1> The option is `Some("foo")`
 <2> The resulting option is `Some(null)`
@@ -228,7 +228,7 @@ Alternatively, move the `.flatMap` to be co-located with the the possibly `null`
 
 [source,java,indent=0]
 ----
-include::../../test/java/io/vavr/OptionDemo.java[tags=mapOptionParameter]
+include::../../../test/java/io/vavr/OptionDemo.java[tags=mapOptionParameter]
 ----
 <1> The option is `Some("foo")`
 <2> The resulting option is `None`
@@ -263,7 +263,7 @@ Lazy is a monadic container type which represents a lazy evaluated value. Compar
 
 [source,java,indent=0]
 ----
-include::../../test/java/io/vavr/LazyDemo.java[tags=createLazy]
+include::../../../test/java/io/vavr/LazyDemo.java[tags=createLazy]
 ----
 
 You may also create a real lazy value (works only with interfaces):
@@ -310,7 +310,7 @@ Example: We get the fields 'name' and 'age' from a web form and want to create e
 
 [source,java,indent=0]
 ----
-include::../../test/java/io/vavr/ValidationDemo.java[tags=validatePerson]
+include::../../../test/java/io/vavr/ValidationDemo.java[tags=validatePerson]
 ----
 
 A valid value is contained in a `Validation.Valid` instance, a list of validation errors is contained in a `Validation.Invalid` instance.
@@ -318,13 +318,13 @@ A valid value is contained in a `Validation.Valid` instance, a list of validatio
 The following validator is used to combine different validation results to one `Validation` instance.
 
 ----
-include::../../test/java/io/vavr/ValidationDemo.java[tags=personValidator]
+include::../../../test/java/io/vavr/ValidationDemo.java[tags=personValidator]
 ----
 
 If the validation succeeds, i.e. the input data is valid, then an instance of `Person` is created of the given fields `name` and `age`.
 
 ----
-include::../../test/java/io/vavr/ValidationDemo.java[tags=person]
+include::../../../test/java/io/vavr/ValidationDemo.java[tags=person]
 ----
 
 === Collections
