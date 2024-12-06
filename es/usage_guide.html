@@ -5,7 +5,7 @@
 <!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]-->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 1.5.8">
-<title>Usage Guide</title>
+<title>Guía de Uso</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
 /* Asciidoctor default stylesheet | MIT License | http://asciidoctor.org */
@@ -435,11 +435,11 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 <div id="content">
 <div class="sect1">
-<h2 id="_usage_guide">Usage Guide</h2>
+<h2 id="_guía_de_uso">Guía de Uso</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Vavr comes along with well-designed representations of some of the most basic types which apparently are missing or rudimentary in Java: <code>Tuple</code>, <code>Value</code> and <code>λ</code>.
-In Vavr, everything is built upon these three basic building blocks:</p>
+<p>Vavr incluye representaciones bien diseñadas de algunos de los tipos más básicos que, aparentemente, faltan o son rudimentarios en Java: <code>Tuple</code>, <code>Value</code> y <code>λ</code>.
+En Vavr, todo se construye sobre estos tres bloques básicos:</p>
 </div>
 <div class="imageblock">
 <div class="content">
@@ -447,15 +447,15 @@ In Vavr, everything is built upon these three basic building blocks:</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_tuples">Tuples</h3>
+<h3 id="_tuplas">Tuplas</h3>
 <div class="paragraph">
-<p>Java is missing a general notion of tuples. A Tuple combines a fixed number of elements together so that they can be passed around as a whole. Unlike an array or list, a tuple can hold objects with different types, but they are also immutable.
-Tuples are of type Tuple1, Tuple2, Tuple3 and so on. There currently is an upper limit of 8 elements. To access elements of a tuple <code>t</code>, you can use method <code>t._1</code> to access the first element, <code>t._2</code> to access the second, and so on.</p>
+<p>Java carece de una noción general de tuplas. Una tupla combina un número fijo de elementos para que puedan ser tratados como un todo. A diferencia de un array o lista, una tupla puede contener objetos de diferentes tipos, pero también son inmutables.
+Las tuplas tienen tipos como <code>Tuple1</code>, <code>Tuple2</code>, <code>Tuple3</code> y así sucesivamente. Actualmente, hay un límite máximo de 8 elementos. Para acceder a los elementos de una tupla <code>t</code>, puedes usar el método <code>t._1</code> para acceder al primer elemento, <code>t._2</code> para el segundo, y así sucesivamente.</p>
 </div>
 <div class="sect3">
-<h4 id="_create_a_tuple">Create a tuple</h4>
+<h4 id="_crear_una_tupla">Crear una tupla</h4>
 <div class="paragraph">
-<p>Here is an example of how to create a tuple holding a String and an Integer:</p>
+<p>Aquí tienes un ejemplo de cómo crear una tupla que contiene un <code>String</code> y un <code>Integer</code>:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -472,21 +472,21 @@ Integer i = java8._2; //<b class="conum">(3)</b></code></pre>
 <div class="colist arabic">
 <ol>
 <li>
-<p>A tuple is created via the static factory method <code>Tuple.of()</code></p>
+<p>Se crea una tupla mediante el método de fábrica estático <code>Tuple.of()</code></p>
 </li>
 <li>
-<p>Get the 1st element of this tuple.</p>
+<p>Obtén el primer elemento de esta tupla.</p>
 </li>
 <li>
-<p>Get the 2nd element of this tuple.</p>
+<p>Obtén el segundo elemento de esta tupla.</p>
 </li>
 </ol>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_map_a_tuple_component_wise">Map a tuple component-wise</h4>
+<h4 id="_mapear_una_tupla_elemento_por_elemento">Mapear una tupla elemento por elemento</h4>
 <div class="paragraph">
-<p>The component-wise map evaluates a function per element in the tuple, returning another tuple.</p>
+<p>El mapeo elemento por elemento evalúa una función por cada elemento de la tupla, devolviendo otra tupla.</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -499,9 +499,9 @@ Tuple2&lt;String, Integer&gt; that = java8.map(
 </div>
 </div>
 <div class="sect3">
-<h4 id="_map_a_tuple_using_one_mapper">Map a tuple using one mapper</h4>
+<h4 id="_mapear_una_tupla_usando_un_único_mapeador">Mapear una tupla usando un único mapeador</h4>
 <div class="paragraph">
-<p>It is also possible to map a tuple using one mapping function.</p>
+<p>También es posible mapear una tupla usando una sola función de mapeo.</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -513,9 +513,9 @@ Tuple2&lt;String, Integer&gt; that = java8.map(
 </div>
 </div>
 <div class="sect3">
-<h4 id="_transform_a_tuple">Transform a tuple</h4>
+<h4 id="_transformar_una_tupla">Transformar una tupla</h4>
 <div class="paragraph">
-<p>Transform creates a new type based on the tuple&#8217;s contents.</p>
+<p>La transformación crea un nuevo tipo basado en el contenido de la tupla.</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -528,10 +528,10 @@ String that = java8.apply(
 </div>
 </div>
 <div class="sect2">
-<h3 id="_functions">Functions</h3>
+<h3 id="_funciones">Funciones</h3>
 <div class="paragraph">
-<p>Functional programming is all about values and transformation of values using functions. Java 8 just provides a <code>Function</code> which accepts one parameter and a <code>BiFunction</code> which accepts two parameters. Vavr provides functions up to a limit of 8 parameters. The functional interfaces are of called <code>Function0, Function1, Function2, Function3</code> and so on. If you need a function which throws a checked exception you can use <code>CheckedFunction1, CheckedFunction2</code> and so on.
-The following lambda expression creates a function to sum two integers:</p>
+<p>La programación funcional se centra en los valores y en la transformación de valores mediante funciones. Java 8 solo proporciona una <code>Function</code> que acepta un parámetro y una <code>BiFunction</code> que acepta dos parámetros. Vavr proporciona funciones con un límite de hasta 8 parámetros. Las interfaces funcionales se denominan <code>Function0, Function1, Function2, Function3</code> y así sucesivamente. Si necesitas una función que lance una excepción comprobada, puedes usar <code>CheckedFunction1, CheckedFunction2</code> y así sucesivamente.
+La siguiente expresión lambda crea una función para sumar dos enteros:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -540,7 +540,7 @@ Function2&lt;Integer, Integer, Integer&gt; sum = (a, b) -&gt; a + b;</code></pre
 </div>
 </div>
 <div class="paragraph">
-<p>This is a shorthand for the following anonymous class definition:</p>
+<p>Esto es una abreviatura para la siguiente definición de clase anónima:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -553,7 +553,7 @@ Function2&lt;Integer, Integer, Integer&gt; sum = (a, b) -&gt; a + b;</code></pre
 </div>
 </div>
 <div class="paragraph">
-<p>You can also use the static factory method <code>Function3.of(&#8230;&#8203;)</code> to a create a function from any method reference.</p>
+<p>También puedes usar el método de fábrica estático  <code>Function3.of(&#8230;&#8203;)</code> para crear una función a partir de cualquier referencia de método.</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -562,29 +562,29 @@ Function2&lt;Integer, Integer, Integer&gt; sum = (a, b) -&gt; a + b;</code></pre
 </div>
 </div>
 <div class="paragraph">
-<p>In fact Vavr functional interfaces are Java 8 functional interfaces on steroids. They also provide features like:</p>
+<p>De hecho, las interfaces funcionales de Vavr son interfaces funcionales de Java 8 potenciadas. También ofrecen características como:</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p>Composition</p>
+<p>Composición</p>
 </li>
 <li>
-<p>Lifting</p>
+<p>Elevación (Lifting)</p>
 </li>
 <li>
-<p>Currying</p>
+<p>Currificación (Currying)</p>
 </li>
 <li>
-<p>Memoization</p>
+<p>Memoización</p>
 </li>
 </ul>
 </div>
 <div class="sect3">
-<h4 id="_composition">Composition</h4>
+<h4 id="_composición">Composición</h4>
 <div class="paragraph">
-<p>You can compose functions. In mathematics, function composition is the application of one function to the result of another to produce a third function. For instance, the functions f : X → Y and g : Y → Z can be composed to yield a function <code>h: g(f(x))</code> which maps X &#8594; Z.
-You can use either <code>andThen</code>:</p>
+<p>Puedes componer funciones. En matemáticas, la composición de funciones es la aplicación de una función al resultado de otra para producir una tercera función. Por ejemplo, las funciones f : X → Y and g : Y → Z pueden componerse para generar una función <code>h: g(f(x))</code> que mapea X &#8594; Z.
+Puedes usar <code>andThen</code>:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -597,7 +597,7 @@ then(add1AndMultiplyBy2.apply(2)).isEqualTo(6);</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>or <code>compose</code>:</p>
+<p>o <code>compose</code>:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -608,12 +608,12 @@ then(add1AndMultiplyBy2.apply(2)).isEqualTo(6);</code></pre>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_lifting">Lifting</h4>
+<h4 id="_elevación_lifting">Elevación (<em>Lifting</em>)</h4>
 <div class="paragraph">
-<p>You can lift a partial function into a total function that returns an <code>Option</code> result. The term <em>partial function</em> comes from mathematics. A partial function from X to Y is a function f: X′ → Y, for some subset X′ of X. It generalizes the concept of a function f: X → Y by not forcing f to map every element of X to an element of Y. That means a partial function works properly only for some input values. If the function is called with a disallowed input value, it will typically throw an exception.</p>
+<p>Puedes elevar una función parcial a una función total que devuelve un resultado de tipo <code>Option</code>. El término <em>partial function</em> proviene de las matemáticas. Una función parcial de X a Y es una función <em>f</em>: X′ → Y, para algún subconjunto X′ de X. Generaliza el concepto de una función <em>f</em>: X → Y al no forzar que <em>f</em> asocie cada elemento de X a un elemento de Y. Esto significa que una función parcial funciona correctamente solo para algunos valores de entrada. Si se llama a la función con un valor de entrada no permitido, normalmente lanzará una excepción.</p>
 </div>
 <div class="paragraph">
-<p>The following method <code>divide</code> is a partial function that only accepts non-zero divisors.</p>
+<p>El siguiente método <code>divide</code> es una función parcial que solo acepta divisores distintos de cero.</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -621,7 +621,7 @@ then(add1AndMultiplyBy2.apply(2)).isEqualTo(6);</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>We use <code>lift</code> to turn <code>divide</code> into a total function that is defined for all inputs.</p>
+<p>Usamos <code>lift</code> para convertir <code>divide</code> en una función total que está definida para todas las entradas.</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -637,15 +637,15 @@ Option&lt;Integer&gt; i2 = safeDivide.apply(4, 2); //<b class="conum">(2)</b></c
 <div class="colist arabic">
 <ol>
 <li>
-<p>A lifted function returns <code>None</code> instead of throwing an exception, if the function is invoked with disallowed input values.</p>
+<p>Una función elevada devuelve <code>None</code> en lugar de lanzar una excepción, si la función se invoca con valores de entrada no permitidos.</p>
 </li>
 <li>
-<p>A lifted function returns <code>Some</code>, if the function is invoked with allowed input values.</p>
+<p>Una función elevada devuelve <code>Some</code>, si la función se invoca con valores de entrada permitidos.</p>
 </li>
 </ol>
 </div>
 <div class="paragraph">
-<p>The following method <code>sum</code> is a partial function that only accepts positive input values.</p>
+<p>El siguiente método <code>sum</code> es una función parcial que solo acepta valores de entrada positivos.</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -660,12 +660,12 @@ Option&lt;Integer&gt; i2 = safeDivide.apply(4, 2); //<b class="conum">(2)</b></c
 <div class="colist arabic">
 <ol>
 <li>
-<p>The function <code>sum</code> throws an <code>IllegalArgumentException</code> for negative input values.</p>
+<p>La función <code>sum</code> lanza una excepción <code>IllegalArgumentException</code> para valores de entrada negativos.</p>
 </li>
 </ol>
 </div>
 <div class="paragraph">
-<p>We may lift the <code>sum</code> method by providing the methods reference.</p>
+<p>Podemos elevar el método <code>sum</code> proporcionando la referencia al método.</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -678,15 +678,15 @@ Option&lt;Integer&gt; optionalResult = sum.apply(-1, 2); //<b class="conum">(1)<
 <div class="colist arabic">
 <ol>
 <li>
-<p>The lifted function catches the <code>IllegalArgumentException</code> and maps it to <code>None</code>.</p>
+<p>La función elevada captura la excepción <code>IllegalArgumentException</code> y la mapea a <code>None</code>.</p>
 </li>
 </ol>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_partial_application">Partial application</h4>
+<h4 id="_aplicación_parcial">Aplicación Parcial</h4>
 <div class="paragraph">
-<p>Partial application allows you to derive a new function from an existing one by fixing some values.  You can fix one or more parameters, and the number of fixed parameters defines the arity of the new function such that <code>new arity = (original arity - fixed parameters)</code>.  The parameters are bound from left to right.</p>
+<p>La aplicación parcial te permite derivar una nueva función a partir de una existente fijando algunos valores. Puedes fijar uno o más parámetros, y el número de parámetros fijados define la aridad de la nueva función, de manera que <code>new arity = (original arity - fixed parameters)</code>. Los parámetros se asignan de izquierda a derecha.</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -699,12 +699,12 @@ then(add2.apply(4)).isEqualTo(6);</code></pre>
 <div class="colist arabic">
 <ol>
 <li>
-<p>The first parameter <code>a</code> is fixed to the value 2.</p>
+<p>El primer parámetro <code>a</code> se fija al valor 2.</p>
 </li>
 </ol>
 </div>
 <div class="paragraph">
-<p>This can be demonstrated by fixing the first three parameters of a <code>Function5</code>, resulting in a <code>Function2</code>.</p>
+<p>Esto puede demostrarse fijando los primeros tres parámetros de una <code>Function5</code>, lo que resulta en una <code>Function2</code>.</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -717,21 +717,21 @@ then(add6.apply(4, 3)).isEqualTo(13);</code></pre>
 <div class="colist arabic">
 <ol>
 <li>
-<p>The <code>a</code>, <code>b</code> and <code>c</code> parameters are fixed to the values 2, 3 and 1 respectively.</p>
+<p>Los parámetros <code>a</code>, <code>b</code> y <code>c</code> se fijan a los valores 2, 3 y 1, respectivamente.</p>
 </li>
 </ol>
 </div>
 <div class="paragraph">
-<p>Partial application differs from <a href="#_currying">Currying</a>, as will be explored in the relevant section.</p>
+<p>La aplicación parcial difiere de la <a href="#_currificación_currying">Currificación (Currying)</a>, como se explorará en la sección correspondiente.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_currying">Currying</h4>
+<h4 id="_currificación_currying">Currificación (Currying)</h4>
 <div class="paragraph">
-<p>Currying is a technique to partially apply a function by fixing a value for one of the parameters, resulting in a <code>Function1</code> function that returns a <code>Function1</code>.</p>
+<p>La currificación es una técnica que permite aplicar parcialmente una función fijando un valor para uno de los parámetros, lo que da como resultado una función <code>Function1</code> que devuelve otra función <code>Function1</code>.</p>
 </div>
 <div class="paragraph">
-<p>When a <code>Function2</code> is <em>curried</em>, the result is indistinguishable from the <em>partial application</em> of a <code>Function2</code> because both result in a 1-arity function.</p>
+<p>Cuando una <code>Function2</code> es <em>curried</em>, el resultado es indistinguible de la <em>aplicación parcial</em> de una <code>Function2</code> ya que ambas producen una función de aridad 1.</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -744,12 +744,12 @@ then(add2.apply(4)).isEqualTo(6);</code></pre>
 <div class="colist arabic">
 <ol>
 <li>
-<p>The first parameter <code>a</code> is fixed to the value 2.</p>
+<p>El primer parámetro <code>a</code> se fija al valor 2.</p>
 </li>
 </ol>
 </div>
 <div class="paragraph">
-<p>You might notice that, apart from the use of <code>.curried()</code>, this code is identical to the 2-arity given example in <a href="#_partial_application">Partial application</a>.  With higher-arity functions, the difference becomes clear.</p>
+<p>Podrás notar que, aparte del uso de <code>.curried()</code>, este código es idéntico al ejemplo de aridad 2 dado en <a href="#_aplicación_parcial">Aplicación Parcial</a>. Con funciones de mayor aridad, la diferencia se vuelve evidente.</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -762,19 +762,19 @@ then(add2.apply(4).apply(3)).isEqualTo(9);//<b class="conum">(2)</b></code></pre
 <div class="colist arabic">
 <ol>
 <li>
-<p>Note the presence of additional functions in the parameters.</p>
+<p>Nota la presencia de funciones adicionales en los parámetros.</p>
 </li>
 <li>
-<p>Further calls to <code>apply</code> returns another <code>Function1</code>, apart from the final call.</p>
+<p>Las llamadas posteriores a <code>apply</code> devuelven otra <code>Function1</code>, excepto en la llamada final.</p>
 </li>
 </ol>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_memoization">Memoization</h4>
+<h4 id="_memoización">Memoización</h4>
 <div class="paragraph">
-<p>Memoization is a form of caching. A memoized function executes only once and then returns the result from a cache.
-The following example calculates a random number on the first invocation and returns the cached number on the second invocation.</p>
+<p>La memoización es una forma de almacenamiento en caché. Una función memoizada se ejecuta solo una vez y luego devuelve el resultado desde una caché.
+El siguiente ejemplo calcula un número aleatorio en la primera invocación y devuelve el número almacenado en caché en la segunda invocación.</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -792,13 +792,13 @@ then(randomValue1).isEqualTo(randomValue2);</code></pre>
 <div class="sect2">
 <h3 id="_values">Values</h3>
 <div class="paragraph">
-<p>In a functional setting we see a value as a kind of <a href="https://en.wikipedia.org/wiki/Normal_form_(abstract_rewriting)">normal form</a>, an expression which cannot be further evaluated. In Java we express this by making the state of an object final and call it <a href="https://en.wikipedia.org/wiki/Immutable_object">immutable</a>.
-Vavr&#8217;s functional Value abstracts over immutable objects. Efficient write operations are added by sharing immutable memory between instances. What we get is thread-safety for free!</p>
+<p>En un entorno funcional, vemos un valor como una especie de <a href="https://en.wikipedia.org/wiki/Normal_form_(abstract_rewriting)">forma normal</a>, una expresión que no puede evaluarse más. En Java, expresamos esto haciendo que el estado de un objeto sea <code>final</code> y lo llamamos <a href="https://en.wikipedia.org/wiki/Immutable_object">objeto immutable</a>.
+El valor funcional de Vavr abstrae sobre objetos inmutables. Las operaciones de escritura eficientes se logran compartiendo memoria inmutable entre instancias. ¡Esto nos proporciona seguridad en hilos automáticamente!</p>
 </div>
 <div class="sect3">
 <h4 id="_option">Option</h4>
 <div class="paragraph">
-<p>Option is a monadic container type which represents an optional value. Instances of Option are either an instance of <code>Some</code> or the <code>None</code>.</p>
+<p><code>Option</code> es un tipo de contenedor monádico que representa un valor opcional. Las instancias de <code>Option</code> son ya sea una instancia de <code>Some</code> o <code>None</code>.</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -807,10 +807,10 @@ Option&lt;T&gt; option = Option.of(...);</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>If you&#8217;re coming to Vavr after using Java&#8217;s <code>Optional</code> class, there is a crucial difference.  In <code>Optional</code>, a call to <code>.map</code> that results in a null will result in an empty <code>Optional</code>.  In Vavr, it would result in a <code>Some(null)</code> that can then lead to a <code>NullPointerException</code>.</p>
+<p>Si vienes a Vavr después de usar la clase <code>Optional</code> de Java, hay una diferencia crucial. En <code>Optional</code>, una llamada a <code>.map</code> que resulta en un valor <code>null</code> producirá un <code>Optional</code> vacío. En Vavr, esto generaría un <code>Some(null)</code>, lo que podría llevar a un <code>NullPointerException</code>.</p>
 </div>
 <div class="paragraph">
-<p>Using <code>Optional</code>, this scenario is valid.</p>
+<p>Usando <code>Optional</code>, este escenario es válido.</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -824,15 +824,15 @@ then(maybeFooBar.isPresent()).isFalse();</code></pre>
 <div class="colist arabic">
 <ol>
 <li>
-<p>The option is <code>Some("foo")</code></p>
+<p>La opción es <code>Some("foo")</code>.</p>
 </li>
 <li>
-<p>The resulting option becomes empty here</p>
+<p>La opción resultante se vuelve vacía aquí.</p>
 </li>
 </ol>
 </div>
 <div class="paragraph">
-<p>Using Vavr&#8217;s <code>Option</code>, the same scenario will result in a <code>NullPointerException</code>.</p>
+<p>Usando la <code>Option</code> de Vavr, el mismo escenario resultará en un <code>NullPointerException</code>.</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -850,21 +850,21 @@ try {
 <div class="colist arabic">
 <ol>
 <li>
-<p>The option is <code>Some("foo")</code></p>
+<p>La opción es <code>Some("foo")</code></p>
 </li>
 <li>
-<p>The resulting option is <code>Some(null)</code></p>
+<p>La opción resultante es <code>Some(null)</code></p>
 </li>
 <li>
-<p>The call to <code>s.toUpperCase()</code> is invoked on a <code>null</code></p>
+<p>TLa llamada a <code>s.toUpperCase()</code> se invoca sobre un <code>null</code></p>
 </li>
 </ol>
 </div>
 <div class="paragraph">
-<p>This seems like Vavr&#8217;s implementation is broken, but in fact it&#8217;s not - rather, it adheres to the requirement of a monad to maintain computational context when calling <code>.map</code>.  In terms of an <code>Option</code>, this means that calling <code>.map</code> on a <code>Some</code> will result in a <code>Some</code>, and calling <code>.map</code> on a <code>None</code> will result in a <code>None</code>.  In the Java <code>Optional</code> example above, that context changed from a <code>Some</code> to a <code>None</code>.</p>
+<p>Esto puede parecer que la implementación de Vavr está rota, pero en realidad no lo está. Más bien, se adhiere al requisito de una mónada (<em>monad</em>) de mantener el contexto computacional al llamar a <code>.map</code>.  En términos de una <code>Option</code>, esto significa que llamar a <code>.map</code> en un <code>Some</code> dará como resultado un <code>Some</code> y llamar a <code>.map</code> en un <code>None</code> dará como resultado un <code>None</code>.  En el ejemplo de <code>Optional</code> de Java mencionado anteriormente, ese contexto cambió de un <code>Some</code> a un <code>None</code>.</p>
 </div>
 <div class="paragraph">
-<p>This may seem to make <code>Option</code> useless, but it actually forces you to pay attention to possible occurrences of <code>null</code> and deal with them accordingly instead of unknowingly accepting them.  The correct way to deal with occurrences of <code>null</code> is to use <code>flatMap</code>.</p>
+<p>Esto puede parecer que hace que <code>Option</code> sea inútil, pero en realidad te obliga a prestar atención a las posibles ocurrencias de <code>null</code> y a manejarlas adecuadamente en lugar de aceptarlas sin saberlo. La forma correcta de manejar las ocurrencias de <code>null</code> es usar <code>flatMap</code>.</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -879,18 +879,18 @@ then(maybeFooBar.isEmpty()).isTrue();</code></pre>
 <div class="colist arabic">
 <ol>
 <li>
-<p>The option is <code>Some("foo")</code></p>
+<p>La opción es <code>Some("foo")</code></p>
 </li>
 <li>
-<p>The resulting option is <code>Some(null)</code></p>
+<p>La opción resultante es <code>Some(null)</code></p>
 </li>
 <li>
-<p><code>s</code>, which is <code>null</code>, becomes <code>None</code></p>
+<p><code>s</code>, que es <code>null</code>, se convierte en <code>None</code></p>
 </li>
 </ol>
 </div>
 <div class="paragraph">
-<p>Alternatively, move the <code>.flatMap</code> to be co-located with the the possibly <code>null</code> value.</p>
+<p>Alternativamente, mueve el <code>.flatMap</code> para que esté ubicado junto al valor que posiblemente sea <code>null</code>.</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -904,21 +904,21 @@ then(maybeFooBar.isEmpty()).isTrue();</code></pre>
 <div class="colist arabic">
 <ol>
 <li>
-<p>The option is <code>Some("foo")</code></p>
+<p>La opción es <code>Some("foo")</code></p>
 </li>
 <li>
-<p>The resulting option is <code>None</code></p>
+<p>La opción resultante es <code>None</code></p>
 </li>
 </ol>
 </div>
 <div class="paragraph">
-<p>This is explored in more detail on the <a href="http://blog.vavr.io/the-agonizing-death-of-an-astronaut/">Vavr blog</a>.</p>
+<p>Esto se explora en más detalle en el <a href="http://blog.vavr.io/the-agonizing-death-of-an-astronaut/">blog de Vavr</a>.</p>
 </div>
 </div>
 <div class="sect3">
 <h4 id="_try">Try</h4>
 <div class="paragraph">
-<p>Try is a monadic container type which represents a computation that may either result in an exception, or return a successfully computed value. It&#8217;s similar to, but semantically different from <code>Either</code>. Instances of Try, are either an instance of <code>Success</code> or <code>Failure</code>.</p>
+<p><code>Try</code> es un tipo de contenedor monádico que representa una computación que puede resultar en una excepción o devolver un valor calculado exitosamente. Es similar a <code>Either</code>, pero semánticamente diferente. Una instancia de <code>Try</code> puede ser una instancia de <code>Success</code> o <code>Failure</code>.</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -944,7 +944,7 @@ A result = Try.of(this::bunchOfWork)
 <div class="sect3">
 <h4 id="_lazy">Lazy</h4>
 <div class="paragraph">
-<p>Lazy is a monadic container type which represents a lazy evaluated value. Compared to a Supplier, Lazy is memoizing, i.e. it evaluates only once and therefore is referentially transparent.</p>
+<p><code>Lazy</code> es un tipo de contenedor monádico que representa un valor evaluado de forma perezosa (<em>lazy</em>). En comparación con un <code>Supplier</code>, <code>Lazy</code> realiza <em>memoización</em>, es decir, se evalúa solo una vez y, por lo tanto, es referencialmente transparente.</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -956,7 +956,7 @@ lazy.get();         // = 0.123 (memoized)</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>You may also create a real lazy value (works only with interfaces):</p>
+<p>También puedes crear un valor realmente perezoso (<em>lazy</em>) (<em>esto solo funciona con interfaces</em>):</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -967,10 +967,10 @@ lazy.get();         // = 0.123 (memoized)</code></pre>
 <div class="sect3">
 <h4 id="_either">Either</h4>
 <div class="paragraph">
-<p>Either represents a value of two possible types. An Either is either a Left or a Right. If the given Either is a Right and projected to a Left, the Left operations have no effect on the Right value. If the given Either is a Left and projected to a Right, the Right operations have no effect on the Left value. If a Left is projected to a Left or a Right is projected to a Right, the operations have an effect.</p>
+<p><code>Either</code> representa un valor de dos tipos posibles. Un <code>Either</code> es, o bien un <code>Left</code>, o bien un <code>Right</code>. Si un <code>Either</code> dado es un <code>Right</code> y se proyecta a un <code>Left</code>, las operaciones de <code>Left</code> no tienen efecto sobre el valor de <code>Right</code>. Si un <code>Either</code> dado es un <code>Left</code> y se proyecta a un <code>Right</code>, las operaciones de <code>Right</code> no tienen efecto sobre el valor de <code>Left</code>. Si un <code>Left</code> se proyecta a un <code>Left</code>, o un <code>Right</code> se proyecta a un <code>Right</code>, las operaciones sí tienen efecto.</p>
 </div>
 <div class="paragraph">
-<p>Example: A compute() function, which results either in an Integer value (in the case of success) or in an error message of type String (in the case of failure). By convention the success case is Right and the failure is Left.</p>
+<p>Ejemplo: Una función <code>compute()</code>, que da como resultado un valor de tipo <code>Integer</code> (en el caso de éxito) o un mensaje de error de tipo <code>String</code> (en el caso de fallo). Por convención, el caso de éxito es <code>Right</code> y el de fallo es <code>Left</code>.</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -978,26 +978,26 @@ lazy.get();         // = 0.123 (memoized)</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>If the result of compute() is Right(1), the value is Right(2).
-If the result of compute() is Left("error"), the value is Left("error").</p>
+<p>Si el resultado de <code>compute()</code> es <code>Right(1)</code>, el valor es <code>Right(2)</code>.
+Si el resultado de <code>compute()</code> es <code>Left("error")</code>, el valor es <code>Left("error")</code>.</p>
 </div>
 </div>
 <div class="sect3">
 <h4 id="_future">Future</h4>
 <div class="paragraph">
-<p>A Future is a computation result that becomes available at some point. All operations provided are non-blocking. The underlying ExecutorService is used to execute asynchronous handlers, e.g. via onComplete(&#8230;&#8203;).</p>
+<p>Un <code>Future</code> es el resultado de una computación que estará disponible en algún momento. Todas las operaciones proporcionadas son <em>no bloqueantes</em>. El <code>ExecutorService</code> subyacente se utiliza para ejecutar controladores asíncronos, por ejemplo, mediante <code>onComplete(&#8230;&#8203;)</code>.</p>
 </div>
 <div class="paragraph">
-<p>A Future has two states: pending and completed.</p>
+<p>Un <code>Future</code> tiene dos estados: <em>pendiente</em> y <em>completado</em>.</p>
 </div>
 <div class="paragraph">
-<p><strong>Pending:</strong> The computation is ongoing. Only a pending future may be completed or cancelled.</p>
+<p><strong>Pendiente:</strong> La computación está en curso. Solo un <code>Future</code> pendiente puede completarse o cancelarse.</p>
 </div>
 <div class="paragraph">
-<p><strong>Completed:</strong> The computation finished successfully with a result, failed with an exception or was cancelled.</p>
+<p><strong>Completado:</strong> La computación finalizó exitosamente con un resultado, falló con una excepción o fue cancelada.</p>
 </div>
 <div class="paragraph">
-<p>Callbacks may be registered on a Future at each point of time. These actions are performed as soon as the Future is completed. An action which is registered on a completed Future is immediately performed. The action may run on a separate Thread, depending on the underlying ExecutorService. Actions which are registered on a cancelled Future are performed with the failed result.</p>
+<p>Los <em>callbacks</em> pueden registrarse en un <code>Future</code> en cualquier momento. Estas acciones se ejecutan tan pronto como el <code>Future</code> se completa. Una acción registrada en un <code>Future</code> completado se ejecuta inmediatamente. La acción puede ejecutarse en un hilo separado, dependiendo del <code>ExecutorService</code> subyacente. Las acciones registradas en un <code>Future</code> cancelado se ejecutan con el resultado fallido.</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -1007,12 +1007,12 @@ Future&lt;T&gt; future = Future.of(...);</code></pre>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_validation">Validation</h4>
+<h4 id="_validación_validation">Validación (Validation)</h4>
 <div class="paragraph">
-<p>The Validation control is an <em>applicative functor</em> and facilitates accumulating errors. When trying to compose Monads, the combination process will short circuit at the first encountered error. But 'Validation' will continue processing the combining functions, accumulating all errors. This is especially useful when doing validation of multiple fields, say a web form, and you want to know all errors encountered, instead of one at a time.</p>
+<p>El control de validación (<em>Validation</em>) es un <em>funtor aplicativo</em> que facilita la acumulación de errores. Al intentar componer mónadas, el proceso de combinación se detendrá en el primer error encontrado. Sin embargo, <code>Validation</code> continuará procesando las funciones de combinación, acumulando todos los errores. Esto es especialmente útil al validar múltiples campos, como un formulario web, cuando deseas conocer todos los errores encontrados en lugar de uno por uno.</p>
 </div>
 <div class="paragraph">
-<p>Example: We get the fields 'name' and 'age' from a web form and want to create either a valid Person instance, or return the list of validation errors.</p>
+<p>Ejemplo: Obtenemos los campos <code>name</code> y <code>age</code> de un formulario web y queremos crear una instancia válida de <code>Person</code>, o devolver la lista de errores de validación.</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -1026,10 +1026,10 @@ Validation&lt;Seq&lt;String&gt;, Person&gt; invalid = personValidator.validatePe
 </div>
 </div>
 <div class="paragraph">
-<p>A valid value is contained in a <code>Validation.Valid</code> instance, a list of validation errors is contained in a <code>Validation.Invalid</code> instance.</p>
+<p>Un valor válido está contenido en una instancia de <code>Validation.Valid</code>, mientras que una lista de errores de validación está contenida en una instancia de <code>Validation.Invalid</code>.</p>
 </div>
 <div class="paragraph">
-<p>The following validator is used to combine different validation results to one <code>Validation</code> instance.</p>
+<p>El siguiente validador se utiliza para combinar diferentes resultados de validación en una sola instancia de <code>Validation</code>.</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -1059,7 +1059,7 @@ Validation&lt;Seq&lt;String&gt;, Person&gt; invalid = personValidator.validatePe
 </div>
 </div>
 <div class="paragraph">
-<p>If the validation succeeds, i.e. the input data is valid, then an instance of <code>Person</code> is created of the given fields <code>name</code> and <code>age</code>.</p>
+<p>Si la validación tiene éxito, es decir, si los datos de entrada son válidos, entonces se crea una instancia de <code>Person</code> con los campos <code>name</code> y <code>age</code> proporcionados.</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -1084,15 +1084,15 @@ Validation&lt;Seq&lt;String&gt;, Person&gt; invalid = personValidator.validatePe
 </div>
 </div>
 <div class="sect2">
-<h3 id="_collections">Collections</h3>
+<h3 id="_colecciones">Colecciones</h3>
 <div class="paragraph">
-<p>Much effort has been put into designing an all-new collection library for Java which meets the requirements of functional programming, namely immutability.</p>
+<p>Se ha dedicado mucho esfuerzo a diseñar una biblioteca de colecciones completamente nueva para Java que cumpla con los requisitos de la programación funcional, especialmente la inmutabilidad.</p>
 </div>
 <div class="paragraph">
-<p>Java&#8217;s Stream lifts a computation to a different layer and links to a specific collection in another explicit step. With Vavr we don&#8217;t need all this additional boilerplate.</p>
+<p>El <code>Stream</code> de Java eleva una computación a una capa diferente y se vincula a una colección específica en otro paso explícito. Con Vavr, no necesitamos todo este código adicional repetitivo (<em>boilerplate</em>).</p>
 </div>
 <div class="paragraph">
-<p>The new collections are based on <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Iterable.html">java.lang.Iterable</a>, so they leverage the sugared iteration style.</p>
+<p>Las nuevas colecciones están basadas en <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Iterable.html">java.lang.Iterable</a>, lo que permite aprovechar un estilo de iteración simplificado.</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -1103,12 +1103,12 @@ for (double random : Stream.continually(Math::random).take(1000)) {
 </div>
 </div>
 <div class="paragraph">
-<p><code>TraversableOnce</code> has a huge amount of useful functions to operate on the collection. Its API is similar to <a href="http://docs.oracle.com/javase/8/docs/api/java/util/stream/Stream.html">java.util.stream.Stream</a> but more mature.</p>
+<p><code>TraversableOnce</code> tiene una gran cantidad de funciones útiles para operar en la colección. Su API es similar a <a href="http://docs.oracle.com/javase/8/docs/api/java/util/stream/Stream.html">java.util.stream.Stream</a>, pero es más madura.</p>
 </div>
 <div class="sect3">
 <h4 id="_list">List</h4>
 <div class="paragraph">
-<p>Vavr&#8217;s <code>List</code> is an immutable linked list. Mutations create new instances. Most operations are performed in linear time. Consequent operations are executed one by one.</p>
+<p>La <code>List</code> de Vavr es una lista enlazada inmutable. Las mutaciones crean nuevas instancias. La mayoría de las operaciones se realizan en tiempo lineal. Las operaciones consecutivas se ejecutan una por una.</p>
 </div>
 <div class="sect4">
 <h5 id="_java_8">Java 8</h5>
@@ -1136,10 +1136,10 @@ List.of(1, 2, 3).sum();</code></pre>
 <div class="sect3">
 <h4 id="_stream">Stream</h4>
 <div class="paragraph">
-<p>The <code>io.vavr.collection.Stream</code> implementation is a lazy linked list. Values are computed only when needed. Because of its laziness, most operations are performed in constant time. Operations are intermediate in general and executed in a single pass.</p>
+<p>La implementación de <code>io.vavr.collection.Stream</code> es una lista enlazada perezosa (lazy). Los valores se calculan solo cuando se necesitan. Debido a su naturaleza perezosa, la mayoría de las operaciones se realizan en tiempo constante. En general, las operaciones son intermedias y se ejecutan en una sola pasada.</p>
 </div>
 <div class="paragraph">
-<p>The stunning thing about streams is that we can use them to represent sequences that are (theoretically) infinitely long.</p>
+<p>Lo sorprendente de los streams es que podemos usarlos para representar secuencias que son (teóricamente) infinitamente largas.</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -1149,9 +1149,9 @@ Stream.from(1).filter(i -&gt; i % 2 == 0);</code></pre>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_performance_characteristics">Performance Characteristics</h4>
+<h4 id="_características_de_rendimiento">Características de Rendimiento</h4>
 <table class="tableblock frame-topbot grid-all stretch">
-<caption class="title">Table 1. Time Complexity of Sequential Operations</caption>
+<caption class="title">Table 1. Complejidad Temporal de las Operaciones Secuenciales</caption>
 <colgroup>
 <col style="width: 14.2857%;">
 <col style="width: 14.2857%;">
@@ -1248,7 +1248,7 @@ Stream.from(1).filter(i -&gt; i % 2 == 0);</code></pre>
 </tbody>
 </table>
 <table class="tableblock frame-topbot grid-all stretch">
-<caption class="title">Table 2. Time Complexity of Map/Set Operations</caption>
+<caption class="title">Table 2. Complejidad Temporal de las Operaciones en Map/Set</caption>
 <colgroup>
 <col style="width: 20%;">
 <col style="width: 20%;">
@@ -1318,39 +1318,39 @@ Stream.from(1).filter(i -&gt; i % 2 == 0);</code></pre>
 </tbody>
 </table>
 <div class="paragraph">
-<p>Legend:</p>
+<p>Leyenda:</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p>const &mdash; constant time</p>
+<p>const &mdash; tiempo constante.</p>
 </li>
 <li>
-<p>const<sup>a</sup> &mdash; amortized constant time, few operations may take longer</p>
+<p>const<sup>a</sup> &mdash; tiempo constante amortizado, algunas operaciones pueden tomar más tiempo.</p>
 </li>
 <li>
-<p>const<sup>eff</sup> &mdash; effectively constant time, depending on assumptions like distribution of hash keys</p>
+<p>const<sup>eff</sup> &mdash; tiempo efectivamente constante, dependiendo de suposiciones como la distribución de claves hash.</p>
 </li>
 <li>
-<p>const<sup>lazy</sup> &mdash; lazy constant time, the operation is deferred</p>
+<p>const<sup>lazy</sup> &mdash; tiempo constante perezoso (<em>lazy</em>), la operación se difiere.</p>
 </li>
 <li>
-<p>log &mdash; logarithmic time</p>
+<p>log &mdash; tiempo logarítmico.</p>
 </li>
 <li>
-<p>linear &mdash; linear time</p>
+<p>linear &mdash; tiempo lineal.</p>
 </li>
 </ul>
 </div>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_property_checking">Property Checking</h3>
+<h3 id="_verificación_de_propiedades">Verificación de Propiedades</h3>
 <div class="paragraph">
-<p>Property checking (also known as <a href="http://en.wikipedia.org/wiki/Property_testing">property testing</a>) is a truly powerful way to test properties of our code in a functional way. It is based on generated random data, which is passed to a user defined check function.</p>
+<p>La verificación de propiedades (también conocida como  <a href="http://en.wikipedia.org/wiki/Property_testing">pruebas de propiedades</a>) es una forma realmente poderosa de probar propiedades de nuestro código de manera funcional. Se basa en la generación de datos aleatorios, que se pasan a una función de verificación definida por el usuario.</p>
 </div>
 <div class="paragraph">
-<p>Vavr has property testing support in its <code>io.vavr:vavr-test</code> module, so make sure to include that in order to use it in your tests.</p>
+<p>Vavr admite pruebas de propiedades en su módulo <code>io.vavr:vavr-test</code>, por lo que asegúrate de incluirlo para usarlo en tus pruebas.</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -1365,7 +1365,7 @@ Property.def("square(int) &gt;= 0")
 </div>
 </div>
 <div class="paragraph">
-<p>Generators of complex data structures are composed of simple generators.</p>
+<p>Los generadores de estructuras de datos complejas se componen de generadores simples.</p>
 </div>
 </div>
 </div>
@@ -1374,7 +1374,7 @@ Property.def("square(int) &gt;= 0")
 <div id="footer">
 <div id="footer-text">
 Version 0.10.5<br>
-Last updated 2024-12-06 17:12:56 UTC
+Last updated 2024-12-06 17:26:40 UTC
 </div>
 </div>
 </body>

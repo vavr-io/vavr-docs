@@ -6,7 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 1.5.8">
 <meta name="author" content="Daniel Dietrich, Robert Winkler, Grzegorz Piwowarek">
-<title>Vavr Dokumentacja Techniczna</title>
+<title>Guía del usuario de Vavr</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
 /* Asciidoctor default stylesheet | MIT License | http://asciidoctor.org */
@@ -525,52 +525,53 @@ table.CodeRay td.code>pre{padding:0}
 </head>
 <body class="article toc2 toc-left">
 <div id="header">
-<h1>Vavr Dokumentacja Techniczna</h1>
+<h1>Guía del usuario de Vavr</h1>
 <div class="details">
 <span id="author" class="author">Daniel Dietrich, Robert Winkler, Grzegorz Piwowarek</span><br>
 <span id="revnumber">version 0.10.5,</span>
 <span id="revdate">2024-12-06</span>
+<br><span id="revremark">traducido por Geovanny Mendoza</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
 <ul class="sectlevel1">
-<li><a href="#_wprowadzenie">1. Wprowadzenie</a>
+<li><a href="#_introducción">1. Introducción</a>
 <ul class="sectlevel2">
-<li><a href="#_functional_data_structures_in_java_8_with_vavr">1.1. Functional Data Structures in Java 8 with Vavr</a></li>
-<li><a href="#_functional_programming">1.2. Functional Programming</a>
+<li><a href="#_estructuras_de_datos_funcionales_en_java_8_con_vavr">1.1. Estructuras de Datos Funcionales en Java 8 con Vavr</a></li>
+<li><a href="#_programación_funcional">1.2. Programación Funcional</a>
 <ul class="sectlevel3">
-<li><a href="#_side_effects">1.2.1. Side-Effects</a></li>
-<li><a href="#_referential_transparency">1.2.2. Referential Transparency</a></li>
-<li><a href="#_thinking_in_values">1.2.3. Thinking in Values</a></li>
+<li><a href="#_efectos_secundarios">1.2.1. Efectos Secundarios</a></li>
+<li><a href="#_transparencia_referencial">1.2.2. Transparencia Referencial</a></li>
+<li><a href="#_pensar_en_valores">1.2.3. Pensar en Valores</a></li>
 </ul>
 </li>
-<li><a href="#_data_structures_in_a_nutshell">1.3. Data Structures in a Nutshell</a>
+<li><a href="#_estructuras_de_datos_en_resumen">1.3. Estructuras de Datos en Resumen</a>
 <ul class="sectlevel3">
-<li><a href="#_mutable_data_structures">1.3.1. Mutable Data Structures</a></li>
-<li><a href="#_immutable_data_structures">1.3.2. Immutable Data Structures</a></li>
-<li><a href="#_persistent_data_structures">1.3.3. Persistent Data Structures</a></li>
+<li><a href="#_estructuras_de_datos_mutables">1.3.1. Estructuras de Datos Mutables</a></li>
+<li><a href="#_estructuras_de_datos_inmutables">1.3.2. Estructuras de Datos Inmutables</a></li>
+<li><a href="#_estructuras_de_datos_persistentes">1.3.3. Estructuras de Datos Persistentes</a></li>
 </ul>
 </li>
-<li><a href="#_functional_data_structures">1.4. Functional Data Structures</a>
+<li><a href="#_estructuras_de_datos_funcionales">1.4. Estructuras de Datos Funcionales</a>
 <ul class="sectlevel3">
 <li><a href="#_linked_list">1.4.1. Linked List</a></li>
 <li><a href="#_queue">1.4.2. Queue</a></li>
-<li><a href="#_sorted_set">1.4.3. Sorted Set</a></li>
+<li><a href="#_conjuntos_ordenados_sorted_set">1.4.3. Conjuntos Ordenados (<em>Sorted Set</em>)</a></li>
 </ul>
 </li>
-<li><a href="#_state_of_the_collections">1.5. State of the Collections</a>
+<li><a href="#_estado_de_las_colecciones">1.5. Estado de las Colecciones</a>
 <ul class="sectlevel3">
 <li><a href="#_seq">1.5.1. Seq</a></li>
-<li><a href="#_set_and_map">1.5.2. Set and Map</a></li>
+<li><a href="#_set_y_map">1.5.2. Set y Map</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li><a href="#_getting_started">2. Getting started</a>
+<li><a href="#_comenzando">2. Comenzando</a>
 <ul class="sectlevel2">
 <li><a href="#_gradle">2.1. Gradle</a></li>
 <li><a href="#_maven">2.2. Maven</a></li>
-<li><a href="#_standalone">2.3. Standalone</a></li>
+<li><a href="#_independiente">2.3. Independiente</a></li>
 <li><a href="#_snapshots">2.4. Snapshots</a>
 <ul class="sectlevel3">
 <li><a href="#_gradle_2">2.4.1. Gradle</a></li>
@@ -579,23 +580,23 @@ table.CodeRay td.code>pre{padding:0}
 </li>
 </ul>
 </li>
-<li><a href="#_usage_guide">3. Usage Guide</a>
+<li><a href="#_guía_de_uso">3. Guía de Uso</a>
 <ul class="sectlevel2">
-<li><a href="#_tuples">3.1. Tuples</a>
+<li><a href="#_tuplas">3.1. Tuplas</a>
 <ul class="sectlevel3">
-<li><a href="#_create_a_tuple">3.1.1. Create a tuple</a></li>
-<li><a href="#_map_a_tuple_component_wise">3.1.2. Map a tuple component-wise</a></li>
-<li><a href="#_map_a_tuple_using_one_mapper">3.1.3. Map a tuple using one mapper</a></li>
-<li><a href="#_transform_a_tuple">3.1.4. Transform a tuple</a></li>
+<li><a href="#_crear_una_tupla">3.1.1. Crear una tupla</a></li>
+<li><a href="#_mapear_una_tupla_elemento_por_elemento">3.1.2. Mapear una tupla elemento por elemento</a></li>
+<li><a href="#_mapear_una_tupla_usando_un_único_mapeador">3.1.3. Mapear una tupla usando un único mapeador</a></li>
+<li><a href="#_transformar_una_tupla">3.1.4. Transformar una tupla</a></li>
 </ul>
 </li>
-<li><a href="#_functions">3.2. Functions</a>
+<li><a href="#_funciones">3.2. Funciones</a>
 <ul class="sectlevel3">
-<li><a href="#_composition">3.2.1. Composition</a></li>
-<li><a href="#_lifting">3.2.2. Lifting</a></li>
-<li><a href="#_partial_application">3.2.3. Partial application</a></li>
-<li><a href="#_currying">3.2.4. Currying</a></li>
-<li><a href="#_memoization">3.2.5. Memoization</a></li>
+<li><a href="#_composición">3.2.1. Composición</a></li>
+<li><a href="#_elevación_lifting">3.2.2. Elevación (<em>Lifting</em>)</a></li>
+<li><a href="#_aplicación_parcial">3.2.3. Aplicación Parcial</a></li>
+<li><a href="#_currificación_currying">3.2.4. Currificación (Currying)</a></li>
+<li><a href="#_memoización">3.2.5. Memoización</a></li>
 </ul>
 </li>
 <li><a href="#_values">3.3. Values</a>
@@ -605,21 +606,21 @@ table.CodeRay td.code>pre{padding:0}
 <li><a href="#_lazy">3.3.3. Lazy</a></li>
 <li><a href="#_either">3.3.4. Either</a></li>
 <li><a href="#_future">3.3.5. Future</a></li>
-<li><a href="#_validation">3.3.6. Validation</a></li>
+<li><a href="#_validación_validation">3.3.6. Validación (Validation)</a></li>
 </ul>
 </li>
-<li><a href="#_collections">3.4. Collections</a>
+<li><a href="#_colecciones">3.4. Colecciones</a>
 <ul class="sectlevel3">
 <li><a href="#_list">3.4.1. List</a></li>
 <li><a href="#_stream">3.4.2. Stream</a></li>
-<li><a href="#_performance_characteristics">3.4.3. Performance Characteristics</a></li>
+<li><a href="#_características_de_rendimiento">3.4.3. Características de Rendimiento</a></li>
 </ul>
 </li>
-<li><a href="#_property_checking">3.5. Property Checking</a></li>
+<li><a href="#_verificación_de_propiedades">3.5. Verificación de Propiedades</a></li>
 <li><a href="#_pattern_matching">3.6. Pattern Matching</a>
 <ul class="sectlevel3">
-<li><a href="#_the_basics_of_match_for_java">3.6.1. The Basics of Match for Java</a></li>
-<li><a href="#_patterns">3.6.2. Patterns</a></li>
+<li><a href="#_fundamentos_de_match_para_java">3.6.1. Fundamentos de Match para Java</a></li>
+<li><a href="#_patrones">3.6.2. Patrones</a></li>
 </ul>
 </li>
 </ul>
@@ -630,18 +631,18 @@ table.CodeRay td.code>pre{padding:0}
 </div>
 <div id="content">
 <div class="sect1">
-<h2 id="_wprowadzenie">1. Wprowadzenie</h2>
+<h2 id="_introducción">1. Introducción</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Vavr (formerly called Javaslang) is a functional library for Java 8+ that provides persistent data types and functional control structures.</p>
+<p>Vavr (anteriormente conocido como Javaslang) es una biblioteca funcional para Java 8+ que ofrece tipos de datos persistentes y estructuras de control funcionales.</p>
 </div>
 <div class="sect2">
-<h3 id="_functional_data_structures_in_java_8_with_vavr">1.1. Functional Data Structures in Java 8 with Vavr</h3>
+<h3 id="_estructuras_de_datos_funcionales_en_java_8_con_vavr">1.1. Estructuras de Datos Funcionales en Java 8 con Vavr</h3>
 <div class="paragraph">
-<p>Java 8’s <a href="https://docs.oracle.com/javase/tutorial/java/javaOO/lambdaexpressions.html">lambdas (λ)</a> empower us to create wonderful API’s. They incredibly increase the expressiveness of the language.</p>
+<p>Las <a href="https://docs.oracle.com/javase/tutorial/java/javaOO/lambdaexpressions.html">lambdas (λ)</a> de Java 8 nos permiten crear API maravillosas. Incrementan increíblemente la expresividad del lenguaje.</p>
 </div>
 <div class="paragraph">
-<p><a href="http://vavr.io/">Vavr</a> leveraged lambdas to create various new features based on functional patterns. One of them is a functional collection library that is intended to be a replacement for Java’s standard collections.</p>
+<p><a href="http://vavr.io/">Vavr</a> aprovechó las lambdas para introducir diversas características nuevas basadas en patrones funcionales. Una de ellas es una biblioteca de colecciones funcionales diseñada como un reemplazo para las colecciones estándar de Java.</p>
 </div>
 <div class="imageblock">
 <div class="content">
@@ -649,160 +650,162 @@ table.CodeRay td.code>pre{padding:0}
 </div>
 </div>
 <div class="paragraph">
-<p><em>(This is just a bird’s view, you will find a human-readable version below.)</em></p>
+<p><em>(Esta es solo una vista general; encontrarás una versión más detallada y legible a continuación.)</em></p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_functional_programming">1.2. Functional Programming</h3>
+<h3 id="_programación_funcional">1.2. Programación Funcional</h3>
 <div class="paragraph">
-<p>Before we deep-dive into the details about the data structures I want to talk about some basics. This will make it clear why I created Vavr and specifically new Java collections.</p>
+<p>Antes de profundizar en los detalles sobre las estructuras de datos, quiero hablar sobre algunos conceptos básicos. Esto ayudará a entender por qué se creó <strong>Vavr</strong> y, en particular, por qué nuevas colecciones en Java eran necesarias.</p>
 </div>
 <div class="sect3">
-<h4 id="_side_effects">1.2.1. Side-Effects</h4>
+<h4 id="_efectos_secundarios">1.2.1. Efectos Secundarios</h4>
 <div class="paragraph">
-<p>Java applications are typically plentiful of <a href="https://en.wikipedia.org/wiki/Side_effect_(computer_science)">side-effects</a>. They mutate some sort of state, maybe the outer world. Common side effects are changing objects or variables <em>in place</em>, printing to the console, writing to a log file or to a database. Side-effects are considered <em>harmful</em> if they affect the semantics of our program in an undesirable way.</p>
+<p>Las aplicaciones Java suelen estar llenas de <a href="https://en.wikipedia.org/wiki/Side_effect_(computer_science)">side-effects</a>. Estos mutan algún tipo de estado, tal vez el mundo exterior. Los efectos secundarios comunes incluyen cambiar objetos o variables <em>en el lugar</em>, imprimir en la consola, escribir en un archivo de registro o en una base de datos. Los efectos secundarios se consideran <em>perjudiciales</em> si afectan la semántica de nuestro programa de manera no deseada.</p>
 </div>
 <div class="paragraph">
-<p>For example, if a function throws an exception and this exception is <em>interpreted</em>, it is considered as side-effect that <em>affects our program</em>. Furthermore <a href="http://c2.com/cgi/wiki?DontUseExceptionsForFlowControl">exceptions are like non-local goto-statements</a>. They break the normal control-flow. However, real-world applications do perform side-effects.</p>
+<p>Por ejemplo, si una función lanza una excepción y esta excepción es <em>interpretada</em>, se considera un efecto secundario que <em>afecta nuestro programa</em>. Además, <a href="http://c2.com/cgi/wiki?DontUseExceptionsForFlowControl">las excepciones son como declaraciones goto no locales</a>. Rompen el flujo de control normal. Sin embargo, las aplicaciones del mundo real realizan efectos secundarios.</p>
 </div>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="java"><span class="type">int</span> divide(<span class="type">int</span> dividend, <span class="type">int</span> divisor) {
-    <span class="comment">// throws if divisor is zero</span>
+    <span class="comment">// lanza una excepción si divisor es cero</span>
     <span class="keyword">return</span> dividend / divisor;
 }</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>In a functional setting we are in the favorable situation to encapsulate the side-effect in a Try:</p>
+<p>En un entorno funcional, estamos en la situación favorable de encapsular el efecto secundario en un <code>Try</code>:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java"><span class="comment">// = Success(result) or Failure(exception)</span>
+<pre class="CodeRay highlight"><code data-lang="java"><span class="comment">// = Success(result) o Failure(exception)</span>
 Try&lt;<span class="predefined-type">Integer</span>&gt; divide(<span class="predefined-type">Integer</span> dividend, <span class="predefined-type">Integer</span> divisor) {
     <span class="keyword">return</span> Try.of(() -&gt; dividend / divisor);
 }</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>This version of divide does not throw any exception anymore. We made the possible failure explicit by using the type Try.</p>
+<p>Esta versión de <code>divide</code> ya no lanza ninguna excepción. Hicimos que el posible fallo sea explícito al usar el tipo <code>Try</code></p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_referential_transparency">1.2.2. Referential Transparency</h4>
+<h4 id="_transparencia_referencial">1.2.2. Transparencia Referencial</h4>
 <div class="paragraph">
-<p>A function, or more generally an expression, is called <a href="https://en.wikipedia.org/wiki/Referential_transparency">referentially transparent</a> if a call can be replaced by its value without affecting the behavior of the program. Simply spoken, given the same input the output is always the same.</p>
+<p>Una función, o más generalmente una expresión, se denomina <a href="https://en.wikipedia.org/wiki/Referential_transparency">referencialmente transparente</a> si una llamada puede ser reemplazada por su valor sin afectar el comportamiento del programa. Dicho de manera sencilla, dado el mismo input, la salida siempre será la misma.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java"><span class="comment">// not referentially transparent</span>
+<pre class="CodeRay highlight"><code data-lang="java"><span class="comment">// no es referencialmente transparente</span>
 <span class="predefined-type">Math</span>.random();
 
-<span class="comment">// referentially transparent</span>
+<span class="comment">// referencialmente transparente</span>
 <span class="predefined-type">Math</span>.max(<span class="integer">1</span>, <span class="integer">2</span>);</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>A function is called <a href="https://en.wikipedia.org/wiki/Pure_function">pure</a> if all expressions involved are referentially transparent. An application composed of pure functions will most probably <em>just work</em> if it compiles. We are able to reason about it. Unit tests are easy to write and debugging becomes a relict of the past.</p>
+<p>Una función se llama <a href="https://en.wikipedia.org/wiki/Pure_function">pura</a> si todas las expresiones involucradas son referencialmente transparentes. Una aplicación compuesta por funciones puras probablemente simplemente funcione si compila. Podemos razonar sobre ella. Las pruebas unitarias son fáciles de escribir y la depuración se convierte en un vestigio del pasado.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_thinking_in_values">1.2.3. Thinking in Values</h4>
+<h4 id="_pensar_en_valores">1.2.3. Pensar en Valores</h4>
 <div class="paragraph">
-<p>Rich Hickey, the creator of Clojure, gave a great talk about <a href="https://www.youtube.com/watch?v=-6BsiVyC1kM">The Value of Values</a>. The most interesting values are <a href="https://en.wikipedia.org/wiki/Immutable_object">immutable</a> values. The main reason is that immutable values</p>
+<p>Rich Hickey, el creador de Clojure, dio una charla excepcional sobre <a href="https://www.youtube.com/watch?v=-6BsiVyC1kM">El Valor de los Valores</a>. Los valores más interesantes son los valores <a href="https://en.wikipedia.org/wiki/Immutable_object">immutable</a>. La razón principal es que los valores inmutables:</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p>are inherently thread-safe and hence do not need to be synchronized</p>
+<p>Son intrínsecamente seguros para hilos y, por lo tanto, no necesitan sincronización.</p>
 </li>
 <li>
-<p>are stable regarding <em>equals</em> and <em>hashCode</em> and thus are reliable hash keys</p>
+<p>Son estables en relación con <em>equals</em> and <em>hashCode</em>,  lo que los convierte en claves de hash confiables.</p>
 </li>
 <li>
-<p>do not need to be cloned</p>
+<p>No necesitan ser clonados.</p>
 </li>
 <li>
-<p>behave type-safe when used in unchecked covariant casts (Java-specific)<br>
-The key to a better Java is to use <em>immutable values</em> paired with <em>referentially transparent functions</em>.</p>
+<p>Se comportan de manera segura con tipos al usarse en conversiones covariantes no verificadas (específicas de Java).</p>
 </li>
 </ul>
 </div>
 <div class="paragraph">
-<p>Vavr provides the necessary <a href="http://static.javadoc.io/io.vavr/vavr/0.10.5/io/vavr/control/package-summary.html">controls</a> and <a href="https://static.javadoc.io/io.vavr/vavr/0.10.4/io/vavr/collection/package-summary.html">collections</a> to accomplish this goal in every-day Java programming.</p>
+<p>La clave para mejorar Java es usar <em>valores inmutables</em> junto con <em>funciones referencialmente transparentes</em>.</p>
+</div>
+<div class="paragraph">
+<p>Vavr proporciona los <a href="http://static.javadoc.io/io.vavr/vavr/0.10.4/io/vavr/control/package-summary.html">controles</a> y las <a href="https://static.javadoc.io/io.vavr/vavr/0.10.4/io/vavr/collection/package-summary.html">colecciones</a> necesarios para lograr este objetivo en la programación cotidiana en Java.</p>
 </div>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_data_structures_in_a_nutshell">1.3. Data Structures in a Nutshell</h3>
+<h3 id="_estructuras_de_datos_en_resumen">1.3. Estructuras de Datos en Resumen</h3>
 <div class="paragraph">
-<p>Vavr’s collection library comprises of a rich set of functional data structures built on top of lambdas. The only interface they share with Java’s original collections is Iterable. The main reason is that the mutator methods of Java’s collection interfaces do not return an object of the underlying collection type.</p>
+<p>La biblioteca de colecciones de Vavr incluye un conjunto rico de estructuras de datos funcionales construidas sobre lambdas. La única interfaz que comparten con las colecciones originales de Java es <code>Iterable</code>. La razón principal es que los métodos mutadores de las interfaces de colecciones de Java no devuelven un objeto del tipo de colección subyacente.</p>
 </div>
 <div class="paragraph">
-<p>We will see why this is so essential by taking a look at the different types of data structures.</p>
+<p>Veremos por qué esto es esencial observando los diferentes tipos de estructuras de datos.</p>
 </div>
 <div class="sect3">
-<h4 id="_mutable_data_structures">1.3.1. Mutable Data Structures</h4>
+<h4 id="_estructuras_de_datos_mutables">1.3.1. Estructuras de Datos Mutables</h4>
 <div class="paragraph">
-<p>Java is an object-oriented programming language. We encapsulate state in objects to achieve data hiding and provide mutator methods to control the state. The <a href="https://en.wikipedia.org/wiki/Java_collections_framework">Java collections framework (JCF)</a> is built upon this idea.</p>
+<p>Java es un lenguaje de programación orientado a objetos. Encapsulamos el estado en objetos para lograr ocultar los datos y proporcionamos métodos mutadores para controlar dicho estado. El <a href="https://en.wikipedia.org/wiki/Java_collections_framework">framework de colecciones de Java (JCF)</a> se basa en esta idea.</p>
 </div>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="java"><span class="type">interface</span> <span class="class">Collection</span>&lt;E&gt; {
-    <span class="comment">// removes all elements from this collection</span>
+    <span class="comment">// elimina todos los elementos de esta colección</span>
     <span class="type">void</span> clear();
 }</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>Today I comprehend a <em>void</em> return type as a smell. It is evidence that <a href="https://en.wikipedia.org/wiki/Side_effect_(computer_science)">side-effects</a> take place, state is mutated. <em>Shared</em> mutable state is an important source of failure, not only in a concurrent setting.</p>
+<p>Hoy en día, considero que un tipo de retorno <em>void</em> es un indicio de mal diseño. Es evidencia de que ocurren <a href="https://en.wikipedia.org/wiki/Side_effect_(computer_science)">efectos secundarios</a> y de que el estado se está mutando. El estado mutable <em>Shared</em> es una fuente importante de fallos, no solo en un entorno concurrente.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_immutable_data_structures">1.3.2. Immutable Data Structures</h4>
+<h4 id="_estructuras_de_datos_inmutables">1.3.2. Estructuras de Datos Inmutables</h4>
 <div class="paragraph">
-<p><a href="https://en.wikipedia.org/wiki/Immutable_object">Immutable</a> data structures cannot be modified after their creation. In the context of Java they are widely used in the form of collection wrappers.</p>
+<p>Las estructuras de datos <a href="https://en.wikipedia.org/wiki/Immutable_object">Immutables</a> no pueden modificarse después de su creación. En el contexto de Java, se utilizan ampliamente en forma de wrappers de colecciones.</p>
 </div>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="java"><span class="predefined-type">List</span>&lt;<span class="predefined-type">String</span>&gt; list = <span class="predefined-type">Collections</span>.unmodifiableList(otherList);
 
 <span class="comment">// Boom!</span>
-list.add(<span class="string"><span class="delimiter">&quot;</span><span class="content">why not?</span><span class="delimiter">&quot;</span></span>);</code></pre>
+list.add(<span class="string"><span class="delimiter">&quot;</span><span class="content">Por qué no?</span><span class="delimiter">&quot;</span></span>);</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>There are various libraries that provide us with similar utility methods. The result is always an unmodifiable view of the specific collection. Typically it will throw at runtime when we call a mutator method.</p>
+<p>Existen varias bibliotecas que nos proporcionan métodos de utilidad similares. El resultado siempre es una vista no modificable de la colección específica. Por lo general, lanzará una excepción en tiempo de ejecución si llamamos a un método mutador.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_persistent_data_structures">1.3.3. Persistent Data Structures</h4>
+<h4 id="_estructuras_de_datos_persistentes">1.3.3. Estructuras de Datos Persistentes</h4>
 <div class="paragraph">
-<p>A <a href="https://en.wikipedia.org/wiki/Persistent_data_structure">persistent data structure</a> does preserve the previous version of itself when being modified and is therefore <em>effectively</em> immutable. Fully persistent data structures allow both updates and queries on any version.</p>
+<p>Una <a href="https://en.wikipedia.org/wiki/Persistent_data_structure">estructura de datos persistente</a> conserva la versión anterior de sí misma cuando se modifica, y por lo tanto es efectivamente inmutable. Las estructuras de datos completamente persistentes permiten tanto actualizaciones como consultas en cualquier versión.</p>
 </div>
 <div class="paragraph">
-<p>Many operations perform only small changes. Just copying the previous version wouldn’t be efficient. To save time and memory, it is crucial to identify similarities between two versions and share as much data as possible.</p>
+<p>Muchas operaciones realizan solo pequeños cambios. Simplemente copiar la versión anterior no sería eficiente. Para ahorrar tiempo y memoria, es crucial identificar las similitudes entre dos versiones y compartir la mayor cantidad de datos posible.</p>
 </div>
 <div class="paragraph">
-<p>This model does not impose any implementation details. Here come functional data structures into play.</p>
+<p>Este modelo no impone ningún detalle de implementación específico. Aquí es donde entran en juego las estructuras de datos funcionales.</p>
 </div>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_functional_data_structures">1.4. Functional Data Structures</h3>
+<h3 id="_estructuras_de_datos_funcionales">1.4. Estructuras de Datos Funcionales</h3>
 <div class="paragraph">
-<p>Also known as <a href="https://en.wikipedia.org/wiki/Purely_functional"><em>purely</em> functional data structures</a>, these are <em>immutable</em> and <em>persistent</em>. The methods of functional data structures are <em>referentially transparent</em>.</p>
+<p>También conocidas como <a href="https://en.wikipedia.org/wiki/Purely_functional">estructuras de datos <em>puramente</em> funcionales</a>, son <em>inmutables</em> y <em>persistentes</em>. Los métodos de las estructuras de datos funcionales son <em>referencialmente transparentes</em>.</p>
 </div>
 <div class="paragraph">
-<p>Vavr features a wide range of the most-commonly used functional data structures. The following examples are explained in-depth.</p>
+<p>Vavr incluye una amplia gama de las estructuras de datos funcionales más utilizadas. Los siguientes ejemplos se explican en detalle.</p>
 </div>
 <div class="sect3">
 <h4 id="_linked_list">1.4.1. Linked List</h4>
 <div class="paragraph">
-<p>One of the most popular and also simplest functional data structures is the <a href="https://en.wikipedia.org/wiki/Linked_list">(singly) linked List</a>. It has a <em>head</em> element and a <em>tail</em> List. A linked List behaves like a Stack which follows the <a href="https://en.wikipedia.org/wiki/Stack_(abstract_data_type)">last in, first out (LIFO)</a> method.</p>
+<p>Una de las estructuras de datos funcionales más populares y también más simples es la lista enlazada <a href="https://en.wikipedia.org/wiki/Linked_list">(singly) linked List</a>. Esta estructura tiene un elemento principal <em>head</em> y una lista <em>tail</em> (cola). Una lista enlazada se comporta como una pila (Stack) que sigue el método <a href="https://en.wikipedia.org/wiki/Stack_(abstract_data_type)">último en entrar, primero en salir (LIFO)</a>.</p>
 </div>
 <div class="paragraph">
-<p>In <a href="http://vavr.io/">Vavr</a> we instantiate a List like this:</p>
+<p>En  <a href="http://vavr.io/">Vavr</a>, podemos instanciar una lista de la siguiente manera:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -811,15 +814,15 @@ list.add(<span class="string"><span class="delimiter">&quot;</span><span class="
 </div>
 </div>
 <div class="paragraph">
-<p>Each of the List elements forms a separate List node. The tail of the last element is Nil, the empty List.</p>
+<p>Cada elemento de la lista forma un nodo separado de la lista. La cola (<em>tail</em>) del último elemento es <code>Nil</code>, que representa la lista vacía.</p>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="images/list1.png?w=660" alt="List 1">
+<img src="images/list1.png?w=660" alt="Lista 1">
 </div>
 </div>
 <div class="paragraph">
-<p>This enables us to share elements across different versions of the List.</p>
+<p>Esto nos permite compartir elementos entre diferentes versiones de la lista.</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -828,30 +831,30 @@ list.add(<span class="string"><span class="delimiter">&quot;</span><span class="
 </div>
 </div>
 <div class="paragraph">
-<p>The new head element 0 is <em>linked</em> to the tail of the original List. The original List remains unmodified.</p>
+<p>El nuevo elemento principal <code>0</code> está <em>vinculado</em> a la cola de la lista original. La lista original permanece sin modificar.</p>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="images/list2.png?w=660" alt="List 2">
+<img src="images/list2.png?w=660" alt="Lista 2">
 </div>
 </div>
 <div class="paragraph">
-<p>These operations take place in constant time, in other words they are independent of the List size. Most of the other operations take linear time. In Vavr this is expressed by the interface LinearSeq, which we may already know from Scala.</p>
+<p>Estas operaciones se realizan en tiempo constante, es decir, son independientes del tamaño de la lista. La mayoría de las otras operaciones toman tiempo lineal. En Vavr, esto se expresa mediante la interfaz <code>LinearSeq</code>, que ya conocemos de Scala.</p>
 </div>
 <div class="paragraph">
-<p>If we need data structures that are queryable in constant time, Vavr offers Array and Vector. Both have <a href="https://en.wikipedia.org/wiki/Random_access">random access</a> capabilities.</p>
+<p>Si necesitamos estructuras de datos que permitan consultas en tiempo constante, Vavr ofrece <code>Array</code> y <code>Vector</code>. Ambos tienen capacidades de <a href="https://en.wikipedia.org/wiki/Random_access">acceso aleatorio</a>.</p>
 </div>
 <div class="paragraph">
-<p>The Array type is backed by a Java array of objects. Insert and remove operations take linear time. Vector is in-between Array and List. It performs well in both areas, random access and modification.</p>
+<p>El tipo <code>Array</code> está respaldado por un array de objetos de Java. Las operaciones de inserción y eliminación toman tiempo lineal. Él <code>Vector</code> está entre <code>Array</code> y <code>List</code>. Tiene un buen rendimiento tanto en acceso aleatorio como en modificaciones.</p>
 </div>
 <div class="paragraph">
-<p>In fact the linked List can also be used to implement a Queue data structure.</p>
+<p>De hecho, la lista enlazada también puede utilizarse para implementar una estructura de datos tipo cola (<em>Queue</em>).</p>
 </div>
 </div>
 <div class="sect3">
 <h4 id="_queue">1.4.2. Queue</h4>
 <div class="paragraph">
-<p>A very efficient functional Queue can be implemented based on two linked Lists. The <em>front</em> List holds the elements that are <em>dequeued</em>, the <em>rear</em> List holds the elements that are <em>enqueued</em>. Both operations enqueue and dequeue perform in O(1).</p>
+<p>Una cola funcional muy eficiente puede implementarse utilizando dos listas enlazadas. La lista <em>front</em> contiene los elementos que se eliminan de la <em>cola</em>, mientras que la lista <em>rear</em> contiene los elementos que se agregan. Ambas operaciones, <code>enqueue</code> y <code>dequeue</code>, se realizan en tiempo O(1).</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -861,7 +864,7 @@ list.add(<span class="string"><span class="delimiter">&quot;</span><span class="
 </div>
 </div>
 <div class="paragraph">
-<p>The initial Queue is created of three elements. Two elements are enqueued on the rear List.</p>
+<p>La cola inicial se crea con tres elementos. Luego, se agregan dos elementos en la lista rear.</p>
 </div>
 <div class="imageblock">
 <div class="content">
@@ -869,7 +872,7 @@ list.add(<span class="string"><span class="delimiter">&quot;</span><span class="
 </div>
 </div>
 <div class="paragraph">
-<p>If the front List runs out of elements when dequeueing, the rear List is reversed and becomes the new front List.</p>
+<p>Si la lista front se queda sin elementos al hacer <code>dequeue</code>, la lista <em>rear</em> se invierte y se convierte en la nueva lista <em>front</em>.</p>
 </div>
 <div class="imageblock">
 <div class="content">
@@ -877,7 +880,7 @@ list.add(<span class="string"><span class="delimiter">&quot;</span><span class="
 </div>
 </div>
 <div class="paragraph">
-<p>When dequeueing an element we get a pair of the first element and the remaining Queue. It is necessary to return the new version of the Queue because functional data structures are immutable and persistent. The original Queue is not affected.</p>
+<p>Al hacer <code>dequeue</code> de un elemento, obtenemos un par que incluye el primer elemento y la cola restante. Es necesario devolver la nueva versión de la cola porque las estructuras de datos funcionales son inmutables y persistentes. La cola original no se ve afectada.</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -889,7 +892,7 @@ Tuple2&lt;<span class="predefined-type">Integer</span>, <span class="predefined-
 </div>
 </div>
 <div class="paragraph">
-<p>What happens when the Queue is empty? Then dequeue() will throw a NoSuchElementException. To do it the <em>functional way</em> we would rather expect an optional result.</p>
+<p>¿Qué sucede cuando la cola está vacía? En ese caso, <code>dequeue()</code> lanzará una excepción <code>NoSuchElementException</code>. Para hacerlo de <em>manera funcional</em>, esperaríamos más bien un resultado opcional.</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -901,7 +904,7 @@ Tuple2&lt;<span class="predefined-type">Integer</span>, <span class="predefined-
 </div>
 </div>
 <div class="paragraph">
-<p>An optional result may be further processed, regardless if it is empty or not.</p>
+<p>Un resultado opcional puede procesarse aún más, ya sea que esté vacío o no.</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -922,12 +925,12 @@ Tuple2&lt;<span class="predefined-type">Integer</span>, <span class="predefined-
 </div>
 </div>
 <div class="sect3">
-<h4 id="_sorted_set">1.4.3. Sorted Set</h4>
+<h4 id="_conjuntos_ordenados_sorted_set">1.4.3. Conjuntos Ordenados (<em>Sorted Set</em>)</h4>
 <div class="paragraph">
-<p>Sorted Sets are data structures that are more frequently used than Queues. We use binary search trees to model them in a functional way. These trees consist of nodes with up to two children and values at each node.</p>
+<p>Los conjuntos ordenados son estructuras de datos que se utilizan con más frecuencia que las colas. Utilizamos árboles binarios de búsqueda para modelarlos de manera funcional. Estos árboles están compuestos por nodos que pueden tener hasta dos hijos y valores en cada nodo.</p>
 </div>
 <div class="paragraph">
-<p>We build binary search trees in the presence of an ordering, represented by an element Comparator. All values of the left subtree of any given node are strictly less than the value of the given node. All values of the right subtree are strictly greater.</p>
+<p>Construimos árboles binarios de búsqueda bajo la presencia de un orden, representado por un <code>Comparator</code>. Todos los valores del subárbol izquierdo de cualquier nodo dado son estrictamente menores que el valor del nodo. Todos los valores del subárbol derecho son estrictamente mayores.</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -937,11 +940,11 @@ Tuple2&lt;<span class="predefined-type">Integer</span>, <span class="predefined-
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="images/binarytree1.png?w=660" alt="Binary Tree 1">
+<img src="images/binarytree1.png?w=660" alt="Árbol Binario 1">
 </div>
 </div>
 <div class="paragraph">
-<p>Searches on such trees run in O(log n) time. We start the search at the root and decide if we found the element. Because of the total ordering of the values we know where to search next, in the left or in the right branch of the current tree.</p>
+<p>Las búsquedas en este tipo de árboles se realizan en tiempo O(log n). Comenzamos la búsqueda en la raíz y determinamos si encontramos el elemento. Debido al orden total de los valores, sabemos hacia dónde buscar a continuación, en la rama izquierda o derecha del árbol actual.</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -954,7 +957,7 @@ Tuple2&lt;<span class="predefined-type">Integer</span>, <span class="predefined-
 </div>
 </div>
 <div class="paragraph">
-<p>Most tree operations are inherently <a href="https://en.wikipedia.org/wiki/Recursion">recursive</a>. The insert function behaves similarly to the search function. When the end of a search path is reached, a new node is created and the whole path is reconstructed up to the root. Existing child nodes are referenced whenever possible. Hence the insert operation takes O(log n) time and space.</p>
+<p>La mayoría de las operaciones sobre árboles son intrínsecamente <a href="https://en.wikipedia.org/wiki/Recursion">recursivas</a>. La función de inserción se comporta de manera similar a la función de búsqueda. Cuando se alcanza el final de un camino de búsqueda, se crea un nuevo nodo y se reconstruye todo el camino hasta la raíz. Siempre que sea posible, los nodos hijos existentes se reutilizan. Por lo tanto, la operación de inserción toma tiempo y espacio O(log n).</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -964,27 +967,27 @@ Tuple2&lt;<span class="predefined-type">Integer</span>, <span class="predefined-
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="images/binarytree2.png?w=660" alt="Binary Tree 2">
+<img src="images/binarytree2.png?w=660" alt="Árbol Binario 2">
 </div>
 </div>
 <div class="paragraph">
-<p>In order to maintain the performance characteristics of a binary search tree it needs to be kept balanced. All paths from the root to a leaf need to have roughly the same length.</p>
+<p>Para mantener las características de rendimiento de un árbol binario de búsqueda, debe mantenerse equilibrado. Todos los caminos desde la raíz hasta una hoja deben tener aproximadamente la misma longitud.</p>
 </div>
 <div class="paragraph">
-<p>In Vavr we implemented a binary search tree based on a <a href="https://en.wikipedia.org/wiki/Red%E2%80%93black_tree">Red/Black Tree</a>. It uses a specific coloring strategy to keep the tree balanced on inserts and deletes. To read more about this topic please refer to the book <a href="http://www.amazon.com/Purely-Functional-Structures-Chris-Okasaki/dp/0521663504">Purely Functional Data Structures</a> by Chris Okasaki.</p>
+<p>En Vavr, implementamos un árbol binario de búsqueda basado en un <a href="https://en.wikipedia.org/wiki/Red%E2%80%93black_tree">Red/Black Tree</a> (<em>Árbol Rojo/Negro</em>). Este utiliza una estrategia de coloración específica para mantener el equilibrio del árbol durante las operaciones de inserción y eliminación. Para obtener más información sobre este tema, se recomienda leer el libro <a href="http://www.amazon.com/Purely-Functional-Structures-Chris-Okasaki/dp/0521663504">Purely Functional Data Structures</a> de Chris Okasaki.</p>
 </div>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_state_of_the_collections">1.5. State of the Collections</h3>
+<h3 id="_estado_de_las_colecciones">1.5. Estado de las Colecciones</h3>
 <div class="paragraph">
-<p>Generally we are observing a convergence of programming languages. Good features make it, other disappear. But Java is different, it is bound forever to be backward compatible. That is a strength but also slows down evolution.</p>
+<p>En general, estamos observando una convergencia entre los lenguajes de programación. Las características buenas prevalecen, mientras que otras desaparecen. Sin embargo, Java es diferente: está destinado a ser compatible hacia atrás para siempre. Esa es una fortaleza, pero también ralentiza su evolución.</p>
 </div>
 <div class="paragraph">
-<p>Lambda brought Java and Scala closer together, yet they are still so different. Martin Odersky, the creator of Scala, recently mentioned in his <a href="https://www.youtube.com/watch?v=NW5h8d_ZyOs">BDSBTB 2015 keynote</a> the state of the Java 8 collections.</p>
+<p>Las expresiones lambda acercaron a Java y Scala, pero aún son muy diferentes. Martin Odersky, el creador de Scala, mencionó recientemente en su charla magistral en la <a href="https://www.youtube.com/watch?v=NW5h8d_ZyOs">BDSBTB 2015</a> el estado de las colecciones en Java 8.</p>
 </div>
 <div class="paragraph">
-<p>He described Java’s Stream as a fancy form of an Iterator. The Java 8 Stream API is an example of a <em>lifted</em> collection. What it does is to <em>define</em> a computation and <em>link</em> it to a specific collection in another explicit step.</p>
+<p>Describió el <code>Stream</code> de Java como una forma elegante de un iterador. La API de <code>Stream</code> de Java 8 es un ejemplo de una colección <em>elevada</em>. Lo que hace es <em>definir</em> una computación y <em>vincularla</em> a una colección específica en otro paso explícito.</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -995,11 +998,11 @@ i.prepareForAddition()
 </div>
 </div>
 <div class="paragraph">
-<p>This is how the new Java 8 Stream API works. It is a computational layer above the well known Java collections.</p>
+<p>Así es como funciona la nueva API de <code>Stream</code> en Java 8. Es una capa computacional encima de las conocidas colecciones de Java.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java"><span class="comment">// = [&quot;1&quot;, &quot;2&quot;, &quot;3&quot;] in Java 8</span>
+<pre class="CodeRay highlight"><code data-lang="java"><span class="comment">// = [&quot;1&quot;, &quot;2&quot;, &quot;3&quot;] en Java 8</span>
 <span class="predefined-type">Arrays</span>.asList(<span class="integer">1</span>, <span class="integer">2</span>, <span class="integer">3</span>)
       .stream()
       .map(<span class="predefined-type">Object</span>::toString)
@@ -1007,21 +1010,21 @@ i.prepareForAddition()
 </div>
 </div>
 <div class="paragraph">
-<p>Vavr is greatly inspired by Scala. This is how the above example should have been in Java 8.</p>
+<p>Vavr se inspira enormemente en Scala. Así es como debería verse el ejemplo anterior en Java 8.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java"><span class="comment">// = Stream(&quot;1&quot;, &quot;2&quot;, &quot;3&quot;) in Vavr</span>
+<pre class="CodeRay highlight"><code data-lang="java"><span class="comment">// = Stream(&quot;1&quot;, &quot;2&quot;, &quot;3&quot;) en Vavr</span>
 Stream.of(<span class="integer">1</span>, <span class="integer">2</span>, <span class="integer">3</span>).map(<span class="predefined-type">Object</span>::toString)</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>Within the last year we put much effort into implementing the Vavr collection library. It comprises the most widely used collection types.</p>
+<p>En el último año, hemos dedicado mucho esfuerzo a implementar la biblioteca de colecciones de Vavr. Comprende los tipos de colecciones más ampliamente utilizados.</p>
 </div>
 <div class="sect3">
 <h4 id="_seq">1.5.1. Seq</h4>
 <div class="paragraph">
-<p>We started our journey by implementing sequential types. We already described the linked List above. Stream, a lazy linked List, followed. It allows us to process possibly infinite long sequences of elements.</p>
+<p>Comenzamos nuestro viaje implementando tipos secuenciales. Ya describimos la lista enlazada anteriormente. Luego siguió el <em>Stream</em>, una lista enlazada perezosa (<em>lazy</em>) que nos permite procesar secuencias de elementos posiblemente infinitas.</p>
 </div>
 <div class="imageblock">
 <div class="content">
@@ -1029,27 +1032,27 @@ Stream.of(<span class="integer">1</span>, <span class="integer">2</span>, <span 
 </div>
 </div>
 <div class="paragraph">
-<p>All collections are Iterable and hence could be used in enhanced for-statements.</p>
+<p>Todas las colecciones son <code>Iterable</code> y, por lo tanto, pueden usarse en bucles <code>for</code> mejorados.</p>
 </div>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="java"><span class="keyword">for</span> (<span class="predefined-type">String</span> s : <span class="predefined-type">List</span>.of(<span class="string"><span class="delimiter">&quot;</span><span class="content">Java</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Advent</span><span class="delimiter">&quot;</span></span>)) {
-    <span class="comment">// side effects and mutation</span>
+    <span class="comment">// efectos secundarios y mutación</span>
 }</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>We could accomplish the same by internalizing the loop and injecting the behavior using a lambda.</p>
+<p>Podemos lograr lo mismo internalizando el bucle e inyectando el comportamiento usando una lambda.</p>
 </div>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="java"><span class="predefined-type">List</span>.of(<span class="string"><span class="delimiter">&quot;</span><span class="content">Java</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Advent</span><span class="delimiter">&quot;</span></span>).forEach(s -&gt; {
-    <span class="comment">// side effects and mutation</span>
+    <span class="comment">// efectos secundarios y mutación</span>
 });</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>Anyway, as we previously saw we prefer expressions that return a value over statements that return nothing. By looking at a simple example, soon we will recognize that statements add noise and divide what belongs together.</p>
+<p>De todos modos, como vimos anteriormente, preferimos expresiones que devuelvan un valor sobre instrucciones que no devuelven nada. Observando un ejemplo simple, pronto reconoceremos que las instrucciones añaden ruido y separan lo que pertenece junto.</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -1066,7 +1069,7 @@ Stream.of(<span class="integer">1</span>, <span class="integer">2</span>, <span 
 </div>
 </div>
 <div class="paragraph">
-<p>The Vavr collections provide us with many functions to operate on the underlying elements. This allows us to express things in a very concise way.</p>
+<p>Las colecciones de Vavr nos proporcionan muchas funciones para operar sobre los elementos subyacentes. Esto nos permite expresar las cosas de manera muy concisa.</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -1079,7 +1082,7 @@ Stream.of(<span class="integer">1</span>, <span class="integer">2</span>, <span 
 </div>
 </div>
 <div class="paragraph">
-<p>Most goals can be accomplished in various ways using Vavr. Here we reduced the whole method body to fluent function calls on a List instance. We could even remove the whole method and directly use our List to obtain the computation result.</p>
+<p>La mayoría de los objetivos se pueden lograr de diversas maneras usando Vavr. Aquí reducimos todo el cuerpo del método a llamadas de función fluidas en una instancia de List. Incluso podríamos eliminar todo el método y usar directamente nuestra lista para obtener el resultado de la computación.</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -1087,27 +1090,27 @@ Stream.of(<span class="integer">1</span>, <span class="integer">2</span>, <span 
 </div>
 </div>
 <div class="paragraph">
-<p>In a real world application we are now able to drastically reduce the number of lines of code and hence lower the risk of bugs.</p>
+<p>En una aplicación del mundo real, ahora podemos reducir drásticamente el número de líneas de código y, por lo tanto, disminuir el riesgo de errores.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_set_and_map">1.5.2. Set and Map</h4>
+<h4 id="_set_y_map">1.5.2. Set y Map</h4>
 <div class="paragraph">
-<p>Sequences are great. But to be complete, a collection library also needs different types of Sets and Maps.</p>
+<p>Las secuencias son geniales. Pero, para ser completos, una biblioteca de colecciones también necesita diferentes tipos de <code>Set</code> y <code>Map</code>.</p>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="images/collections-set-map.png?w=660" alt="Set and Map">
+<img src="images/collections-set-map.png?w=660" alt="Set y Map">
 </div>
 </div>
 <div class="paragraph">
-<p>We described how to model sorted Sets with binary tree structures. A sorted Map is nothing else than a sorted Set containing key-value pairs and having an ordering for the keys.</p>
+<p>Describimos cómo modelar conjuntos ordenados con estructuras de árboles binarios. Un <code>Map</code> ordenado no es más que un <code>Set</code> ordenado que contiene pares clave-valor y que tiene un orden para las claves.</p>
 </div>
 <div class="paragraph">
-<p>The HashMap implementation is backed by a <a href="http://lampwww.epfl.ch/papers/idealhashtrees.pdf">Hash Array Mapped Trie (HAMT)</a>. Accordingly the HashSet is backed by a HAMT containing key-key pairs.</p>
+<p>La implementación de <code>HashMap</code> se respalda mediante un <a href="http://lampwww.epfl.ch/papers/idealhashtrees.pdf">Hash Array Mapped Trie (HAMT)</a>. En consecuencia, el <code>HashSet</code> está respaldado por un HAMT que contiene pares clave-clave.</p>
 </div>
 <div class="paragraph">
-<p>Our Map does <em>not</em> have a special Entry type to represent key-value pairs. Instead we use Tuple2 which is already part of Vavr. The fields of a Tuple are enumerated.</p>
+<p>Nuestro <code>Map</code> no tiene un tipo especial de <code>Entry</code> para representar pares clave-valor. En su lugar, usamos <code>Tuple2</code>, que ya es parte de Vavr. Los campos de un <code>Tuple</code> están enumerados.</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -1119,7 +1122,7 @@ Tuple2&lt;<span class="predefined-type">Integer</span>, <span class="predefined-
 </div>
 </div>
 <div class="paragraph">
-<p>Maps and Tuples are used throughout Vavr. Tuples are inevitable to handle multi-valued return types in a general way.</p>
+<p>Los Map y Tuple se utilizan ampliamente en Vavr. Los Tuple son esenciales para manejar tipos de retorno con múltiples valores de forma general.</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -1131,20 +1134,20 @@ Tuple2&lt;<span class="predefined-type">Integer</span>, <span class="predefined-
 </div>
 </div>
 <div class="paragraph">
-<p>At Vavr, we explore and test our library by implementing the <a href="https://projecteuler.net/archives">99 Euler Problems</a>. It is a great proof of concept. Please don’t hesitate to send pull requests.</p>
+<p>En Vavr, exploramos y probamos nuestra biblioteca implementando los <a href="https://projecteuler.net/archives">99 problemas de Euler</a>. Es una excelente prueba de concepto. No dudes en enviar solicitudes de <em>pull</em>.</p>
 </div>
 </div>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_getting_started">2. Getting started</h2>
+<h2 id="_comenzando">2. Comenzando</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Projects that include Vavr need to target Java 1.8 at minimum.</p>
+<p>Los proyectos que incluyan Vavr deben apuntar como mínimo a Java 1.8.</p>
 </div>
 <div class="paragraph">
-<p>The .jar is available at <a href="http://search.maven.org/#search%7Cga%7C1%7Cg%3A%22io.vavr%22%20a%3A%22vavr%22">Maven Central</a>.</p>
+<p>El archivo <code>.jar</code> está disponible en <a href="http://search.maven.org/#search%7Cga%7C1%7Cg%3A%22io.vavr%22%20a%3A%22vavr%22">Maven Central</a>.</p>
 </div>
 <div class="sect2">
 <h3 id="_gradle">2.1. Gradle</h3>
@@ -1174,27 +1177,27 @@ Tuple2&lt;<span class="predefined-type">Integer</span>, <span class="predefined-
     <span class="tag">&lt;dependency&gt;</span>
         <span class="tag">&lt;groupId&gt;</span>io.vavr<span class="tag">&lt;/groupId&gt;</span>
         <span class="tag">&lt;artifactId&gt;</span>vavr<span class="tag">&lt;/artifactId&gt;</span>
-        <span class="tag">&lt;version&gt;</span>0.10.5<span class="tag">&lt;/version&gt;</span>
+        <span class="tag">&lt;version&gt;</span>0.10.4<span class="tag">&lt;/version&gt;</span>
     <span class="tag">&lt;/dependency&gt;</span>
 <span class="tag">&lt;/dependencies&gt;</span></code></pre>
 </div>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_standalone">2.3. Standalone</h3>
+<h3 id="_independiente">2.3. Independiente</h3>
 <div class="paragraph">
-<p>Because Vavr does <em>not</em> depend on any libraries (other than the JVM) you can easily add it as standalone .jar to your classpath.</p>
+<p>Debido a que Vavr <em>no</em> depende de ninguna biblioteca (aparte de la JVM), puedes agregarlo fácilmente como un archivo <code>.jar</code> independiente a tu <em>classpath</em>.</p>
 </div>
 </div>
 <div class="sect2">
 <h3 id="_snapshots">2.4. Snapshots</h3>
 <div class="paragraph">
-<p>Developer versions can be found <a href="https://oss.sonatype.org/content/repositories/snapshots/io/vavr/vavr">here</a>.</p>
+<p>Las versiones en desarrollo se pueden encontrar <a href="https://oss.sonatype.org/content/repositories/snapshots/io/vavr/vavr">aquí</a>.</p>
 </div>
 <div class="sect3">
 <h4 id="_gradle_2">2.4.1. Gradle</h4>
 <div class="paragraph">
-<p>Add the additional snapshot repository to your <code>build.gradle</code>:</p>
+<p>Agrega el repositorio adicional de snapshots en tu archivo <code>build.gradle</code>:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -1208,7 +1211,7 @@ Tuple2&lt;<span class="predefined-type">Integer</span>, <span class="predefined-
 <div class="sect3">
 <h4 id="_maven_2">2.4.2. Maven</h4>
 <div class="paragraph">
-<p>Ensure that your <code>~/.m2/settings.xml</code> contains the following:</p>
+<p>Asegúrate de que tu archivo <code>~/.m2/settings.xml</code> contenga lo siguiente:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -1239,11 +1242,11 @@ Tuple2&lt;<span class="predefined-type">Integer</span>, <span class="predefined-
 </div>
 </div>
 <div class="sect1">
-<h2 id="_usage_guide">3. Usage Guide</h2>
+<h2 id="_guía_de_uso">3. Guía de Uso</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Vavr comes along with well-designed representations of some of the most basic types which apparently are missing or rudimentary in Java: <code>Tuple</code>, <code>Value</code> and <code>λ</code>.<br>
-In Vavr, everything is built upon these three basic building blocks:</p>
+<p>Vavr incluye representaciones bien diseñadas de algunos de los tipos más básicos que, aparentemente, faltan o son rudimentarios en Java: <code>Tuple</code>, <code>Value</code> y <code>λ</code>.<br>
+En Vavr, todo se construye sobre estos tres bloques básicos:</p>
 </div>
 <div class="imageblock">
 <div class="content">
@@ -1251,15 +1254,15 @@ In Vavr, everything is built upon these three basic building blocks:</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_tuples">3.1. Tuples</h3>
+<h3 id="_tuplas">3.1. Tuplas</h3>
 <div class="paragraph">
-<p>Java is missing a general notion of tuples. A Tuple combines a fixed number of elements together so that they can be passed around as a whole. Unlike an array or list, a tuple can hold objects with different types, but they are also immutable.<br>
-Tuples are of type Tuple1, Tuple2, Tuple3 and so on. There currently is an upper limit of 8 elements. To access elements of a tuple <code>t</code>, you can use method <code>t._1</code> to access the first element, <code>t._2</code> to access the second, and so on.</p>
+<p>Java carece de una noción general de tuplas. Una tupla combina un número fijo de elementos para que puedan ser tratados como un todo. A diferencia de un array o lista, una tupla puede contener objetos de diferentes tipos, pero también son inmutables.<br>
+Las tuplas tienen tipos como <code>Tuple1</code>, <code>Tuple2</code>, <code>Tuple3</code> y así sucesivamente. Actualmente, hay un límite máximo de 8 elementos. Para acceder a los elementos de una tupla <code>t</code>, puedes usar el método <code>t._1</code> para acceder al primer elemento, <code>t._2</code> para el segundo, y así sucesivamente.</p>
 </div>
 <div class="sect3">
-<h4 id="_create_a_tuple">3.1.1. Create a tuple</h4>
+<h4 id="_crear_una_tupla">3.1.1. Crear una tupla</h4>
 <div class="paragraph">
-<p>Here is an example of how to create a tuple holding a String and an Integer:</p>
+<p>Aquí tienes un ejemplo de cómo crear una tupla que contiene un <code>String</code> y un <code>Integer</code>:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -1277,23 +1280,23 @@ Tuple2&lt;<span class="predefined-type">String</span>, <span class="predefined-t
 <table>
 <tr>
 <td><i class="conum" data-value="1"></i><b>1</b></td>
-<td>A tuple is created via the static factory method <code>Tuple.of()</code></td>
+<td>Se crea una tupla mediante el método de fábrica estático <code>Tuple.of()</code></td>
 </tr>
 <tr>
 <td><i class="conum" data-value="2"></i><b>2</b></td>
-<td>Get the 1st element of this tuple.</td>
+<td>Obtén el primer elemento de esta tupla.</td>
 </tr>
 <tr>
 <td><i class="conum" data-value="3"></i><b>3</b></td>
-<td>Get the 2nd element of this tuple.</td>
+<td>Obtén el segundo elemento de esta tupla.</td>
 </tr>
 </table>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_map_a_tuple_component_wise">3.1.2. Map a tuple component-wise</h4>
+<h4 id="_mapear_una_tupla_elemento_por_elemento">3.1.2. Mapear una tupla elemento por elemento</h4>
 <div class="paragraph">
-<p>The component-wise map evaluates a function per element in the tuple, returning another tuple.</p>
+<p>El mapeo elemento por elemento evalúa una función por cada elemento de la tupla, devolviendo otra tupla.</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -1306,9 +1309,9 @@ Tuple2&lt;<span class="predefined-type">String</span>, <span class="predefined-t
 </div>
 </div>
 <div class="sect3">
-<h4 id="_map_a_tuple_using_one_mapper">3.1.3. Map a tuple using one mapper</h4>
+<h4 id="_mapear_una_tupla_usando_un_único_mapeador">3.1.3. Mapear una tupla usando un único mapeador</h4>
 <div class="paragraph">
-<p>It is also possible to map a tuple using one mapping function.</p>
+<p>También es posible mapear una tupla usando una sola función de mapeo.</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -1320,9 +1323,9 @@ Tuple2&lt;<span class="predefined-type">String</span>, <span class="predefined-t
 </div>
 </div>
 <div class="sect3">
-<h4 id="_transform_a_tuple">3.1.4. Transform a tuple</h4>
+<h4 id="_transformar_una_tupla">3.1.4. Transformar una tupla</h4>
 <div class="paragraph">
-<p>Transform creates a new type based on the tuple&#8217;s contents.</p>
+<p>La transformación crea un nuevo tipo basado en el contenido de la tupla.</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -1335,10 +1338,10 @@ Tuple2&lt;<span class="predefined-type">String</span>, <span class="predefined-t
 </div>
 </div>
 <div class="sect2">
-<h3 id="_functions">3.2. Functions</h3>
+<h3 id="_funciones">3.2. Funciones</h3>
 <div class="paragraph">
-<p>Functional programming is all about values and transformation of values using functions. Java 8 just provides a <code>Function</code> which accepts one parameter and a <code>BiFunction</code> which accepts two parameters. Vavr provides functions up to a limit of 8 parameters. The functional interfaces are of called <code>Function0, Function1, Function2, Function3</code> and so on. If you need a function which throws a checked exception you can use <code>CheckedFunction1, CheckedFunction2</code> and so on.<br>
-The following lambda expression creates a function to sum two integers:</p>
+<p>La programación funcional se centra en los valores y en la transformación de valores mediante funciones. Java 8 solo proporciona una <code>Function</code> que acepta un parámetro y una <code>BiFunction</code> que acepta dos parámetros. Vavr proporciona funciones con un límite de hasta 8 parámetros. Las interfaces funcionales se denominan <code>Function0, Function1, Function2, Function3</code> y así sucesivamente. Si necesitas una función que lance una excepción comprobada, puedes usar <code>CheckedFunction1, CheckedFunction2</code> y así sucesivamente.<br>
+La siguiente expresión lambda crea una función para sumar dos enteros:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -1347,7 +1350,7 @@ Function2&lt;<span class="predefined-type">Integer</span>, <span class="predefin
 </div>
 </div>
 <div class="paragraph">
-<p>This is a shorthand for the following anonymous class definition:</p>
+<p>Esto es una abreviatura para la siguiente definición de clase anónima:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -1360,7 +1363,7 @@ Function2&lt;<span class="predefined-type">Integer</span>, <span class="predefin
 </div>
 </div>
 <div class="paragraph">
-<p>You can also use the static factory method <code>Function3.of(&#8230;&#8203;)</code> to a create a function from any method reference.</p>
+<p>También puedes usar el método de fábrica estático  <code>Function3.of(&#8230;&#8203;)</code> para crear una función a partir de cualquier referencia de método.</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -1369,29 +1372,29 @@ Function2&lt;<span class="predefined-type">Integer</span>, <span class="predefin
 </div>
 </div>
 <div class="paragraph">
-<p>In fact Vavr functional interfaces are Java 8 functional interfaces on steroids. They also provide features like:</p>
+<p>De hecho, las interfaces funcionales de Vavr son interfaces funcionales de Java 8 potenciadas. También ofrecen características como:</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p>Composition</p>
+<p>Composición</p>
 </li>
 <li>
-<p>Lifting</p>
+<p>Elevación (Lifting)</p>
 </li>
 <li>
-<p>Currying</p>
+<p>Currificación (Currying)</p>
 </li>
 <li>
-<p>Memoization</p>
+<p>Memoización</p>
 </li>
 </ul>
 </div>
 <div class="sect3">
-<h4 id="_composition">3.2.1. Composition</h4>
+<h4 id="_composición">3.2.1. Composición</h4>
 <div class="paragraph">
-<p>You can compose functions. In mathematics, function composition is the application of one function to the result of another to produce a third function. For instance, the functions f : X → Y and g : Y → Z can be composed to yield a function <code>h: g(f(x))</code> which maps X &#8594; Z.<br>
-You can use either <code>andThen</code>:</p>
+<p>Puedes componer funciones. En matemáticas, la composición de funciones es la aplicación de una función al resultado de otra para producir una tercera función. Por ejemplo, las funciones f : X → Y and g : Y → Z pueden componerse para generar una función <code>h: g(f(x))</code> que mapea X &#8594; Z.<br>
+Puedes usar <code>andThen</code>:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -1404,7 +1407,7 @@ then(add1AndMultiplyBy2.apply(<span class="integer">2</span>)).isEqualTo(<span c
 </div>
 </div>
 <div class="paragraph">
-<p>or <code>compose</code>:</p>
+<p>o <code>compose</code>:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -1415,12 +1418,12 @@ then(add1AndMultiplyBy2.apply(<span class="integer">2</span>)).isEqualTo(<span c
 </div>
 </div>
 <div class="sect3">
-<h4 id="_lifting">3.2.2. Lifting</h4>
+<h4 id="_elevación_lifting">3.2.2. Elevación (<em>Lifting</em>)</h4>
 <div class="paragraph">
-<p>You can lift a partial function into a total function that returns an <code>Option</code> result. The term <em>partial function</em> comes from mathematics. A partial function from X to Y is a function f: X′ → Y, for some subset X′ of X. It generalizes the concept of a function f: X → Y by not forcing f to map every element of X to an element of Y. That means a partial function works properly only for some input values. If the function is called with a disallowed input value, it will typically throw an exception.</p>
+<p>Puedes elevar una función parcial a una función total que devuelve un resultado de tipo <code>Option</code>. El término <em>partial function</em> proviene de las matemáticas. Una función parcial de X a Y es una función <em>f</em>: X′ → Y, para algún subconjunto X′ de X. Generaliza el concepto de una función <em>f</em>: X → Y al no forzar que <em>f</em> asocie cada elemento de X a un elemento de Y. Esto significa que una función parcial funciona correctamente solo para algunos valores de entrada. Si se llama a la función con un valor de entrada no permitido, normalmente lanzará una excepción.</p>
 </div>
 <div class="paragraph">
-<p>The following method <code>divide</code> is a partial function that only accepts non-zero divisors.</p>
+<p>El siguiente método <code>divide</code> es una función parcial que solo acepta divisores distintos de cero.</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -1428,7 +1431,7 @@ then(add1AndMultiplyBy2.apply(<span class="integer">2</span>)).isEqualTo(<span c
 </div>
 </div>
 <div class="paragraph">
-<p>We use <code>lift</code> to turn <code>divide</code> into a total function that is defined for all inputs.</p>
+<p>Usamos <code>lift</code> para convertir <code>divide</code> en una función total que está definida para todas las entradas.</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -1445,16 +1448,16 @@ then(add1AndMultiplyBy2.apply(<span class="integer">2</span>)).isEqualTo(<span c
 <table>
 <tr>
 <td><i class="conum" data-value="1"></i><b>1</b></td>
-<td>A lifted function returns <code>None</code> instead of throwing an exception, if the function is invoked with disallowed input values.</td>
+<td>Una función elevada devuelve <code>None</code> en lugar de lanzar una excepción, si la función se invoca con valores de entrada no permitidos.</td>
 </tr>
 <tr>
 <td><i class="conum" data-value="2"></i><b>2</b></td>
-<td>A lifted function returns <code>Some</code>, if the function is invoked with allowed input values.</td>
+<td>Una función elevada devuelve <code>Some</code>, si la función se invoca con valores de entrada permitidos.</td>
 </tr>
 </table>
 </div>
 <div class="paragraph">
-<p>The following method <code>sum</code> is a partial function that only accepts positive input values.</p>
+<p>El siguiente método <code>sum</code> es una función parcial que solo acepta valores de entrada positivos.</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -1470,12 +1473,12 @@ then(add1AndMultiplyBy2.apply(<span class="integer">2</span>)).isEqualTo(<span c
 <table>
 <tr>
 <td><i class="conum" data-value="1"></i><b>1</b></td>
-<td>The function <code>sum</code> throws an <code>IllegalArgumentException</code> for negative input values.</td>
+<td>La función <code>sum</code> lanza una excepción <code>IllegalArgumentException</code> para valores de entrada negativos.</td>
 </tr>
 </table>
 </div>
 <div class="paragraph">
-<p>We may lift the <code>sum</code> method by providing the methods reference.</p>
+<p>Podemos elevar el método <code>sum</code> proporcionando la referencia al método.</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -1489,15 +1492,15 @@ then(add1AndMultiplyBy2.apply(<span class="integer">2</span>)).isEqualTo(<span c
 <table>
 <tr>
 <td><i class="conum" data-value="1"></i><b>1</b></td>
-<td>The lifted function catches the <code>IllegalArgumentException</code> and maps it to <code>None</code>.</td>
+<td>La función elevada captura la excepción <code>IllegalArgumentException</code> y la mapea a <code>None</code>.</td>
 </tr>
 </table>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_partial_application">3.2.3. Partial application</h4>
+<h4 id="_aplicación_parcial">3.2.3. Aplicación Parcial</h4>
 <div class="paragraph">
-<p>Partial application allows you to derive a new function from an existing one by fixing some values.  You can fix one or more parameters, and the number of fixed parameters defines the arity of the new function such that <code>new arity = (original arity - fixed parameters)</code>.  The parameters are bound from left to right.</p>
+<p>La aplicación parcial te permite derivar una nueva función a partir de una existente fijando algunos valores. Puedes fijar uno o más parámetros, y el número de parámetros fijados define la aridad de la nueva función, de manera que <code>new arity = (original arity - fixed parameters)</code>. Los parámetros se asignan de izquierda a derecha.</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -1511,12 +1514,12 @@ then(add2.apply(<span class="integer">4</span>)).isEqualTo(<span class="integer"
 <table>
 <tr>
 <td><i class="conum" data-value="1"></i><b>1</b></td>
-<td>The first parameter <code>a</code> is fixed to the value 2.</td>
+<td>El primer parámetro <code>a</code> se fija al valor 2.</td>
 </tr>
 </table>
 </div>
 <div class="paragraph">
-<p>This can be demonstrated by fixing the first three parameters of a <code>Function5</code>, resulting in a <code>Function2</code>.</p>
+<p>Esto puede demostrarse fijando los primeros tres parámetros de una <code>Function5</code>, lo que resulta en una <code>Function2</code>.</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -1530,21 +1533,21 @@ then(add6.apply(<span class="integer">4</span>, <span class="integer">3</span>))
 <table>
 <tr>
 <td><i class="conum" data-value="1"></i><b>1</b></td>
-<td>The <code>a</code>, <code>b</code> and <code>c</code> parameters are fixed to the values 2, 3 and 1 respectively.</td>
+<td>Los parámetros <code>a</code>, <code>b</code> y <code>c</code> se fijan a los valores 2, 3 y 1, respectivamente.</td>
 </tr>
 </table>
 </div>
 <div class="paragraph">
-<p>Partial application differs from <a href="#_currying">Currying</a>, as will be explored in the relevant section.</p>
+<p>La aplicación parcial difiere de la <a href="#_currificación_currying">Currificación (Currying)</a>, como se explorará en la sección correspondiente.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_currying">3.2.4. Currying</h4>
+<h4 id="_currificación_currying">3.2.4. Currificación (Currying)</h4>
 <div class="paragraph">
-<p>Currying is a technique to partially apply a function by fixing a value for one of the parameters, resulting in a <code>Function1</code> function that returns a <code>Function1</code>.</p>
+<p>La currificación es una técnica que permite aplicar parcialmente una función fijando un valor para uno de los parámetros, lo que da como resultado una función <code>Function1</code> que devuelve otra función <code>Function1</code>.</p>
 </div>
 <div class="paragraph">
-<p>When a <code>Function2</code> is <em>curried</em>, the result is indistinguishable from the <em>partial application</em> of a <code>Function2</code> because both result in a 1-arity function.</p>
+<p>Cuando una <code>Function2</code> es <em>curried</em>, el resultado es indistinguible de la <em>aplicación parcial</em> de una <code>Function2</code> ya que ambas producen una función de aridad 1.</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -1558,12 +1561,12 @@ then(add2.apply(<span class="integer">4</span>)).isEqualTo(<span class="integer"
 <table>
 <tr>
 <td><i class="conum" data-value="1"></i><b>1</b></td>
-<td>The first parameter <code>a</code> is fixed to the value 2.</td>
+<td>El primer parámetro <code>a</code> se fija al valor 2.</td>
 </tr>
 </table>
 </div>
 <div class="paragraph">
-<p>You might notice that, apart from the use of <code>.curried()</code>, this code is identical to the 2-arity given example in <a href="#_partial_application">Partial application</a>.  With higher-arity functions, the difference becomes clear.</p>
+<p>Podrás notar que, aparte del uso de <code>.curried()</code>, este código es idéntico al ejemplo de aridad 2 dado en <a href="#_aplicación_parcial">Aplicación Parcial</a>. Con funciones de mayor aridad, la diferencia se vuelve evidente.</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -1577,20 +1580,20 @@ then(add2.apply(<span class="integer">4</span>).apply(<span class="integer">3</s
 <table>
 <tr>
 <td><i class="conum" data-value="1"></i><b>1</b></td>
-<td>Note the presence of additional functions in the parameters.</td>
+<td>Nota la presencia de funciones adicionales en los parámetros.</td>
 </tr>
 <tr>
 <td><i class="conum" data-value="2"></i><b>2</b></td>
-<td>Further calls to <code>apply</code> returns another <code>Function1</code>, apart from the final call.</td>
+<td>Las llamadas posteriores a <code>apply</code> devuelven otra <code>Function1</code>, excepto en la llamada final.</td>
 </tr>
 </table>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_memoization">3.2.5. Memoization</h4>
+<h4 id="_memoización">3.2.5. Memoización</h4>
 <div class="paragraph">
-<p>Memoization is a form of caching. A memoized function executes only once and then returns the result from a cache.<br>
-The following example calculates a random number on the first invocation and returns the cached number on the second invocation.</p>
+<p>La memoización es una forma de almacenamiento en caché. Una función memoizada se ejecuta solo una vez y luego devuelve el resultado desde una caché.<br>
+El siguiente ejemplo calcula un número aleatorio en la primera invocación y devuelve el número almacenado en caché en la segunda invocación.</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -1608,13 +1611,13 @@ then(randomValue1).isEqualTo(randomValue2);</code></pre>
 <div class="sect2">
 <h3 id="_values">3.3. Values</h3>
 <div class="paragraph">
-<p>In a functional setting we see a value as a kind of <a href="https://en.wikipedia.org/wiki/Normal_form_(abstract_rewriting)">normal form</a>, an expression which cannot be further evaluated. In Java we express this by making the state of an object final and call it <a href="https://en.wikipedia.org/wiki/Immutable_object">immutable</a>.<br>
-Vavr&#8217;s functional Value abstracts over immutable objects. Efficient write operations are added by sharing immutable memory between instances. What we get is thread-safety for free!</p>
+<p>En un entorno funcional, vemos un valor como una especie de <a href="https://en.wikipedia.org/wiki/Normal_form_(abstract_rewriting)">forma normal</a>, una expresión que no puede evaluarse más. En Java, expresamos esto haciendo que el estado de un objeto sea <code>final</code> y lo llamamos <a href="https://en.wikipedia.org/wiki/Immutable_object">objeto immutable</a>.<br>
+El valor funcional de Vavr abstrae sobre objetos inmutables. Las operaciones de escritura eficientes se logran compartiendo memoria inmutable entre instancias. ¡Esto nos proporciona seguridad en hilos automáticamente!</p>
 </div>
 <div class="sect3">
 <h4 id="_option">3.3.1. Option</h4>
 <div class="paragraph">
-<p>Option is a monadic container type which represents an optional value. Instances of Option are either an instance of <code>Some</code> or the <code>None</code>.</p>
+<p><code>Option</code> es un tipo de contenedor monádico que representa un valor opcional. Las instancias de <code>Option</code> son ya sea una instancia de <code>Some</code> o <code>None</code>.</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -1623,10 +1626,10 @@ Vavr&#8217;s functional Value abstracts over immutable objects. Efficient write 
 </div>
 </div>
 <div class="paragraph">
-<p>If you&#8217;re coming to Vavr after using Java&#8217;s <code>Optional</code> class, there is a crucial difference.  In <code>Optional</code>, a call to <code>.map</code> that results in a null will result in an empty <code>Optional</code>.  In Vavr, it would result in a <code>Some(null)</code> that can then lead to a <code>NullPointerException</code>.</p>
+<p>Si vienes a Vavr después de usar la clase <code>Optional</code> de Java, hay una diferencia crucial. En <code>Optional</code>, una llamada a <code>.map</code> que resulta en un valor <code>null</code> producirá un <code>Optional</code> vacío. En Vavr, esto generaría un <code>Some(null)</code>, lo que podría llevar a un <code>NullPointerException</code>.</p>
 </div>
 <div class="paragraph">
-<p>Using <code>Optional</code>, this scenario is valid.</p>
+<p>Usando <code>Optional</code>, este escenario es válido.</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -1641,16 +1644,16 @@ then(maybeFooBar.isPresent()).isFalse();</code></pre>
 <table>
 <tr>
 <td><i class="conum" data-value="1"></i><b>1</b></td>
-<td>The option is <code>Some("foo")</code></td>
+<td>La opción es <code>Some("foo")</code>.</td>
 </tr>
 <tr>
 <td><i class="conum" data-value="2"></i><b>2</b></td>
-<td>The resulting option becomes empty here</td>
+<td>La opción resultante se vuelve vacía aquí.</td>
 </tr>
 </table>
 </div>
 <div class="paragraph">
-<p>Using Vavr&#8217;s <code>Option</code>, the same scenario will result in a <code>NullPointerException</code>.</p>
+<p>Usando la <code>Option</code> de Vavr, el mismo escenario resultará en un <code>NullPointerException</code>.</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -1669,23 +1672,23 @@ then(maybeFoo.get()).isEqualTo(<span class="string"><span class="delimiter">&quo
 <table>
 <tr>
 <td><i class="conum" data-value="1"></i><b>1</b></td>
-<td>The option is <code>Some("foo")</code></td>
+<td>La opción es <code>Some("foo")</code></td>
 </tr>
 <tr>
 <td><i class="conum" data-value="2"></i><b>2</b></td>
-<td>The resulting option is <code>Some(null)</code></td>
+<td>La opción resultante es <code>Some(null)</code></td>
 </tr>
 <tr>
 <td><i class="conum" data-value="3"></i><b>3</b></td>
-<td>The call to <code>s.toUpperCase()</code> is invoked on a <code>null</code></td>
+<td>TLa llamada a <code>s.toUpperCase()</code> se invoca sobre un <code>null</code></td>
 </tr>
 </table>
 </div>
 <div class="paragraph">
-<p>This seems like Vavr&#8217;s implementation is broken, but in fact it&#8217;s not - rather, it adheres to the requirement of a monad to maintain computational context when calling <code>.map</code>.  In terms of an <code>Option</code>, this means that calling <code>.map</code> on a <code>Some</code> will result in a <code>Some</code>, and calling <code>.map</code> on a <code>None</code> will result in a <code>None</code>.  In the Java <code>Optional</code> example above, that context changed from a <code>Some</code> to a <code>None</code>.</p>
+<p>Esto puede parecer que la implementación de Vavr está rota, pero en realidad no lo está. Más bien, se adhiere al requisito de una mónada (<em>monad</em>) de mantener el contexto computacional al llamar a <code>.map</code>.  En términos de una <code>Option</code>, esto significa que llamar a <code>.map</code> en un <code>Some</code> dará como resultado un <code>Some</code> y llamar a <code>.map</code> en un <code>None</code> dará como resultado un <code>None</code>.  En el ejemplo de <code>Optional</code> de Java mencionado anteriormente, ese contexto cambió de un <code>Some</code> a un <code>None</code>.</p>
 </div>
 <div class="paragraph">
-<p>This may seem to make <code>Option</code> useless, but it actually forces you to pay attention to possible occurrences of <code>null</code> and deal with them accordingly instead of unknowingly accepting them.  The correct way to deal with occurrences of <code>null</code> is to use <code>flatMap</code>.</p>
+<p>Esto puede parecer que hace que <code>Option</code> sea inútil, pero en realidad te obliga a prestar atención a las posibles ocurrencias de <code>null</code> y a manejarlas adecuadamente en lugar de aceptarlas sin saberlo. La forma correcta de manejar las ocurrencias de <code>null</code> es usar <code>flatMap</code>.</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -1701,20 +1704,20 @@ then(maybeFooBar.isEmpty()).isTrue();</code></pre>
 <table>
 <tr>
 <td><i class="conum" data-value="1"></i><b>1</b></td>
-<td>The option is <code>Some("foo")</code></td>
+<td>La opción es <code>Some("foo")</code></td>
 </tr>
 <tr>
 <td><i class="conum" data-value="2"></i><b>2</b></td>
-<td>The resulting option is <code>Some(null)</code></td>
+<td>La opción resultante es <code>Some(null)</code></td>
 </tr>
 <tr>
 <td><i class="conum" data-value="3"></i><b>3</b></td>
-<td><code>s</code>, which is <code>null</code>, becomes <code>None</code></td>
+<td><code>s</code>, que es <code>null</code>, se convierte en <code>None</code></td>
 </tr>
 </table>
 </div>
 <div class="paragraph">
-<p>Alternatively, move the <code>.flatMap</code> to be co-located with the the possibly <code>null</code> value.</p>
+<p>Alternativamente, mueve el <code>.flatMap</code> para que esté ubicado junto al valor que posiblemente sea <code>null</code>.</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -1729,22 +1732,22 @@ then(maybeFooBar.isEmpty()).isTrue();</code></pre>
 <table>
 <tr>
 <td><i class="conum" data-value="1"></i><b>1</b></td>
-<td>The option is <code>Some("foo")</code></td>
+<td>La opción es <code>Some("foo")</code></td>
 </tr>
 <tr>
 <td><i class="conum" data-value="2"></i><b>2</b></td>
-<td>The resulting option is <code>None</code></td>
+<td>La opción resultante es <code>None</code></td>
 </tr>
 </table>
 </div>
 <div class="paragraph">
-<p>This is explored in more detail on the <a href="http://blog.vavr.io/the-agonizing-death-of-an-astronaut/">Vavr blog</a>.</p>
+<p>Esto se explora en más detalle en el <a href="http://blog.vavr.io/the-agonizing-death-of-an-astronaut/">blog de Vavr</a>.</p>
 </div>
 </div>
 <div class="sect3">
 <h4 id="_try">3.3.2. Try</h4>
 <div class="paragraph">
-<p>Try is a monadic container type which represents a computation that may either result in an exception, or return a successfully computed value. It&#8217;s similar to, but semantically different from <code>Either</code>. Instances of Try, are either an instance of <code>Success</code> or <code>Failure</code>.</p>
+<p><code>Try</code> es un tipo de contenedor monádico que representa una computación que puede resultar en una excepción o devolver un valor calculado exitosamente. Es similar a <code>Either</code>, pero semánticamente diferente. Una instancia de <code>Try</code> puede ser una instancia de <code>Success</code> o <code>Failure</code>.</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -1770,7 +1773,7 @@ A result = Try.of(<span class="local-variable">this</span>::bunchOfWork)
 <div class="sect3">
 <h4 id="_lazy">3.3.3. Lazy</h4>
 <div class="paragraph">
-<p>Lazy is a monadic container type which represents a lazy evaluated value. Compared to a Supplier, Lazy is memoizing, i.e. it evaluates only once and therefore is referentially transparent.</p>
+<p><code>Lazy</code> es un tipo de contenedor monádico que representa un valor evaluado de forma perezosa (<em>lazy</em>). En comparación con un <code>Supplier</code>, <code>Lazy</code> realiza <em>memoización</em>, es decir, se evalúa solo una vez y, por lo tanto, es referencialmente transparente.</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -1782,7 +1785,7 @@ lazy.get();         <span class="comment">// = 0.123 (memoized)</span></code></p
 </div>
 </div>
 <div class="paragraph">
-<p>You may also create a real lazy value (works only with interfaces):</p>
+<p>También puedes crear un valor realmente perezoso (<em>lazy</em>) (<em>esto solo funciona con interfaces</em>):</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -1793,10 +1796,10 @@ lazy.get();         <span class="comment">// = 0.123 (memoized)</span></code></p
 <div class="sect3">
 <h4 id="_either">3.3.4. Either</h4>
 <div class="paragraph">
-<p>Either represents a value of two possible types. An Either is either a Left or a Right. If the given Either is a Right and projected to a Left, the Left operations have no effect on the Right value. If the given Either is a Left and projected to a Right, the Right operations have no effect on the Left value. If a Left is projected to a Left or a Right is projected to a Right, the operations have an effect.</p>
+<p><code>Either</code> representa un valor de dos tipos posibles. Un <code>Either</code> es, o bien un <code>Left</code>, o bien un <code>Right</code>. Si un <code>Either</code> dado es un <code>Right</code> y se proyecta a un <code>Left</code>, las operaciones de <code>Left</code> no tienen efecto sobre el valor de <code>Right</code>. Si un <code>Either</code> dado es un <code>Left</code> y se proyecta a un <code>Right</code>, las operaciones de <code>Right</code> no tienen efecto sobre el valor de <code>Left</code>. Si un <code>Left</code> se proyecta a un <code>Left</code>, o un <code>Right</code> se proyecta a un <code>Right</code>, las operaciones sí tienen efecto.</p>
 </div>
 <div class="paragraph">
-<p>Example: A compute() function, which results either in an Integer value (in the case of success) or in an error message of type String (in the case of failure). By convention the success case is Right and the failure is Left.</p>
+<p>Ejemplo: Una función <code>compute()</code>, que da como resultado un valor de tipo <code>Integer</code> (en el caso de éxito) o un mensaje de error de tipo <code>String</code> (en el caso de fallo). Por convención, el caso de éxito es <code>Right</code> y el de fallo es <code>Left</code>.</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -1804,26 +1807,26 @@ lazy.get();         <span class="comment">// = 0.123 (memoized)</span></code></p
 </div>
 </div>
 <div class="paragraph">
-<p>If the result of compute() is Right(1), the value is Right(2).<br>
-If the result of compute() is Left("error"), the value is Left("error").</p>
+<p>Si el resultado de <code>compute()</code> es <code>Right(1)</code>, el valor es <code>Right(2)</code>.<br>
+Si el resultado de <code>compute()</code> es <code>Left("error")</code>, el valor es <code>Left("error")</code>.</p>
 </div>
 </div>
 <div class="sect3">
 <h4 id="_future">3.3.5. Future</h4>
 <div class="paragraph">
-<p>A Future is a computation result that becomes available at some point. All operations provided are non-blocking. The underlying ExecutorService is used to execute asynchronous handlers, e.g. via onComplete(&#8230;&#8203;).</p>
+<p>Un <code>Future</code> es el resultado de una computación que estará disponible en algún momento. Todas las operaciones proporcionadas son <em>no bloqueantes</em>. El <code>ExecutorService</code> subyacente se utiliza para ejecutar controladores asíncronos, por ejemplo, mediante <code>onComplete(&#8230;&#8203;)</code>.</p>
 </div>
 <div class="paragraph">
-<p>A Future has two states: pending and completed.</p>
+<p>Un <code>Future</code> tiene dos estados: <em>pendiente</em> y <em>completado</em>.</p>
 </div>
 <div class="paragraph">
-<p><strong>Pending:</strong> The computation is ongoing. Only a pending future may be completed or cancelled.</p>
+<p><strong>Pendiente:</strong> La computación está en curso. Solo un <code>Future</code> pendiente puede completarse o cancelarse.</p>
 </div>
 <div class="paragraph">
-<p><strong>Completed:</strong> The computation finished successfully with a result, failed with an exception or was cancelled.</p>
+<p><strong>Completado:</strong> La computación finalizó exitosamente con un resultado, falló con una excepción o fue cancelada.</p>
 </div>
 <div class="paragraph">
-<p>Callbacks may be registered on a Future at each point of time. These actions are performed as soon as the Future is completed. An action which is registered on a completed Future is immediately performed. The action may run on a separate Thread, depending on the underlying ExecutorService. Actions which are registered on a cancelled Future are performed with the failed result.</p>
+<p>Los <em>callbacks</em> pueden registrarse en un <code>Future</code> en cualquier momento. Estas acciones se ejecutan tan pronto como el <code>Future</code> se completa. Una acción registrada en un <code>Future</code> completado se ejecuta inmediatamente. La acción puede ejecutarse en un hilo separado, dependiendo del <code>ExecutorService</code> subyacente. Las acciones registradas en un <code>Future</code> cancelado se ejecutan con el resultado fallido.</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -1833,12 +1836,12 @@ If the result of compute() is Left("error"), the value is Left("error").</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_validation">3.3.6. Validation</h4>
+<h4 id="_validación_validation">3.3.6. Validación (Validation)</h4>
 <div class="paragraph">
-<p>The Validation control is an <em>applicative functor</em> and facilitates accumulating errors. When trying to compose Monads, the combination process will short circuit at the first encountered error. But 'Validation' will continue processing the combining functions, accumulating all errors. This is especially useful when doing validation of multiple fields, say a web form, and you want to know all errors encountered, instead of one at a time.</p>
+<p>El control de validación (<em>Validation</em>) es un <em>funtor aplicativo</em> que facilita la acumulación de errores. Al intentar componer mónadas, el proceso de combinación se detendrá en el primer error encontrado. Sin embargo, <code>Validation</code> continuará procesando las funciones de combinación, acumulando todos los errores. Esto es especialmente útil al validar múltiples campos, como un formulario web, cuando deseas conocer todos los errores encontrados en lugar de uno por uno.</p>
 </div>
 <div class="paragraph">
-<p>Example: We get the fields 'name' and 'age' from a web form and want to create either a valid Person instance, or return the list of validation errors.</p>
+<p>Ejemplo: Obtenemos los campos <code>name</code> y <code>age</code> de un formulario web y queremos crear una instancia válida de <code>Person</code>, o devolver la lista de errores de validación.</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -1852,10 +1855,10 @@ Validation&lt;Seq&lt;<span class="predefined-type">String</span>&gt;, Person&gt;
 </div>
 </div>
 <div class="paragraph">
-<p>A valid value is contained in a <code>Validation.Valid</code> instance, a list of validation errors is contained in a <code>Validation.Invalid</code> instance.</p>
+<p>Un valor válido está contenido en una instancia de <code>Validation.Valid</code>, mientras que una lista de errores de validación está contenida en una instancia de <code>Validation.Invalid</code>.</p>
 </div>
 <div class="paragraph">
-<p>The following validator is used to combine different validation results to one <code>Validation</code> instance.</p>
+<p>El siguiente validador se utiliza para combinar diferentes resultados de validación en una sola instancia de <code>Validation</code>.</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -1885,7 +1888,7 @@ Validation&lt;Seq&lt;<span class="predefined-type">String</span>&gt;, Person&gt;
 </div>
 </div>
 <div class="paragraph">
-<p>If the validation succeeds, i.e. the input data is valid, then an instance of <code>Person</code> is created of the given fields <code>name</code> and <code>age</code>.</p>
+<p>Si la validación tiene éxito, es decir, si los datos de entrada son válidos, entonces se crea una instancia de <code>Person</code> con los campos <code>name</code> y <code>age</code> proporcionados.</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -1910,15 +1913,15 @@ Validation&lt;Seq&lt;<span class="predefined-type">String</span>&gt;, Person&gt;
 </div>
 </div>
 <div class="sect2">
-<h3 id="_collections">3.4. Collections</h3>
+<h3 id="_colecciones">3.4. Colecciones</h3>
 <div class="paragraph">
-<p>Much effort has been put into designing an all-new collection library for Java which meets the requirements of functional programming, namely immutability.</p>
+<p>Se ha dedicado mucho esfuerzo a diseñar una biblioteca de colecciones completamente nueva para Java que cumpla con los requisitos de la programación funcional, especialmente la inmutabilidad.</p>
 </div>
 <div class="paragraph">
-<p>Java&#8217;s Stream lifts a computation to a different layer and links to a specific collection in another explicit step. With Vavr we don&#8217;t need all this additional boilerplate.</p>
+<p>El <code>Stream</code> de Java eleva una computación a una capa diferente y se vincula a una colección específica en otro paso explícito. Con Vavr, no necesitamos todo este código adicional repetitivo (<em>boilerplate</em>).</p>
 </div>
 <div class="paragraph">
-<p>The new collections are based on <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Iterable.html">java.lang.Iterable</a>, so they leverage the sugared iteration style.</p>
+<p>Las nuevas colecciones están basadas en <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Iterable.html">java.lang.Iterable</a>, lo que permite aprovechar un estilo de iteración simplificado.</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -1929,12 +1932,12 @@ Validation&lt;Seq&lt;<span class="predefined-type">String</span>&gt;, Person&gt;
 </div>
 </div>
 <div class="paragraph">
-<p><code>TraversableOnce</code> has a huge amount of useful functions to operate on the collection. Its API is similar to <a href="http://docs.oracle.com/javase/8/docs/api/java/util/stream/Stream.html">java.util.stream.Stream</a> but more mature.</p>
+<p><code>TraversableOnce</code> tiene una gran cantidad de funciones útiles para operar en la colección. Su API es similar a <a href="http://docs.oracle.com/javase/8/docs/api/java/util/stream/Stream.html">java.util.stream.Stream</a>, pero es más madura.</p>
 </div>
 <div class="sect3">
 <h4 id="_list">3.4.1. List</h4>
 <div class="paragraph">
-<p>Vavr&#8217;s <code>List</code> is an immutable linked list. Mutations create new instances. Most operations are performed in linear time. Consequent operations are executed one by one.</p>
+<p>La <code>List</code> de Vavr es una lista enlazada inmutable. Las mutaciones crean nuevas instancias. La mayoría de las operaciones se realizan en tiempo lineal. Las operaciones consecutivas se ejecutan una por una.</p>
 </div>
 <div class="sect4">
 <h5 id="_java_8">Java 8</h5>
@@ -1962,10 +1965,10 @@ Validation&lt;Seq&lt;<span class="predefined-type">String</span>&gt;, Person&gt;
 <div class="sect3">
 <h4 id="_stream">3.4.2. Stream</h4>
 <div class="paragraph">
-<p>The <code>io.vavr.collection.Stream</code> implementation is a lazy linked list. Values are computed only when needed. Because of its laziness, most operations are performed in constant time. Operations are intermediate in general and executed in a single pass.</p>
+<p>La implementación de <code>io.vavr.collection.Stream</code> es una lista enlazada perezosa (lazy). Los valores se calculan solo cuando se necesitan. Debido a su naturaleza perezosa, la mayoría de las operaciones se realizan en tiempo constante. En general, las operaciones son intermedias y se ejecutan en una sola pasada.</p>
 </div>
 <div class="paragraph">
-<p>The stunning thing about streams is that we can use them to represent sequences that are (theoretically) infinitely long.</p>
+<p>Lo sorprendente de los streams es que podemos usarlos para representar secuencias que son (teóricamente) infinitamente largas.</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -1975,9 +1978,9 @@ Stream.from(<span class="integer">1</span>).filter(i -&gt; i % <span class="inte
 </div>
 </div>
 <div class="sect3">
-<h4 id="_performance_characteristics">3.4.3. Performance Characteristics</h4>
+<h4 id="_características_de_rendimiento">3.4.3. Características de Rendimiento</h4>
 <table class="tableblock frame-topbot grid-all stretch">
-<caption class="title">Table 1. Time Complexity of Sequential Operations</caption>
+<caption class="title">Table 1. Complejidad Temporal de las Operaciones Secuenciales</caption>
 <colgroup>
 <col style="width: 14.2857%;">
 <col style="width: 14.2857%;">
@@ -2074,7 +2077,7 @@ Stream.from(<span class="integer">1</span>).filter(i -&gt; i % <span class="inte
 </tbody>
 </table>
 <table class="tableblock frame-topbot grid-all stretch">
-<caption class="title">Table 2. Time Complexity of Map/Set Operations</caption>
+<caption class="title">Table 2. Complejidad Temporal de las Operaciones en Map/Set</caption>
 <colgroup>
 <col style="width: 20%;">
 <col style="width: 20%;">
@@ -2144,39 +2147,39 @@ Stream.from(<span class="integer">1</span>).filter(i -&gt; i % <span class="inte
 </tbody>
 </table>
 <div class="paragraph">
-<p>Legend:</p>
+<p>Leyenda:</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p>const &mdash; constant time</p>
+<p>const &mdash; tiempo constante.</p>
 </li>
 <li>
-<p>const<sup>a</sup> &mdash; amortized constant time, few operations may take longer</p>
+<p>const<sup>a</sup> &mdash; tiempo constante amortizado, algunas operaciones pueden tomar más tiempo.</p>
 </li>
 <li>
-<p>const<sup>eff</sup> &mdash; effectively constant time, depending on assumptions like distribution of hash keys</p>
+<p>const<sup>eff</sup> &mdash; tiempo efectivamente constante, dependiendo de suposiciones como la distribución de claves hash.</p>
 </li>
 <li>
-<p>const<sup>lazy</sup> &mdash; lazy constant time, the operation is deferred</p>
+<p>const<sup>lazy</sup> &mdash; tiempo constante perezoso (<em>lazy</em>), la operación se difiere.</p>
 </li>
 <li>
-<p>log &mdash; logarithmic time</p>
+<p>log &mdash; tiempo logarítmico.</p>
 </li>
 <li>
-<p>linear &mdash; linear time</p>
+<p>linear &mdash; tiempo lineal.</p>
 </li>
 </ul>
 </div>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_property_checking">3.5. Property Checking</h3>
+<h3 id="_verificación_de_propiedades">3.5. Verificación de Propiedades</h3>
 <div class="paragraph">
-<p>Property checking (also known as <a href="http://en.wikipedia.org/wiki/Property_testing">property testing</a>) is a truly powerful way to test properties of our code in a functional way. It is based on generated random data, which is passed to a user defined check function.</p>
+<p>La verificación de propiedades (también conocida como  <a href="http://en.wikipedia.org/wiki/Property_testing">pruebas de propiedades</a>) es una forma realmente poderosa de probar propiedades de nuestro código de manera funcional. Se basa en la generación de datos aleatorios, que se pasan a una función de verificación definida por el usuario.</p>
 </div>
 <div class="paragraph">
-<p>Vavr has property testing support in its <code>io.vavr:vavr-test</code> module, so make sure to include that in order to use it in your tests.</p>
+<p>Vavr admite pruebas de propiedades en su módulo <code>io.vavr:vavr-test</code>, por lo que asegúrate de incluirlo para usarlo en tus pruebas.</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -2191,13 +2194,13 @@ Property.def(<span class="string"><span class="delimiter">&quot;</span><span cla
 </div>
 </div>
 <div class="paragraph">
-<p>Generators of complex data structures are composed of simple generators.</p>
+<p>Los generadores de estructuras de datos complejas se componen de generadores simples.</p>
 </div>
 </div>
 <div class="sect2">
 <h3 id="_pattern_matching">3.6. Pattern Matching</h3>
 <div class="paragraph">
-<p>Scala has native pattern matching, one of the advantages over <em>plain</em> Java. The basic syntax is close to Java&#8217;s switch:</p>
+<p>SScala tiene coincidencia de patrones (<em>pattern matching</em>) nativa, una de las ventajas sobre el Java <em><strong>puro</strong></em>. The basic syntax is close to Java&#8217;sLa sintaxis básica es similar al <code>switch</code> de Java:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -2209,34 +2212,34 @@ Property.def(<span class="string"><span class="delimiter">&quot;</span><span cla
 </div>
 </div>
 <div class="paragraph">
-<p>Notably <em>match</em> is an expression, it yields a result. Furthermore it offers</p>
+<p>Notablemente, <em>match</em> es una expresión, lo que significa que produce un resultado. Además, ofrece:</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p>named parameters <code>case i: Int &#8658; "Int " + i</code></p>
+<p>Parámetros nombrados: <code>case i: Int &#8658; "Int " + i</code></p>
 </li>
 <li>
-<p>object deconstruction <code>case Some(i) &#8658; i</code></p>
+<p>Desestructuración de objetos: <code>case Some(i) &#8658; i</code></p>
 </li>
 <li>
-<p>guards <code>case Some(i) if i &gt; 0 &#8658; "positive " + i</code></p>
+<p>Condiciones de guarda (guards): <code>case Some(i) if i &gt; 0 &#8658; "positive " + i</code></p>
 </li>
 <li>
-<p>multiple conditions <code>case "-h" | "--help" &#8658; displayHelp</code></p>
+<p>Múltiples condiciones: <code>case "-h" | "--help" &#8658; displayHelp</code></p>
 </li>
 <li>
-<p>compile-time checks for exhaustiveness</p>
+<p>Verificaciones en tiempo de compilación para exhaustividad</p>
 </li>
 </ul>
 </div>
 <div class="paragraph">
-<p>Pattern matching is a great feature that saves us from writing stacks of if-then-else branches. It reduces the amount of code while focusing on the relevant parts.</p>
+<p>El <em><strong>Pattern matching</strong></em> es una gran característica que nos ahorra escribir cadenas de ramas <code>if-then-else</code>. Reduce la cantidad de código mientras se enfoca en las partes relevantes.</p>
 </div>
 <div class="sect3">
-<h4 id="_the_basics_of_match_for_java">3.6.1. The Basics of Match for Java</h4>
+<h4 id="_fundamentos_de_match_para_java">3.6.1. Fundamentos de Match para Java</h4>
 <div class="paragraph">
-<p>Vavr provides a match API that is close to Scala&#8217;s match. It is enabled by adding the following import to our application:</p>
+<p>Vavr proporciona una API de coincidencia (<em>match</em>) que es similar a la de Scala. Se habilita agregando el siguiente import a nuestra aplicación:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -2244,23 +2247,23 @@ Property.def(<span class="string"><span class="delimiter">&quot;</span><span cla
 </div>
 </div>
 <div class="paragraph">
-<p>Having the static methods <em>Match</em>, <em>Case</em> and the <em>atomic patterns</em></p>
+<p>Teniendo los métodos estáticos <em>Match</em>, <em>Case</em> y los <em>patrones atómicos (</em>atomic patterns<em>)</em></p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p><code>$()</code> - wildcard pattern</p>
+<p><code>$()</code> - patrón comodín (<em>wildcard</em>)</p>
 </li>
 <li>
-<p><code>$(value)</code> - equals pattern</p>
+<p><code>$(value)</code> - patrón de igualdad</p>
 </li>
 <li>
-<p><code>$(predicate)</code> - conditional pattern</p>
+<p><code>$(predicate)</code> - patrón condicional</p>
 </li>
 </ul>
 </div>
 <div class="paragraph">
-<p>in scope, the initial Scala example can be expressed like this:</p>
+<p>En el alcance, el ejemplo inicial de Scala puede expresarse de esta manera:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -2272,15 +2275,15 @@ Property.def(<span class="string"><span class="delimiter">&quot;</span><span cla
 </div>
 </div>
 <div class="paragraph">
-<p>⚡ We use uniform upper-case method names because 'case' is a keyword in Java. This makes the API special.</p>
+<p>⚡ Usamos nombres de métodos en mayúsculas uniformes porque 'case' es una palabra clave en Java. Esto hace que la API sea especial.</p>
 </div>
 <div class="sect4">
-<h5 id="_exhaustiveness">Exhaustiveness</h5>
+<h5 id="_exhaustividad_exhaustiveness">Exhaustividad (<em>Exhaustiveness</em>)</h5>
 <div class="paragraph">
-<p>The last wildcard pattern <code>$()</code> saves us from a MatchError which is thrown if no case matches.</p>
+<p>El último patrón comodín (<em>wildcard</em>) <code>$()</code> nos protege de un <code>MatchError</code>, que se lanza si ningún caso coincide.</p>
 </div>
 <div class="paragraph">
-<p>Because we can&#8217;t perform exhaustiveness checks like the Scala compiler, we provide the possibility to return an optional result:</p>
+<p>Debido a que no podemos realizar verificaciones de exhaustividad como lo hace el compilador de Scala, ofrecemos la posibilidad de devolver un resultado opcional:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -2291,9 +2294,9 @@ Property.def(<span class="string"><span class="delimiter">&quot;</span><span cla
 </div>
 </div>
 <div class="sect4">
-<h5 id="_syntactic_sugar">Syntactic Sugar</h5>
+<h5 id="_syntactic_sugar_azúcar_sintáctico">Syntactic Sugar (<em>Azúcar Sintáctico</em>)</h5>
 <div class="paragraph">
-<p>As already shown, <code>Case</code> allows to match conditional patterns.</p>
+<p>Como se mostró anteriormente, <code>Case</code> permite coincidir con patrones condicionales.</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -2301,7 +2304,7 @@ Property.def(<span class="string"><span class="delimiter">&quot;</span><span cla
 </div>
 </div>
 <div class="paragraph">
-<p>Vavr offers a set of default predicates.</p>
+<p>Vavr ofrece un conjunto de predicados predeterminados.</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -2309,7 +2312,7 @@ Property.def(<span class="string"><span class="delimiter">&quot;</span><span cla
 </div>
 </div>
 <div class="paragraph">
-<p>These can be used to express the initial Scala example as follows:</p>
+<p>Estos pueden usarse para expresar el ejemplo inicial de Scala de la siguiente manera:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -2321,10 +2324,10 @@ Property.def(<span class="string"><span class="delimiter">&quot;</span><span cla
 </div>
 </div>
 <div class="paragraph">
-<p><strong>Multiple Conditions</strong></p>
+<p><strong>Condiciones Múltiples</strong></p>
 </div>
 <div class="paragraph">
-<p>We use the <code>isIn</code> predicate to check multiple conditions:</p>
+<p>Usamos el predicado <code>isIn</code> para verificar múltiples condiciones:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -2332,10 +2335,10 @@ Property.def(<span class="string"><span class="delimiter">&quot;</span><span cla
 </div>
 </div>
 <div class="paragraph">
-<p><strong>Performing Side-Effects</strong></p>
+<p><strong>Realizando Efectos Secundarios</strong></p>
 </div>
 <div class="paragraph">
-<p>Match acts like an expression, it results in a value. In order to perform side-effects we need to use the helper function <code>run</code> which returns <code>Void</code>:</p>
+<p><code>Match</code> actúa como una expresión y produce un valor. Para realizar efectos secundarios (<em>side-effects</em>), necesitamos usar la función auxiliar <code>run</code> que devuelve <code>Void</code>:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -2349,34 +2352,34 @@ Property.def(<span class="string"><span class="delimiter">&quot;</span><span cla
 </div>
 </div>
 <div class="paragraph">
-<p>⚡ <code>run</code> is used to get around ambiguities and because <code>void</code> isn&#8217;t a valid return value in Java.</p>
+<p>⚡ <code>run</code> se utiliza para evitar ambigüedades y porque <code>void</code> no es un valor de retorno válido en Java.</p>
 </div>
 <div class="paragraph">
-<p><strong>Caution:</strong> <code>run</code> must not be used as direct return value, i.e. outside of a lambda body:</p>
+<p><strong>Precaución:</strong> <code>run</code> no debe usarse como valor de retorno directo, es decir, fuera del cuerpo de una lambda:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java"><span class="comment">// Wrong!</span>
+<pre class="CodeRay highlight"><code data-lang="java"><span class="comment">// Incorrecto</span>
 Case(<span class="error">$</span>(isIn(<span class="string"><span class="delimiter">&quot;</span><span class="content">-h</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">--help</span><span class="delimiter">&quot;</span></span>)), run(<span class="local-variable">this</span>::displayHelp))</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>Otherwise the Cases will be eagerly evaluated <em>before</em> the patterns are matched, which breaks the whole Match expression. Instead we use it within a lambda body:</p>
+<p>De lo contrario, los <code>Case</code> se evaluarán de forma anticipada <em>antes</em> de que los patrones sean comparados, lo que rompe toda la expresión <code>Match</code>. En su lugar, se debe usar dentro del cuerpo de una lambda:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java"><span class="comment">// Ok</span>
+<pre class="CodeRay highlight"><code data-lang="java"><span class="comment">// Correcto</span>
 Case(<span class="error">$</span>(isIn(<span class="string"><span class="delimiter">&quot;</span><span class="content">-h</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">--help</span><span class="delimiter">&quot;</span></span>)), o -&gt; run(<span class="local-variable">this</span>::displayHelp))</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>As we can see, <code>run</code> is error prone if not used right. Be careful. We consider deprecating it in a future release and maybe we will also provide a better API for performing side-effects.</p>
+<p>Como podemos ver, <code>run</code> es propenso a errores si no se usa correctamente. Ten cuidado. Estamos considerando marcarlo como obsoleto en una versión futura y, tal vez, proporcionar una mejor API para realizar efectos secundarios.</p>
 </div>
 </div>
 <div class="sect4">
-<h5 id="_named_parameters">Named Parameters</h5>
+<h5 id="_parámetros_nombrados">Parámetros Nombrados</h5>
 <div class="paragraph">
-<p>Vavr leverages lambdas to provide named parameters for matched values.</p>
+<p>Vavr aprovecha las lambdas para proporcionar parámetros nombrados para los valores coincidentes.</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -2388,30 +2391,30 @@ Case(<span class="error">$</span>(isIn(<span class="string"><span class="delimit
 </div>
 </div>
 <div class="paragraph">
-<p>So far we directly matched values using atomic patterns. If an atomic pattern matches, the right type of the matched object is inferred from the context of the pattern.</p>
+<p>Hasta ahora, hemos coincidido valores directamente utilizando patrones atómicos. Si un patrón atómico coincide, el tipo correcto del objeto coincidente se infiere del contexto del patrón.</p>
 </div>
 <div class="paragraph">
-<p>Next, we will take a look at recursive patterns that are able to match object graphs of (theoretically) arbitrary depth.</p>
+<p>A continuación, exploraremos patrones recursivos que pueden coincidir con gráficos de objetos de profundidad (teóricamente) arbitraria.</p>
 </div>
 </div>
 <div class="sect4">
-<h5 id="_object_decomposition">Object Decomposition</h5>
+<h5 id="_descomposición_de_objetos">Descomposición de Objetos</h5>
 <div class="paragraph">
-<p>In Java we use constructors to instantiate classes. We understand <em>object decomposition</em> as destruction of objects into their parts.</p>
+<p>En Java usamos constructores para instanciar clases. Entendemos la <em>descomposición de objetos</em> como la destrucción de objetos en sus partes.</p>
 </div>
 <div class="paragraph">
-<p>While a constructor is a <em>function</em> which is <em>applied</em> to arguments and returns a new instance, a deconstructor is a function which takes an instance and returns the parts. We say an object is <em>unapplied</em>.</p>
+<p>Mientras que un constructor es una <em>función</em> que se <em>aplica</em> a los argumentos y devuelve una nueva instancia, un deconstructor es una función que toma una instancia y devuelve sus partes. Decimos que un objeto está <em>descompuesto</em>.</p>
 </div>
 <div class="paragraph">
-<p>Object destruction is not necessarily a unique operation. For example, a LocalDate can be decomposed to</p>
+<p>La destrucción de objetos no necesariamente es una operación única. Por ejemplo, un <code>LocalDate</code> puede descomponerse en:</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p>the year, month and day components</p>
+<p>Los componentes de año, mes y día.</p>
 </li>
 <li>
-<p>the long value representing the epoch milliseconds of the corresponding Instant</p>
+<p>El valor <code>long</code> que representa los milisegundos desde la época de un <code>Instant</code> correspondiente.</p>
 </li>
 <li>
 <p>etc.</p>
@@ -2421,14 +2424,14 @@ Case(<span class="error">$</span>(isIn(<span class="string"><span class="delimit
 </div>
 </div>
 <div class="sect3">
-<h4 id="_patterns">3.6.2. Patterns</h4>
+<h4 id="_patrones">3.6.2. Patrones</h4>
 <div class="paragraph">
-<p>In Vavr we use patterns to define how an instance of a specific type is deconstructed. These patterns can be used in conjunction with the Match API.</p>
+<p>En Vavr usamos patrones para definir cómo se deconstruye una instancia de un tipo específico. Estos patrones pueden usarse junto con la API de coincidencia (<code>Match</code>).</p>
 </div>
 <div class="sect4">
-<h5 id="_predefined_patterns">Predefined Patterns</h5>
+<h5 id="_patrones_predefinidos">Patrones Predefinidos</h5>
 <div class="paragraph">
-<p>For many Vavr types there already exist match patterns. They are imported via</p>
+<p>Para muchos tipos de Vavr ya existen patrones de coincidencia predefinidos. Estos se importan mediante</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -2436,7 +2439,7 @@ Case(<span class="error">$</span>(isIn(<span class="string"><span class="delimit
 </div>
 </div>
 <div class="paragraph">
-<p>For example we are now able to match the result of a Try:</p>
+<p>Por ejemplo, ahora podemos coincidir con el resultado de un <code>Try</code>:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -2447,7 +2450,7 @@ Case(<span class="error">$</span>(isIn(<span class="string"><span class="delimit
 </div>
 </div>
 <div class="paragraph">
-<p>⚡ A first prototype of Vavr&#8217;s Match API allowed to extract a user-defined selection of objects from a match pattern. Without proper compiler support this isn&#8217;t practicable because the number of generated methods exploded exponentially. The current API makes the compromise that all patterns are matched but only the root patterns are <em>decomposed</em>.</p>
+<p>⚡ Un primer prototipo de la API de coincidencia (<code>Match</code>) de Vavr permitía extraer una selección definida por el usuario de objetos a partir de un patrón de coincidencia. Sin el soporte adecuado del compilador, esto no es práctico porque el número de métodos generados crecía exponencialmente. La API actual hace un compromiso: todos los patrones se coinciden, pero solo los patrones raíz son <em>descompuestos</em>.</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -2458,22 +2461,22 @@ Case(<span class="error">$</span>(isIn(<span class="string"><span class="delimit
 </div>
 </div>
 <div class="paragraph">
-<p>Here the root patterns are Success and Failure. They are decomposed to Tuple2 and Error, having the correct generic types.</p>
+<p>Aquí los patrones raíz son <code>Success</code> y <code>Failure</code>. Estos se descomponen en <code>Tuple2</code> y <code>Error</code>, teniendo los tipos genéricos correctos.</p>
 </div>
 <div class="paragraph">
-<p>⚡ Deeply nested types are inferred according to the Match argument and <em>not</em> according to the matched patterns.</p>
+<p>⚡ Los tipos profundamente anidados se infieren según el argumento de <code>Match</code> y <em><strong>not</strong></em> según los patrones coincidentes.</p>
 </div>
 </div>
 <div class="sect4">
-<h5 id="_user_defined_patterns">User-Defined Patterns</h5>
+<h5 id="_patrones_definidos_por_el_usuario">Patrones Definidos por el Usuario</h5>
 <div class="paragraph">
-<p>It is essential to be able to unapply arbitrary objects, including instances of final classes. Vavr does this in a declarative style by providing the compile time annotations <code>@Patterns</code> and <code>@Unapply</code>.</p>
+<p>Es esencial poder descomponer objetos arbitrarios, incluidas las instancias de clases finales. Vavr hace esto de forma declarativa al proporcionar las anotaciones en tiempo de compilación <code>@Patterns</code> y <code>@Unapply</code>.</p>
 </div>
 <div class="paragraph">
-<p>To enable the annotation processor the artifact <a href="http://search.maven.org/#search%7Cga%7C1%7Cvavr-match">vavr-match</a> needs to be added as project dependency.</p>
+<p>Para habilitar el procesador de anotaciones, el artefacto <a href="http://search.maven.org/#search%7Cga%7C1%7Cvavr-match">vavr-match</a> debe añadirse como dependencia del proyecto.</p>
 </div>
 <div class="paragraph">
-<p>⚡ Note: Of course the patterns can be implemented directly without using the code generator. For more information take a look at the generated source.</p>
+<p>⚡ Nota: Por supuesto, los patrones pueden implementarse directamente sin usar el generador de código. Para más información, consulta el código fuente generado.</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -2490,13 +2493,13 @@ Case(<span class="error">$</span>(isIn(<span class="string"><span class="delimit
 </div>
 </div>
 <div class="paragraph">
-<p>The annotation processor places a file MyPatterns in the same package (by default in target/generated-sources). Inner classes are also supported. Special case: if the class name is $, the generated class name is just Patterns, without prefix.</p>
+<p>El procesador de anotaciones coloca un archivo <code>MyPatterns</code> en el mismo paquete (por defecto en <code>target/generated-sources</code>). También se admiten clases internas. Caso especial: si el nombre de la clase es <code>$</code>, el nombre de la clase generada será simplemente <code>Patterns</code>, sin prefijo.</p>
 </div>
 </div>
 <div class="sect4">
-<h5 id="_guards">Guards</h5>
+<h5 id="_guardas_guards">Guardas (<em>Guards</em>)</h5>
 <div class="paragraph">
-<p>Now we are able to match Optionals using <em>guards</em>.</p>
+<p>Ahora podemos coincidir con objetos <code>Optionals</code> utilizando <em>guards</em>.</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -2507,10 +2510,10 @@ Case(<span class="error">$</span>(isIn(<span class="string"><span class="delimit
 </div>
 </div>
 <div class="paragraph">
-<p>The predicates could be simplified by implementing <code>isNull</code> and <code>isNotNull</code>.</p>
+<p>Los predicados podrían simplificarse implementando <code>isNull</code> y <code>isNotNull</code>.</p>
 </div>
 <div class="paragraph">
-<p>⚡ And yes, extracting null is weird. Instead of using Java&#8217;s Optional give Vavr&#8217;s Option a try!</p>
+<p>⚡ ¡Y sí, extraer un <code>null</code> es extraño! En lugar de usar el <code>Optional</code> de Java, prueba con la <code>Option</code> de Vavr.</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -2529,22 +2532,20 @@ Case(<span class="error">$</span>(isIn(<span class="string"><span class="delimit
 <h2 id="_license">4. License</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Copyright 2014-2018 Vavr, <a href="https://vavr.io" class="bare">https://vavr.io</a></p>
+<p>Copyright 2014-2018 Vavr, <a href="http://vavr.io" class="bare">http://vavr.io</a></p>
 </div>
 <div class="paragraph">
-<p>Licensed under the Apache License, Version 2.0 (the "License");<br>
-you may not use this file except in compliance with the License.<br>
-You may obtain a copy of the License at</p>
+<p>Licenciado bajo la Licencia Apache, Versión 2.0 (la "Licencia");<br>
+no puedes usar este archivo excepto en cumplimiento con la Licencia.<br>
+Puedes obtener una copia de la Licencia en:</p>
 </div>
 <div class="paragraph">
 <p><a href="http://www.apache.org/licenses/LICENSE-2.0" class="bare">http://www.apache.org/licenses/LICENSE-2.0</a></p>
 </div>
 <div class="paragraph">
-<p>Unless required by applicable law or agreed to in writing, software<br>
-distributed under the License is distributed on an "AS IS" BASIS,<br>
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.<br>
-See the License for the specific language governing permissions and<br>
-limitations under the License.</p>
+<p>A menos que lo exija la ley aplicable o se acuerde por escrito, el software distribuido bajo la Licencia se distribuye "TAL CUAL",<br>
+SIN GARANTÍAS O CONDICIONES DE NINGÚN TIPO, ya sean expresas o implícitas.<br>
+Consulta la Licencia para conocer los permisos y las limitaciones bajo la Licencia.</p>
 </div>
 </div>
 </div>
@@ -2552,7 +2553,7 @@ limitations under the License.</p>
 <div id="footer">
 <div id="footer-text">
 Version 0.10.5<br>
-Last updated 2024-12-06 17:12:56 UTC
+Last updated 2024-12-06 17:26:40 UTC
 </div>
 </div>
 </body>
