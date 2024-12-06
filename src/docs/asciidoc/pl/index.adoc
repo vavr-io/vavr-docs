@@ -1,0 +1,21 @@
+= Vavr Dokumentacja Techniczna
+Daniel Dietrich, Robert Winkler, Grzegorz Piwowarek
+:toc: left
+:toclevels: 3
+:source-highlighter: coderay
+:numbered:
+:hardbreaks:
+:revnumber: {project-version}
+:revdate: {localdate}
+:icons: font
+:pagenums:
+
+include::introduction.adoc[]
+
+include::getting_started.adoc[]
+
+include::usage_guide.adoc[]
+
+include::pattern_matching.adoc[]
+
+include::license.adoc[]

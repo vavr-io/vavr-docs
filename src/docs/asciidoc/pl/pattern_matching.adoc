@@ -1,0 +1,248 @@
+=== Pattern Matching
+
+Scala has native pattern matching, one of the advantages over __plain__ Java. The basic syntax is close to Java's switch:
+
+[source,java]
+----
+val s = i match {  
+  case 1 => "one"
+  case 2 => "two"
+  case _ => "?"
+}
+----
+
+Notably __match__ is an expression, it yields a result. Furthermore it offers
+
+*   named parameters ``case i: Int => "Int " + i``
+*   object deconstruction ``case Some(i) => i``
+*   guards ``case Some(i) if i > 0 => "positive " + i``
+*   multiple conditions ``case "-h" | "--help" => displayHelp``
+*   compile-time checks for exhaustiveness
+
+Pattern matching is a great feature that saves us from writing stacks of if-then-else branches. It reduces the amount of code while focusing on the relevant parts.
+
+==== The Basics of Match for Java
+
+Vavr provides a match API that is close to Scala's match. It is enabled by adding the following import to our application:
+
+[source,java]
+----
+import static io.vavr.API.*;
+----
+
+Having the static methods __Match__, __Case__ and the __atomic patterns__
+
+*   ``$()`` - wildcard pattern
+*   ``$(value)`` - equals pattern
+*   ``$(predicate)`` - conditional pattern
+
+in scope, the initial Scala example can be expressed like this:
+
+[source,java]
+----
+String s = Match(i).of(  
+    Case($(1), "one"),
+    Case($(2), "two"),
+    Case($(), "?")
+);
+----
+
+⚡ We use uniform upper-case method names because 'case' is a keyword in Java. This makes the API special.
+
+===== Exhaustiveness
+
+The last wildcard pattern ``$()`` saves us from a MatchError which is thrown if no case matches.
+
+Because we can't perform exhaustiveness checks like the Scala compiler, we provide the possibility to return an optional result:
+
+[source,java]
+----
+Option<String> s = Match(i).option(  
+    Case($(0), "zero")
+);
+----
+
+===== Syntactic Sugar
+
+As already shown, ``Case`` allows to match conditional patterns.
+
+[source,java]
+----
+Case($(predicate), ...)
+----
+
+Vavr offers a set of default predicates.
+
+[source,java]
+----
+import static io.vavr.Predicates.*;
+----
+
+These can be used to express the initial Scala example as follows:
+
+[source,java]
+----
+String s = Match(i).of(  
+    Case($(is(1)), "one"),
+    Case($(is(2)), "two"),
+    Case($(), "?")
+);
+----
+
+**Multiple Conditions**
+
+We use the ``isIn`` predicate to check multiple conditions:
+
+[source,java]
+----
+Case($(isIn("-h", "--help")), ...)
+----
+
+**Performing Side-Effects**
+
+Match acts like an expression, it results in a value. In order to perform side-effects we need to use the helper function ``run`` which returns ``Void``:
+
+[source,java]
+----
+Match(arg).of(  
+    Case($(isIn("-h", "--help")), o -> run(this::displayHelp)),
+    Case($(isIn("-v", "--version")), o -> run(this::displayVersion)),
+    Case($(), o -> run(() -> {
+        throw new IllegalArgumentException(arg);
+    }))
+);
+----
+
+⚡ ``run`` is used to get around ambiguities and because ``void`` isn't a valid return value in Java.
+
+*Caution:* ``run`` must not be used as direct return value, i.e. outside of a lambda body:
+
+[source,java]
+----
+// Wrong!
+Case($(isIn("-h", "--help")), run(this::displayHelp))
+----
+
+Otherwise the Cases will be eagerly evaluated __before__ the patterns are matched, which breaks the whole Match expression. Instead we use it within a lambda body:
+
+[source,java]
+----
+// Ok
+Case($(isIn("-h", "--help")), o -> run(this::displayHelp))
+----
+
+As we can see, ``run`` is error prone if not used right. Be careful. We consider deprecating it in a future release and maybe we will also provide a better API for performing side-effects.
+
+===== Named Parameters
+
+Vavr leverages lambdas to provide named parameters for matched values.
+
+[source,java]
+----
+Number plusOne = Match(obj).of(  
+    Case($(instanceOf(Integer.class)), i -> i + 1),
+    Case($(instanceOf(Double.class)), d -> d + 1),
+    Case($(), o -> { throw new NumberFormatException(); })
+);
+----
+
+So far we directly matched values using atomic patterns. If an atomic pattern matches, the right type of the matched object is inferred from the context of the pattern.
+
+Next, we will take a look at recursive patterns that are able to match object graphs of (theoretically) arbitrary depth.
+
+===== Object Decomposition
+
+In Java we use constructors to instantiate classes. We understand __object decomposition__ as destruction of objects into their parts.
+
+While a constructor is a __function__ which is __applied__ to arguments and returns a new instance, a deconstructor is a function which takes an instance and returns the parts. We say an object is __unapplied__.
+
+Object destruction is not necessarily a unique operation. For example, a LocalDate can be decomposed to
+
+*   the year, month and day components
+*   the long value representing the epoch milliseconds of the corresponding Instant
+*   etc.
+
+==== Patterns
+
+In Vavr we use patterns to define how an instance of a specific type is deconstructed. These patterns can be used in conjunction with the Match API.
+
+===== Predefined Patterns
+
+For many Vavr types there already exist match patterns. They are imported via
+
+[source,java]
+----
+import static io.vavr.Patterns.*;
+----
+
+For example we are now able to match the result of a Try:
+
+[source,java]
+----
+Match(_try).of(  
+    Case($Success($()), value -> ...),
+    Case($Failure($()), x -> ...)
+);
+----
+
+⚡ A first prototype of Vavr's Match API allowed to extract a user-defined selection of objects from a match pattern. Without proper compiler support this isn't practicable because the number of generated methods exploded exponentially. The current API makes the compromise that all patterns are matched but only the root patterns are __decomposed__.
+
+[source,java]
+----
+Match(_try).of(  
+    Case($Success($Tuple2($("a"), $())), tuple2 -> ...),
+    Case($Failure($(instanceOf(Error.class))), error -> ...)
+);
+----
+
+Here the root patterns are Success and Failure. They are decomposed to Tuple2 and Error, having the correct generic types.
+
+⚡ Deeply nested types are inferred according to the Match argument and __not__ according to the matched patterns.
+
+===== User-Defined Patterns
+
+It is essential to be able to unapply arbitrary objects, including instances of final classes. Vavr does this in a declarative style by providing the compile time annotations ``@Patterns`` and ``@Unapply``.
+
+To enable the annotation processor the artifact http://search.maven.org/#search%7Cga%7C1%7Cvavr-match[vavr-match] needs to be added as project dependency.
+
+⚡ Note: Of course the patterns can be implemented directly without using the code generator. For more information take a look at the generated source.
+
+[source,java]
+----
+import io.vavr.match.annotation.*;
+
+@Patterns
+class My {
+
+    @Unapply
+    static <T> Tuple1<T> Optional(java.util.Optional<T> optional) {
+        return Tuple.of(optional.orElse(null));
+    }
+}
+----
+
+The annotation processor places a file MyPatterns in the same package (by default in target/generated-sources). Inner classes are also supported. Special case: if the class name is $, the generated class name is just Patterns, without prefix.
+
+===== Guards
+
+Now we are able to match Optionals using __guards__.
+
+[source,java]
+----
+Match(optional).of(  
+    Case($Optional($(v -> v != null)), "defined"),
+    Case($Optional($(v -> v == null)), "empty")
+);
+----
+
+The predicates could be simplified by implementing ``isNull`` and ``isNotNull``.
+
+⚡ And yes, extracting null is weird. Instead of using Java's Optional give Vavr's Option a try!
+
+[source,java]
+----
+Match(option).of(  
+    Case($Some($()), "defined"),
+    Case($None(), "empty")
+);
+----
