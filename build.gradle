@@ -55,7 +55,7 @@ idea {
 }
 
 asciidoctor {
-    sourceDir = file('src/docs/asciidoc')
+    sourceDir = file('src/docs/asciidoc/en')
     outputDir = file("$buildDir/docs/asciidoc")
 
     options backend: 'html5'
