@@ -1,5 +1,6 @@
-= Vavr Dokumentacja Techniczna
+= Guía del usuario de Vavr
 Daniel Dietrich, Robert Winkler, Grzegorz Piwowarek
+translation: traducido por Geovanny Mendoza
 :toc: left
 :toclevels: 3
 :source-highlighter: coderay

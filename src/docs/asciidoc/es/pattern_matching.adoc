@@ -1,0 +1,248 @@
+=== Pattern Matching
+
+SScala tiene coincidencia de patrones (__pattern matching__) nativa, una de las ventajas sobre el Java __**puro**__. The basic syntax is close to Java'sLa sintaxis básica es similar al `switch` de Java:
+
+[source,java]
+----
+val s = i match {  
+  case 1 => "one"
+  case 2 => "two"
+  case _ => "?"
+}
+----
+
+Notablemente, __match__ es una expresión, lo que significa que produce un resultado. Además, ofrece:
+
+*   Parámetros nombrados: ``case i: Int => "Int " + i``
+*   Desestructuración de objetos: ``case Some(i) => i``
+*   Condiciones de guarda (guards): ``case Some(i) if i > 0 => "positive " + i``
+*   Múltiples condiciones: ``case "-h" | "--help" => displayHelp``
+*   Verificaciones en tiempo de compilación para exhaustividad
+
+El __**Pattern matching**__ es una gran característica que nos ahorra escribir cadenas de ramas `if-then-else`. Reduce la cantidad de código mientras se enfoca en las partes relevantes.
+
+==== Fundamentos de Match para Java
+
+Vavr proporciona una API de coincidencia (__match__) que es similar a la de Scala. Se habilita agregando el siguiente import a nuestra aplicación:
+
+[source,java]
+----
+import static io.vavr.API.*;
+----
+
+Teniendo los métodos estáticos __Match__, __Case__ y los __patrones atómicos (__atomic patterns__)__
+
+*   ``$()`` - patrón comodín (__wildcard__)
+*   ``$(value)`` - patrón de igualdad
+*   ``$(predicate)`` - patrón condicional
+
+En el alcance, el ejemplo inicial de Scala puede expresarse de esta manera:
+
+[source,java]
+----
+String s = Match(i).of(  
+    Case($(1), "one"),
+    Case($(2), "two"),
+    Case($(), "?")
+);
+----
+
+⚡ Usamos nombres de métodos en mayúsculas uniformes porque 'case' es una palabra clave en Java. Esto hace que la API sea especial.
+
+===== Exhaustividad (__Exhaustiveness__)
+
+El último patrón comodín (__wildcard__) ``$()`` nos protege de un `MatchError`, que se lanza si ningún caso coincide.
+
+Debido a que no podemos realizar verificaciones de exhaustividad como lo hace el compilador de Scala, ofrecemos la posibilidad de devolver un resultado opcional:
+
+[source,java]
+----
+Option<String> s = Match(i).option(  
+    Case($(0), "zero")
+);
+----
+
+===== Syntactic Sugar (__Azúcar Sintáctico__)
+
+Como se mostró anteriormente, ``Case`` permite coincidir con patrones condicionales.
+
+[source,java]
+----
+Case($(predicate), ...)
+----
+
+Vavr ofrece un conjunto de predicados predeterminados.
+
+[source,java]
+----
+import static io.vavr.Predicates.*;
+----
+
+Estos pueden usarse para expresar el ejemplo inicial de Scala de la siguiente manera:
+
+[source,java]
+----
+String s = Match(i).of(  
+    Case($(is(1)), "one"),
+    Case($(is(2)), "two"),
+    Case($(), "?")
+);
+----
+
+**Condiciones Múltiples**
+
+Usamos el predicado ``isIn`` para verificar múltiples condiciones:
+
+[source,java]
+----
+Case($(isIn("-h", "--help")), ...)
+----
+
+**Realizando Efectos Secundarios**
+
+`Match` actúa como una expresión y produce un valor. Para realizar efectos secundarios (__side-effects__), necesitamos usar la función auxiliar ``run`` que devuelve ``Void``:
+
+[source,java]
+----
+Match(arg).of(  
+    Case($(isIn("-h", "--help")), o -> run(this::displayHelp)),
+    Case($(isIn("-v", "--version")), o -> run(this::displayVersion)),
+    Case($(), o -> run(() -> {
+        throw new IllegalArgumentException(arg);
+    }))
+);
+----
+
+⚡ ``run`` se utiliza para evitar ambigüedades y porque ``void`` no es un valor de retorno válido en Java.
+
+*Precaución:* ``run`` no debe usarse como valor de retorno directo, es decir, fuera del cuerpo de una lambda:
+
+[source,java]
+----
+// Incorrecto
+Case($(isIn("-h", "--help")), run(this::displayHelp))
+----
+
+De lo contrario, los `Case` se evaluarán de forma anticipada __antes__ de que los patrones sean comparados, lo que rompe toda la expresión `Match`. En su lugar, se debe usar dentro del cuerpo de una lambda:
+
+[source,java]
+----
+// Correcto
+Case($(isIn("-h", "--help")), o -> run(this::displayHelp))
+----
+
+Como podemos ver, ``run`` es propenso a errores si no se usa correctamente. Ten cuidado. Estamos considerando marcarlo como obsoleto en una versión futura y, tal vez, proporcionar una mejor API para realizar efectos secundarios.
+
+===== Parámetros Nombrados
+
+Vavr aprovecha las lambdas para proporcionar parámetros nombrados para los valores coincidentes.
+
+[source,java]
+----
+Number plusOne = Match(obj).of(  
+    Case($(instanceOf(Integer.class)), i -> i + 1),
+    Case($(instanceOf(Double.class)), d -> d + 1),
+    Case($(), o -> { throw new NumberFormatException(); })
+);
+----
+
+Hasta ahora, hemos coincidido valores directamente utilizando patrones atómicos. Si un patrón atómico coincide, el tipo correcto del objeto coincidente se infiere del contexto del patrón.
+
+A continuación, exploraremos patrones recursivos que pueden coincidir con gráficos de objetos de profundidad (teóricamente) arbitraria.
+
+===== Descomposición de Objetos
+
+En Java usamos constructores para instanciar clases. Entendemos la __descomposición de objetos__ como la destrucción de objetos en sus partes.
+
+Mientras que un constructor es una __función__ que se __aplica__ a los argumentos y devuelve una nueva instancia, un deconstructor es una función que toma una instancia y devuelve sus partes. Decimos que un objeto está __descompuesto__.
+
+La destrucción de objetos no necesariamente es una operación única. Por ejemplo, un `LocalDate` puede descomponerse en:
+
+*   Los componentes de año, mes y día.
+*   El valor `long` que representa los milisegundos desde la época de un `Instant` correspondiente.
+*   etc.
+
+==== Patrones
+
+En Vavr usamos patrones para definir cómo se deconstruye una instancia de un tipo específico. Estos patrones pueden usarse junto con la API de coincidencia (`Match`).
+
+===== Patrones Predefinidos
+
+Para muchos tipos de Vavr ya existen patrones de coincidencia predefinidos. Estos se importan mediante
+
+[source,java]
+----
+import static io.vavr.Patterns.*;
+----
+
+Por ejemplo, ahora podemos coincidir con el resultado de un `Try`:
+
+[source,java]
+----
+Match(_try).of(  
+    Case($Success($()), value -> ...),
+    Case($Failure($()), x -> ...)
+);
+----
+
+⚡ Un primer prototipo de la API de coincidencia (`Match`) de Vavr permitía extraer una selección definida por el usuario de objetos a partir de un patrón de coincidencia. Sin el soporte adecuado del compilador, esto no es práctico porque el número de métodos generados crecía exponencialmente. La API actual hace un compromiso: todos los patrones se coinciden, pero solo los patrones raíz son __descompuestos__.
+
+[source,java]
+----
+Match(_try).of(  
+    Case($Success($Tuple2($("a"), $())), tuple2 -> ...),
+    Case($Failure($(instanceOf(Error.class))), error -> ...)
+);
+----
+
+Aquí los patrones raíz son `Success` y `Failure`. Estos se descomponen en `Tuple2` y `Error`, teniendo los tipos genéricos correctos.
+
+⚡ Los tipos profundamente anidados se infieren según el argumento de `Match` y __**not**__ según los patrones coincidentes.
+
+===== Patrones Definidos por el Usuario
+
+Es esencial poder descomponer objetos arbitrarios, incluidas las instancias de clases finales. Vavr hace esto de forma declarativa al proporcionar las anotaciones en tiempo de compilación ``@Patterns`` y ``@Unapply``.
+
+Para habilitar el procesador de anotaciones, el artefacto http://search.maven.org/#search%7Cga%7C1%7Cvavr-match[vavr-match] debe añadirse como dependencia del proyecto.
+
+⚡ Nota: Por supuesto, los patrones pueden implementarse directamente sin usar el generador de código. Para más información, consulta el código fuente generado.
+
+[source,java]
+----
+import io.vavr.match.annotation.*;
+
+@Patterns
+class My {
+
+    @Unapply
+    static <T> Tuple1<T> Optional(java.util.Optional<T> optional) {
+        return Tuple.of(optional.orElse(null));
+    }
+}
+----
+
+El procesador de anotaciones coloca un archivo `MyPatterns` en el mismo paquete (por defecto en `target/generated-sources`). También se admiten clases internas. Caso especial: si el nombre de la clase es `$`, el nombre de la clase generada será simplemente `Patterns`, sin prefijo.
+
+===== Guardas (__Guards__)
+
+Ahora podemos coincidir con objetos `Optionals` utilizando __guards__.
+
+[source,java]
+----
+Match(optional).of(  
+    Case($Optional($(v -> v != null)), "defined"),
+    Case($Optional($(v -> v == null)), "empty")
+);
+----
+
+Los predicados podrían simplificarse implementando ``isNull`` y ``isNotNull``.
+
+⚡ ¡Y sí, extraer un `null` es extraño! En lugar de usar el `Optional` de Java, prueba con la `Option` de Vavr.
+
+[source,java]
+----
+Match(option).of(  
+    Case($Some($()), "defined"),
+    Case($None(), "empty")
+);
+----
