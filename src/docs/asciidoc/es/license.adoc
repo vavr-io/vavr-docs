@@ -1,6 +1,6 @@
 == License
 
-Copyright 2014-2018 Vavr, http://vavr.io
+Copyright 2014-2025 Vavr, https://vavr.io
 
 Licenciado bajo la Licencia Apache, Versión 2.0 (la "Licencia");
 no puedes usar este archivo excepto en cumplimiento con la Licencia.
