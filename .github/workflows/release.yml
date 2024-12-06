@@ -1,18 +1,13 @@
-name: build
+name: release
 on:
-  push:
-    branches:
-      - main
-  pull_request:
-    branches:
-      - main
+  workflow_dispatch:
 
 jobs:
   build:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        java: [ '11' ]
+        java: [ '8' ]
         architecture: [ 'x64' ]
     name: Build with JDK ${{ matrix.java }} on ${{ matrix.architecture }}
     steps:
@@ -27,3 +22,9 @@ jobs:
 
       - name: Build with Gradle
         run: ./gradlew asciidoc
+
+      - name: GitHub Pages Publish
+        run: ./gradlew publishGhPages
+        env:
+          GITHUB_USER: ${{ secrets.GH_DEPLOY_USER }}
+          GITHUB_TOKEN: ${{ secrets.GH_DEPLOY_TOKEN }}
