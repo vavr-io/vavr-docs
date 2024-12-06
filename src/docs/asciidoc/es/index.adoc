@@ -10,12 +10,12 @@ Daniel Dietrich, Robert Winkler
 :icons: font
 :pagenums:
 
-include::introduction_es.adoc[]
+include::introduction.adoc[]
 
-include::getting_started_es.adoc[]
+include::getting_started.adoc[]
 
-include::usage_guide_es.adoc[]
+include::usage_guide.adoc[]
 
-include::pattern_matching_es.adoc[]
+include::pattern_matching.adoc[]
 
-include::license_es.adoc[]
+include::license.adoc[]

@@ -79,12 +79,12 @@ asciidoctor {
     }
 }
 
-tasks.register('asciidoc_pl', AsciidoctorTask) {
+tasks.register('asciidoc_es', AsciidoctorTask) {
     group = 'documentation'
-    description = 'Generates documentation for the "pl" directory.'
+    description = 'Generates documentation for the "es" directory.'
 
-    sourceDir = file('src/docs/asciidoc/pl')
-    outputDir = file("$buildDir/docs/asciidoc/pl")
+    sourceDir = file('src/docs/asciidoc/es')
+    outputDir = file("$buildDir/docs/asciidoc/es")
 
     options backend: 'html5'
 
@@ -114,7 +114,7 @@ tasks.register('copyCNAME', Copy) {
     into file(asciidoctor.outputDir.path)
 }
 
-asciidoctor.dependsOn asciidoc_pl
+asciidoctor.dependsOn asciidoc_es
 copyCNAME.dependsOn asciidoctor
 publishGhPages.dependsOn copyCNAME
 
