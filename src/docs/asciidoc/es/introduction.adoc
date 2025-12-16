@@ -71,7 +71,7 @@ Rich Hickey, el creador de Clojure, dio una charla excepcional sobre https://www
 
 La clave para mejorar Java es usar __valores inmutables__ junto con __funciones referencialmente transparentes__.
 
-Vavr proporciona los http://static.javadoc.io/io.vavr/vavr/0.10.4/io/vavr/control/package-summary.html[controles] y las https://static.javadoc.io/io.vavr/vavr/0.10.4/io/vavr/collection/package-summary.html[colecciones] necesarios para lograr este objetivo en la programación cotidiana en Java.
+Vavr proporciona los http://static.javadoc.io/io.vavr/vavr/0.11.0/io/vavr/control/package-summary.html[controles] y las https://static.javadoc.io/io.vavr/vavr/0.11.0/io/vavr/collection/package-summary.html[colecciones] necesarios para lograr este objetivo en la programación cotidiana en Java.
 
 === Estructuras de Datos en Resumen
 
